@@ -144,9 +144,8 @@ static int vector_binary_search(const vector* v, const void* key, vector_compare
 {
 	void* init = (char*) v->elements + start_idx*v->elem_size;
 	void* res = bsearch(key, init, v->len, v->elem_size, search_fun);
-	int pos = (res - init)/v->elem_size;
 
-	return res == NULL ? -1 : pos;
+	return res == NULL ? -1 : (res - init)/v->elem_size;
 }
 
 static void vector_decrease(vector *v)
