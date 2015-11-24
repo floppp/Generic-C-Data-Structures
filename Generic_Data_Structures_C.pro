@@ -18,7 +18,9 @@ HEADERS += \
     headers/test_stack.h \
     headers/test_queue.h \
     headers/test_list.h \
-    headers/test_linked_list.h
+    headers/test_linked_list.h \
+    headers/vector.h \
+    headers/test_vector.h
 
 SOURCES += \
 	src/lecture_5.c \
@@ -32,7 +34,9 @@ SOURCES += \
     src/test_stack.c \
     src/test_queue.c \
     src/test_list.c \
-    src/test_linked_list.c
+    src/test_linked_list.c \
+    src/vector.c \
+    src/test_vector.c
 
 DISTFILES += \
     headers/test_queue
