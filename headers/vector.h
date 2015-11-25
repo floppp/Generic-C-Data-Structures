@@ -6,7 +6,6 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <string.h>
-#include "lecture_5.h"
 
 /**
  * This data structure is done because an assignment of Paradigms of Computer

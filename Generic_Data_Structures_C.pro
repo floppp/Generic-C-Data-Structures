@@ -20,7 +20,8 @@ HEADERS += \
     headers/test_list.h \
     headers/test_linked_list.h \
     headers/vector.h \
-    headers/test_vector.h
+    headers/test_vector.h \
+    headers/hashset.h
 
 SOURCES += \
 	src/lecture_5.c \

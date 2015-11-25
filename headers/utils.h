@@ -10,6 +10,8 @@ void string_free(void*);
 void students_group_free(void*);
 void list_print(list*);
 char* get_format(list*);
+int int_comparator(const void*, const void*);
+int str_comparator(const void*, const void*);
 
 
 #endif

@@ -2,7 +2,6 @@
 
 static void list_grow(list* l);
 static void list_decrease(list* l);
-static char* get_format(list *l);
 
 void list_new(list *l, int e_size, void(*free_function)(void*))
 {

@@ -30,6 +30,23 @@ void students_group_free(void* elem)
 	aux->cal = NULL;
 }
 
+int int_comparator(const void* left, const void* right)
+{
+	const int* i1 = (int*) left;
+	const int* i2 = (int*) right;
+
+	return *i1 - *i2;
+}
+
+int str_comparator(const void* left, const void* right)
+{
+	const char *str1 = *(char**) left;
+	const char *str2 = *(char**) right;
+
+	return strcmp(str1, str2);
+//	return -1;
+}
+
 void list_print(list *l)
 {
 	for (int i = 0; i < l->logical_len; ++i) {

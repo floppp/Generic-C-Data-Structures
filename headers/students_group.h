@@ -1,7 +1,9 @@
 #ifndef STUDENTS_GROUP_
 #define STUDENTS_GROUP_
 
-typedef struct {
+#include <stdio.h>
+
+typedef struct students_group {
 	char** names;
 	int* cal;
 	int elem;

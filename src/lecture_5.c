@@ -1,7 +1,7 @@
 #include <string.h>
 #include "../headers/lecture_5.h"
 
-int linear_search(void* key, void* base, int n, int elem_size, int(*cmp_fn)(void*, void*))
+int linear_search(void* key, void* base, int n, int elem_size, int(*cmp_fn)(const void*, const void*))
 {
 	void* elem_addr;
 	for (int i = 0; i < n; ++i) {
@@ -13,7 +13,7 @@ int linear_search(void* key, void* base, int n, int elem_size, int(*cmp_fn)(void
 }
 
 int binary_search_rec(void* key, void* base, const void* array,
-					  int n, int elem_size, int (*cmp_fn)(void *, void *))
+					  int n, int elem_size, int (*cmp_fn)(const void *, const void *))
 {
 	if (n/2 == 0) return -1;
 
@@ -29,7 +29,7 @@ int binary_search_rec(void* key, void* base, const void* array,
 	}
 }
 
-int binary_search(void *key, void *base, int n, int elem_size, int (*cmp_fn)(void *, void *))
+int binary_search(void *key, void *base, int n, int elem_size, int (*cmp_fn)(const void *, const void *))
 {
 	void* elem_addr;
 	int i = 0;
@@ -52,21 +52,3 @@ int binary_search(void *key, void *base, int n, int elem_size, int (*cmp_fn)(voi
 	return -1;
 }
 
-int int_comparator(void* left, void* right)
-{
-	const int* i1 = (int*) left;
-	const int* i2 = (int*) right;
-
-	return *i1 - *i2;
-}
-
-int str_comparator(void* left, void* right)
-{
-	const char *str1 = *(char**) left;
-	const char *str2 = *(char**) right;
-
-	printf("%s\n", left);
-	printf("%s\n", right);
-//	return strcmp(str1, str2);
-	return -1;
-}

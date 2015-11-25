@@ -6,6 +6,11 @@
 #include <assert.h>
 #include <string.h>
 
+/*
+ * This structure should not be use. If you need a data structure with this array-like
+ * implementation, use 'vector'. If you need linked-like implementation, use 'linked-list'.
+ */
+
 typedef struct
 {
 	void* elements;

@@ -35,7 +35,7 @@ int vector_len(vector *v)
 }
 
 // Return a potiner to the vector storage. If we want return a copy, only need
-// uncomment the lines commented.
+// uncomment the lines commented -> in this case, we must free the returned element.
 void* vector_get(vector *v, int pos)
 {
 	assert(v->len > 0 && pos < v->len);

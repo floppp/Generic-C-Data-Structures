@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include "vector.h"
+#include "utils.h"
 
 void test_int_vector();
 void test_string_vector();
