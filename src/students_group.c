@@ -1,6 +1,6 @@
 #include "../headers/students_group.h"
 
-void print_students(void *addr)
+void print_students(void* addr, const void* aux_data)
 {
 	students_group* students = (struct students_group*) addr;
 

@@ -21,20 +21,21 @@ char* get_format(list*);
 
 int main()
 {
-//	printf("\nSTACK TEST --------------------------\n\n");
-//	test_stack_heap();
-//	test_stack_students();
-//	printf("\nQUEUE TEST --------------------------\n\n");
-//	test_queue();
-//	test_queue_students();
-//	printf("\nLIST TEST --------------------------\n\n");
-//	test_list();
-//	test_list_students();
-//	printf("\nLINKED LIST TEST --------------------------\n\n");
-//	test_linked_list();
-//	test_linked_list_student();
+	printf("\nSTACK TEST --------------------------\n\n");
+	test_stack_heap();
+	test_stack_students();
+	printf("\nQUEUE TEST --------------------------\n\n");
+	test_queue();
+	test_queue_students();
+	printf("\nLIST TEST --------------------------\n\n");
+	test_list();
+	test_list_students();
+	printf("\nLINKED LIST TEST --------------------------\n\n");
+	test_linked_list();
+	test_linked_list_student();
 	printf("\nVECTOR TEST --------------------------\n\n");
 	test_int_vector();
+	test_students_vector();
 
 	return 0;
 }

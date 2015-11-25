@@ -99,10 +99,6 @@ void vector_delete(vector *v, int pos)
 	}
 
 	v->len--;
-
-	if (v->free_fun != NULL)
-		v->free_fun((char*) v->elements + v->len*v->elem_size);
-
 	vector_decrease(v);
 }
 

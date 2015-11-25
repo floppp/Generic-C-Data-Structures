@@ -49,13 +49,13 @@ void test_queue_students()
 	students_group aux;
 	queue_dequeue(&struct_queue, &aux);
 	printf("First element\n");
-	print_students(&aux);
+	print_students(&aux, NULL);
 	students_group_free(&aux);
 
 	// DEQUEUE
 	queue_dequeue(&struct_queue, &aux);
 	printf("Second element\n");
-	print_students(&aux);
+	print_students(&aux, NULL);
 	students_group_free(&aux);
 
 	// ENQUEUE
@@ -98,7 +98,7 @@ void test_queue_students()
 	// DEQUEUE
 	queue_dequeue(&struct_queue, &aux);
 	printf("Third element\n");
-	print_students(&aux);
+	print_students(&aux, NULL);
 	students_group_free(&aux);
 
 	// ENQUEUE
@@ -143,7 +143,7 @@ void test_queue_students()
 		students_group aux;
 		queue_dequeue(&struct_queue, &aux);
 		printf("Inside 'for' element\n");
-		print_students(&aux);
+		print_students(&aux, NULL);
 		students_group_free(&aux);
 	}
 

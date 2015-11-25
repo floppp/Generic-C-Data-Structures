@@ -87,7 +87,7 @@ void test_list_students()
 	for (int i = 0; i < l.logical_len; ++i) {
 		students_group temp1;
 		list_get(&l, i, &temp1);
-		print_students(&temp1);
+		print_students(&temp1, NULL);
 	}
 
 	list_remove(&l, 1);
@@ -96,7 +96,7 @@ void test_list_students()
 	for (int i = 0; i < l.logical_len; ++i) {
 		students_group temp1;
 		list_get(&l, i, &temp1);
-		print_students(&temp1);
+		print_students(&temp1, NULL);
 	}
 
 	// Add in 4

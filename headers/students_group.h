@@ -9,7 +9,7 @@ typedef struct students_group {
 	int elem;
 } students_group;
 
-void print_students(void*);
+void print_students(void*, const void*);
 
 #endif
 

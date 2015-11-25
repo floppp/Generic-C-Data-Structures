@@ -157,7 +157,7 @@ void test_stack_students()
 	for (int i = 0; i < 3; ++i) {
 		students_group aux;
 		stack_pop(&struct_stack, &aux);
-		print_students(&aux);
+		print_students(&aux, NULL);
 		students_group_free(&aux);
 	}
 
