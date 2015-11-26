@@ -1,17 +1,20 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "headers/lecture_5.h"
 #include "headers/students_group.h"
 #include "headers/queue.h"
 #include "headers/stack.h"
 #include "headers/utils.h"
-#include "headers/list.h"
+#include "headers/hashset.h"
 #include "headers/linked_list.h"
-#include "headers/test_stack.h"
-#include "headers/test_queue.h"
+#include "headers/list.h"
 #include "headers/test_list.h"
+#include "headers/test_queue.h"
+#include "headers/test_stack.h"
 #include "headers/test_vector.h"
 #include "headers/test_linked_list.h"
+
 
 void linear_binary_search_tests();
 void test_binary_search(void* base, int n, int elem_size);
@@ -19,26 +22,29 @@ void test_binary_search(void* base, int n, int elem_size);
 char* get_format(list*);
 
 
+
 int main()
 {
-	printf("\nSTACK TEST --------------------------\n\n");
-	test_stack_heap();
-	test_stack_students();
-	printf("\nQUEUE TEST --------------------------\n\n");
-	test_queue();
-	test_queue_students();
-	printf("\nLIST TEST --------------------------\n\n");
-	test_list();
-	test_list_students();
-	printf("\nLINKED LIST TEST --------------------------\n\n");
-	test_linked_list();
-	test_linked_list_student();
-	printf("\nVECTOR TEST --------------------------\n\n");
-	test_int_vector();
-	test_students_vector();
-
+//	printf("\nSTACK TEST --------------------------\n\n");
+//	test_stack_heap();
+//	test_stack_students();
+//	printf("\nQUEUE TEST --------------------------\n\n");
+//	test_queue();
+//	test_queue_students();
+//	printf("\nLIST TEST --------------------------\n\n");
+//	test_list();
+//	test_list_students();
+//	printf("\nLINKED LIST TEST --------------------------\n\n");
+//	test_linked_list();
+//	test_linked_list_student();
+//	printf("\nVECTOR TEST --------------------------\n\n");
+//	test_int_vector();
+//	test_students_vector();
+	printf("\nHASH_SET TEST --------------------------\n\n");
+	test_int_hashset();
 	return 0;
 }
+
 
 void test_binary_search(void* base, int n, int elem_size)
 {

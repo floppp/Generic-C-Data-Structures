@@ -12,8 +12,20 @@ typedef struct {
 	int elem_size;
 	int alloc_size;
 	int len;
+	int num_buckets;
+	void* elements;
+	vector* used_buckets;
+	vector* collitions;
 	hashset_free_fun free_fun;
 	hashset_hash_fun hash_fun;
+	hashset_compare_fun compare_fun;
 } hashset;
+
+void hashset_new(hashset*, int, int, hashset_hash_fun, hashset_compare_fun, hashset_free_fun);
+void hashset_dispose(hashset*);
+int hashset_count(hashset*);
+void hashset_enter(hashset*, const void*);
+void* hashset_lookup(const hashset*, const void*);
+void hashset_map(hashset*, hashset_map_fun, const void*);
 
 #endif

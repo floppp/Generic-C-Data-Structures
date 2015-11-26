@@ -1,7 +1,5 @@
 #include "../headers/test_vector.h"
 
-void print_int(void* elem_addr, const void* aux_data);
-
 void test_students_vector()
 {
 	vector v;
@@ -162,9 +160,4 @@ void test_int_vector()
 
 
 	vector_dispose(&v);
-}
-
-void print_int(void* elem_addr, const void* aux_data)
-{
-	printf("%d : ", *(int*) elem_addr);
 }

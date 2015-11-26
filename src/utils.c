@@ -1,5 +1,18 @@
 #include "../headers/utils.h"
 
+int random_gen()
+{
+	srand(time(NULL));
+	return rand();
+}
+
+int hash_fun(const void* elem_addres, int num_buckets)
+{
+	long value = *(int*) elem_addres;
+
+	return (value * 2654435761) % num_buckets;
+}
+
 void print_array(void* base, int n, int elem_size)
 {
 	void* elem_address;
@@ -55,6 +68,11 @@ void list_print(list *l)
 		printf(" - ");
 	}
 	printf("\n");
+}
+
+void print_int(void* elem_addr, const void* aux_data)
+{
+	printf("%d : ", *(int*) elem_addr);
 }
 
 char* get_format(list* l)

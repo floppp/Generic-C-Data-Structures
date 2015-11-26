@@ -21,7 +21,8 @@ HEADERS += \
     headers/test_linked_list.h \
     headers/vector.h \
     headers/test_vector.h \
-    headers/hashset.h
+    headers/hashset.h \
+    headers/test_hashset.h
 
 SOURCES += \
 	src/lecture_5.c \
@@ -37,7 +38,9 @@ SOURCES += \
     src/test_list.c \
     src/test_linked_list.c \
     src/vector.c \
-    src/test_vector.c
+    src/test_vector.c \
+    src/hashset.c \
+    src/test_hashset.c
 
 DISTFILES += \
     headers/test_queue
