@@ -22,7 +22,8 @@ HEADERS += \
     headers/vector.h \
     headers/test_vector.h \
     headers/hashset.h \
-    headers/test_hashset.h
+    headers/test_hashset.h \
+    headers/libaleatorios.h
 
 SOURCES += \
 	src/lecture_5.c \
@@ -40,7 +41,8 @@ SOURCES += \
     src/vector.c \
     src/test_vector.c \
     src/hashset.c \
-    src/test_hashset.c
+    src/test_hashset.c \
+    src/libaleatorios.c
 
 DISTFILES += \
     headers/test_queue

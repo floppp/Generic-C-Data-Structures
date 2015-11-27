@@ -59,17 +59,20 @@ void hashset_enter(hashset* h, const void* elem_addr)
 	assert (elem_addr != NULL);
 
 	int pos = h->hash_fun(elem_addr, h->num_buckets);
-	assert (pos > 0 && pos < h->num_buckets);
+	printf("%d\n", pos);
+	assert (pos >= 0 && pos < h->num_buckets);
 
 	void* target = (char*) h->elements + pos*h->elem_size;
 
 	if (h->compare_fun(target, elem_addr) == 0) {
 		vector_append(h->collitions, elem_addr);
+
 	} else {
 		h->len++;
 		vector_append(h->used_buckets, target);
 	}
 
+//	printf("n_coll: %d - n_elem: %d\n", h->collitions->len, h->used_buckets->len);
 	// The implementation replace elements that has same hash_fun
 	memcpy(target, elem_addr, h->elem_size);
 
@@ -90,7 +93,6 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 {
 	for (int i = 0; i < h->len; ++i) {
 		int vector_pos = *(int*) vector_get(h->used_buckets, i);
-		printf("%d\n", vector_pos);
 		void* target = (char*) h->elements + vector_pos*h->elem_size;
 		map_fun(target, aux_data);
 	}
