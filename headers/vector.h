@@ -17,7 +17,7 @@ typedef int (*vector_compare_fun)(const void* elem_addr_1, const void* elem_addr
 typedef void (*vector_map_fun)(void* elem_addr, const void* aux_data);
 typedef void (*vector_free_fun)(void* elem_addr);
 
-typedef struct
+typedef struct vector
 {
 	int len;
 	int allocat_len;
