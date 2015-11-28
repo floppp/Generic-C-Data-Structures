@@ -7,12 +7,13 @@ void test_int_hashset()
 	hashset h;
 	hashset_new(&h, sizeof(int), 20, hash_fun, int_comparator, NULL);
 
+	printf("GENERATED NUMBERS\n");
 	for (int i = 0; i < 10; ++i) {
-//		int n = random_gen();
 		int n = get_random(uniforme, 0, 150);
-		printf("random number: %d\n", n);
 		hashset_enter(&h, &n);
+//		printf("%d : ", n);
 	}
+	printf("\n");
 
 	hashset_map(&h, print_int, NULL);
 	hashset_dispose(&h);
