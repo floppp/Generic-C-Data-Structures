@@ -2,8 +2,10 @@
 
 void test_students_vector()
 {
-	vector v;
-	vector_new(&v, sizeof(students_group), students_group_free, 4);
+//	vector v;
+//	vector_new(&v, sizeof(students_group), students_group_free, 4);
+	vector* v = malloc(sizeof(vector));
+	vector_new(v, sizeof(students_group), students_group_free, 4);
 
 	// Add in 0
 	{
@@ -22,7 +24,8 @@ void test_students_vector()
 			group_1.cal[j] = notas_1[j];
 		}
 
-		vector_append(&v, &group_1);
+//		vector_append(&v, &group_1);
+		vector_append(v, &group_1);
 	}
 
 	// Add in 1
@@ -41,7 +44,8 @@ void test_students_vector()
 			group_2.cal[j] = notas_2[j];
 		}
 
-		vector_append(&v, &group_2);
+//		vector_append(&v, &group_2);
+		vector_append(v, &group_2);
 	}
 
 	// Add in 2
@@ -60,7 +64,8 @@ void test_students_vector()
 			group_2.cal[j] = notas_2[j];
 		}
 
-		vector_append(&v, &group_2);
+//		vector_append(&v, &group_2);
+		vector_append(v, &group_2);
 	}
 
 	// Add in 0
@@ -79,14 +84,18 @@ void test_students_vector()
 			group_2.cal[j] = notas_2[j];
 		}
 
-		vector_insert(&v, &group_2, 0);
+//		vector_insert(&v, &group_2, 0);
+		vector_insert(v, &group_2, 0);
 	}
 
-	vector_map(&v, print_students, NULL);
-	vector_delete(&v, 1);
+//	vector_map(&v, print_students, NULL);
+//	vector_delete(&v, 1);
+	vector_map(v, print_students, NULL);
+	vector_delete(v, 1);
 
 	printf("\n---------\nerasing position 1\n----------\n\n");
-	vector_map(&v, print_students, NULL);
+//	vector_map(&v, print_students, NULL);
+	vector_map(v, print_students, NULL);
 
 //	 Replace 2
 	{
@@ -104,13 +113,18 @@ void test_students_vector()
 			group_2.cal[j] = notas_2[j];
 		}
 
-		vector_replace(&v, &group_2, 2);
+//		vector_replace(&v, &group_2, 2);
+		vector_replace(v, &group_2, 2);
 	}
 
 	printf("\n---------\nreplacing position 2\n----------\n\n");
-	vector_map(&v, print_students, NULL);
+//	vector_map(&v, print_students, NULL);
+	vector_map(v, print_students, NULL);
 
-	vector_dispose(&v);
+//	vector_dispose(&v);
+	vector_dispose(v);
+	free(v);
+	v = NULL;
 }
 
 

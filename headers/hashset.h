@@ -15,7 +15,6 @@ typedef struct {
 	int num_buckets;
 	void* elements;
 	vector* used_buckets;
-	vector* collitions;
 	hashset_free_fun free_fun;
 	hashset_hash_fun hash_fun;
 	hashset_compare_fun compare_fun;
