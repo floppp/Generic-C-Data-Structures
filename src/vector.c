@@ -11,7 +11,6 @@ void vector_new(vector *v, int elem_size, vector_free_fun free_fun, int init_all
 	if ((v->elements = malloc(init_allocation * elem_size)) == NULL) {
 		printf("memory allocation error\n");
 		return;
-	} else {
 	}
 
 	v->len = 0;
@@ -70,8 +69,6 @@ void vector_insert(vector* v, const void* elem_addr, int pos)
 void vector_append(vector *v, const void *elem_addr)
 {
 	void* target = (char*) v->elements + v->len*v->elem_size;
-	printf("v->elements direction: %d\n", v->elements);
-	printf("target direction in vector append: %d\n", target);
 	memcpy(target, elem_addr, v->elem_size);
 
 	v->len++;
@@ -107,8 +104,6 @@ void vector_delete(vector *v, int pos)
 
 int vector_search(const vector *v, const void *key, vector_compare_fun search_fun, int start_idx, bool is_sorted)
 {
-//	printf("start idx: %d\n", start_idx);
-//	printf("v len: %d\n", v->len);
 	assert(start_idx >= 0 && start_idx < v->len);
 
 	if (is_sorted)

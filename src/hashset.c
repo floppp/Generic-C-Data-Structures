@@ -34,6 +34,32 @@ void hashset_new(hashset *h, int elem_size, int num_buckets, hashset_hash_fun ha
 	h->used_buckets = temp_used_buckets;
 }
 
+static void vector_in_bucket_initialization(hashset* h, const int pos, const int elem_size, hashset_free_fun free_fun)
+{
+	vector* aux;
+	if ((aux = malloc(sizeof(vector))) == NULL) {
+		printf("memory allocation error\n");
+		exit(0);
+	}
+	vector_new(aux, elem_size, free_fun, 4);
+	void* target = (char*) h->elements + pos*sizeof(vector*);
+	vector* target_vector = (struct vector*) target;
+//	memcpy(target, aux, sizeof(vector*));
+	void* temp = (vector*) target;
+	temp = aux;
+
+//	target_vector->allocat_len = aux->allocat_len;
+//	target_vector->elem_size = aux->elem_size;
+//	target_vector->free_fun = aux->free_fun;
+//	target_vector->len = aux->len;
+//	memcpy(target_vector->elements, aux->elements, 4 * h->elem_size);
+
+
+
+//	vector_dispose(aux);
+//	free(aux);
+//	aux = NULL;
+}
 
 
 void hashset_dispose(hashset* h)
@@ -63,8 +89,6 @@ void hashset_enter(hashset* h, const void* elem_addr)
 	int pos = h->hash_fun(elem_addr, h->num_buckets);
 	assert (pos >= 0 && pos < h->num_buckets);
 	void* target = (char*) h->elements + pos*h->elem_size;
-
-	printf("\nelement to insert: %d\t----------\n", *(int*) elem_addr);
 
 	if (h->compare_fun(target, elem_addr) == 0)
 		printf("The element %d was already storaged.\n", *(int*) elem_addr);
@@ -107,31 +131,13 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 	}
 }
 
-static void vector_in_bucket_initialization(hashset* h, const int pos, const int elem_size, hashset_free_fun free_fun)
-{
-	vector* aux;
-	if ((aux = malloc(sizeof(vector))) == NULL) {
-		printf("memory allocation error\n");
-		exit(0);
-	}
-	vector_new(aux, elem_size, free_fun, 4);
-	void* target = (char*) h->elements + pos*sizeof(vector*);
-	memcpy(target, (void*) aux, sizeof(vector*));
-	vector_dispose(aux);
-	free(aux);
-	aux = NULL;
-}
+
 
 static void insert_element(const void* target, hashset* h, const void* elem_addr, const int pos)
 {
-	printf("direction of vector before cast.\n");
-	vector* target_vector = (struct vector*) target;
-	printf("vector target direction in hashset: %d\n", target);
-	printf("vector len: %d\n", target_vector->len);
-	vector_append(target_vector, elem_addr);
+	vector_append((struct vector*) target, elem_addr);
 
 	if (h->used_buckets->len == 0 || vector_search(h->used_buckets, &pos, int_comparator, 0, false) != 0) {
-		printf("\ninsertion of used buckets.\n");
 		vector_append(h->used_buckets, &pos);
 	}
 
