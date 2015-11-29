@@ -14,6 +14,8 @@ void hashset_new(hashset *h, int elem_size, int num_buckets, hashset_hash_fun ha
 		printf("memory allocation error\n");
 		return ;
 	}
+	vector_new(h->elements, sizeof(vector*), free_fun, num_buckets);
+
 
 	vector* temp_used_buckets;
 	if ((temp_used_buckets = malloc(sizeof(vector))) == NULL) {
@@ -42,23 +44,32 @@ static void vector_in_bucket_initialization(hashset* h, const int pos, const int
 		exit(0);
 	}
 	vector_new(aux, elem_size, free_fun, 4);
-	void* target = (char*) h->elements + pos*sizeof(vector*);
-	vector* target_vector = (struct vector*) target;
-//	memcpy(target, aux, sizeof(vector*));
-	void* temp = (vector*) target;
-	temp = aux;
-
-//	target_vector->allocat_len = aux->allocat_len;
-//	target_vector->elem_size = aux->elem_size;
-//	target_vector->free_fun = aux->free_fun;
-//	target_vector->len = aux->len;
-//	memcpy(target_vector->elements, aux->elements, 4 * h->elem_size);
+	vector_append(h->elements, aux);
+	vector* target = vector_get(h->elements, pos);
+	target->allocat_len = aux->allocat_len;
+	target->len = aux->len;
+	target->elem_size = aux->elem_size;
+	target->free_fun = aux->free_fun;
+	target->elements = aux->elements;
 
 
+//	void* target = (char*) h->elements + pos*sizeof(vector*);
+//	vector* target_vector = (struct vector*) target;
+////	memcpy(target, aux, sizeof(vector*));
+//	void* temp = (vector*) target;
+//	temp = aux;
 
-//	vector_dispose(aux);
-//	free(aux);
-//	aux = NULL;
+////	target_vector->allocat_len = aux->allocat_len;
+////	target_vector->elem_size = aux->elem_size;
+////	target_vector->free_fun = aux->free_fun;
+////	target_vector->len = aux->len;
+////	memcpy(target_vector->elements, aux->elements, 4 * h->elem_size);
+
+
+
+////	vector_dispose(aux);
+////	free(aux);
+////	aux = NULL;
 }
 
 
