@@ -36,29 +36,28 @@ void hashset_new(hashset *h, int elem_size, int num_buckets, hashset_hash_fun ha
 
 static void vector_in_bucket_initialization(hashset* h, const int pos, const int elem_size, hashset_free_fun free_fun)
 {
-	vector* aux;
-	if ((aux = malloc(sizeof(vector))) == NULL) {
-		printf("memory allocation error\n");
-		exit(0);
-	}
-	vector_new(aux, elem_size, free_fun, 4);
-	void* target = (char*) h->elements + pos*sizeof(vector*);
-	vector* target_vector = (struct vector*) target;
+	vector* target = (struct vector*) ((char*) h->elements + pos*sizeof(vector*));
+	vector_new(target, elem_size, free_fun, 4);
+
+
+//	vector* aux;
+//	if ((aux = malloc(sizeof(vector))) == NULL) {
+//		printf("memory allocation error\n");
+//		exit(0);
+//	}
+//	vector_new(aux, elem_size, free_fun, 4);
+//	printf("aux direcion: %d - aux->elements direction: %d\n", aux, aux->elements);
+//	void* target = (char*) h->elements + pos*sizeof(vector*);
 //	memcpy(target, aux, sizeof(vector*));
-	void* temp = (vector*) target;
-	temp = aux;
 
-//	target_vector->allocat_len = aux->allocat_len;
-//	target_vector->elem_size = aux->elem_size;
-//	target_vector->free_fun = aux->free_fun;
-//	target_vector->len = aux->len;
-//	memcpy(target_vector->elements, aux->elements, 4 * h->elem_size);
+//	// this two lines, or the five below.
+//	vector* target_vector = (struct vector*) target;
+//	void* intermidiate = malloc(4 * elem_size);
+//	intermidiate[0]
+//	memcpy(intermidiate, aux->elements, 4 * elem_size);
+//	target_vector->elements = intermidiate;
 
-
-
-//	vector_dispose(aux);
 //	free(aux);
-//	aux = NULL;
 }
 
 
