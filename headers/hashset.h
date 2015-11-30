@@ -10,8 +10,6 @@ typedef void (*hashset_free_fun)(void* elem_addr);
 
 typedef struct {
 	int elem_size;
-	int alloc_size;
-	int len;
 	int num_buckets;
 	vector* elements;
 	vector* used_buckets;
