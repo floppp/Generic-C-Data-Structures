@@ -15,6 +15,7 @@ char* get_format(list*);
 int int_comparator(const void*, const void*);
 int str_comparator(const void*, const void*);
 int hash_fun(const void*, int);
+int students_hash_fun(const void*, int);
 void print_int(void* elem_addr, const void* aux_data);
 
 #endif

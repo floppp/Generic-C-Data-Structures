@@ -9,6 +9,7 @@
 #include "headers/hashset.h"
 #include "headers/linked_list.h"
 #include "headers/list.h"
+#include "headers/test_hashset.h"
 #include "headers/test_list.h"
 #include "headers/test_queue.h"
 #include "headers/test_stack.h"
@@ -18,9 +19,7 @@
 
 void linear_binary_search_tests();
 void test_binary_search(void* base, int n, int elem_size);
-
 char* get_format(list*);
-
 
 
 int main()
@@ -41,7 +40,8 @@ int main()
 //	test_int_vector();
 //	test_students_vector();
 	printf("\nHASH_SET TEST --------------------------\n\n");
-	test_int_hashset();
+//	test_int_hashset();
+	test_students_hashset();
 	return 0;
 }
 

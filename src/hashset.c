@@ -64,6 +64,11 @@ void hashset_enter(hashset* h, const void* elem_addr)
 	else
 		if (search_element(target, elem_addr, h->compare_fun) == NULL) {
 			vector_append(target, elem_addr);
+//			 if we want to store sort elements in each vector because
+//			 they will have a lot of collitions, we can use vector_sort
+//			 and, in hashset_lookup -> search_element, make a binary
+//			 search changing 'false' by 'true'.
+//			vector_sort(target, h->compare_fun);
 			return;
 		}
 }
