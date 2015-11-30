@@ -34,11 +34,11 @@ int vector_len(vector *v)
 	return v->len;
 }
 
-// Return a potiner to the vector storage. If we want return a copy, only need
+// Return a pointer to the vector storage. If we want return a copy, only need
 // uncomment the lines commented -> in this case, we must free the returned element.
 void* vector_get(vector *v, int pos)
 {
-	assert(v->len > 0 && pos < v->len);
+	assert(v->len >= 0 && pos < v->len);
 
 	void* source = (char*) v->elements + pos*v->elem_size;
 //	void* valu = malloc(v->elem_size);
@@ -68,10 +68,9 @@ void vector_insert(vector* v, const void* elem_addr, int pos)
 
 void vector_append(vector *v, const void *elem_addr)
 {
-	void* target = (char*) v->elements + v->len*v->elem_size;
+	void* target = (char*) v->elements + (v->len++)*v->elem_size;
 	memcpy(target, elem_addr, v->elem_size);
 
-	v->len++;
 	vector_grow(v);
 }
 
