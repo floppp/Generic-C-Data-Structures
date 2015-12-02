@@ -69,7 +69,8 @@ void hashset_enter(hashset* h, void* elem_addr)
 		if (search_element(target, elem_addr, h->compare_fun) == NULL)
 			vector_append(target, elem_addr);
 		else
-			h->free_fun(elem_addr);
+			if (h->free_fun != NULL)
+				h->free_fun(elem_addr);
 }
 
 void* hashset_lookup(const hashset* h, const void* elem_addr)
@@ -94,6 +95,5 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 static void* search_element(const vector* target, const void* elem_addr, hashset_compare_fun compare_fun)
 {
 	int exists = vector_search(target, elem_addr, compare_fun, 0, false);
-	printf("%d", exists);
 	return exists == -1 ? NULL : &exists;
 }

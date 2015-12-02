@@ -9,6 +9,7 @@
 #include "headers/hashset.h"
 #include "headers/linked_list.h"
 #include "headers/list.h"
+#include "headers/test_hashmap.h"
 #include "headers/test_hashset.h"
 #include "headers/test_list.h"
 #include "headers/test_queue.h"
@@ -39,9 +40,11 @@ int main()
 //	printf("\nVECTOR TEST --------------------------\n\n");
 //	test_int_vector();
 //	test_students_vector();
-	printf("\nHASH_SET TEST --------------------------\n\n");
+//	printf("\nHASH_SET TEST --------------------------\n\n");
 //	test_int_hashset();
-	test_students_hashset();
+//	test_students_hashset();
+	printf("\nHASH_MAP TEST --------------------------\n\n");
+	test_int_hashmap();
 	return 0;
 }
 

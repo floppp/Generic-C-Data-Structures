@@ -155,7 +155,6 @@ static void vector_grow(vector* v)
 {
 	if (v->len == v->allocat_len) {
 		v->allocat_len *= 2;
-		printf("vector size after grow: %d\n", v->len);
 		v->elements = realloc(v->elements, v->allocat_len * v->elem_size);
 	}
 }
