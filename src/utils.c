@@ -1,5 +1,36 @@
 #include "../headers/utils.h"
 
+int students_compare(const void* elem_addr_1, const void* elem_addr_2)
+{
+	students_group* s1 = (struct students_group*) elem_addr_1;
+	students_group* s2 = (struct students_group*) elem_addr_2;
+
+	int len = s1->elem;
+	if (len != s2->elem)
+		return -1;
+
+	for (int i = 0; i < len; ++i)
+		if (s1->names[i] != s2->names[2] || s1->cal[i] != s2->cal[i])
+			return -1;
+
+	return 0;
+}
+
+int students_hash_fun(const void* elem_addres, int num_buckets)
+{
+	students_group* s = (struct students_group*) elem_addres;
+	int result = 0;
+	for (int i = 0; i < s->elem; ++i) {
+		char* w = s->names[i];
+		short w_len = strlen(w);
+		for (int j = 0; j < w_len; ++j)
+			result += w[j];
+		result *= s->cal[i];
+	}
+
+	return result % num_buckets;
+}
+
 int random_gen()
 {
 	srand(time(NULL));

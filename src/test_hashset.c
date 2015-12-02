@@ -19,7 +19,7 @@ void test_int_hashset()
 void test_students_hashset()
 {
 	hashset h;
-	hashset_new(&h, sizeof(students_group), 20, NULL, NULL, students_group_free);
+	hashset_new(&h, sizeof(students_group), 20, students_hash_fun, students_compare, students_group_free);
 
 	// Add
 	{
@@ -41,6 +41,72 @@ void test_students_hashset()
 		hashset_enter(&h, &group_1);
 	}
 
+	// Add
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
+
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
+
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
+
+		hashset_enter(&h, &group_2);
+	}
+
+	hashset_map(&h, print_students, NULL);
+	printf("\n\n");
+
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
+
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
+
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
+
+		hashset_enter(&h, &group_2);
+	}
+
+	hashset_map(&h, print_students, NULL);
+
+	printf("Number of elements in set: %d\n", hashset_count(&h));
+
+	// Add
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
+
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
+
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
+
+		hashset_enter(&h, &group_2);
+	}
+
+	printf("\n\n");
+	hashset_map(&h, print_students, NULL);
+	printf("Number of elements in set: %d\n", hashset_count(&h));
 
 	hashset_dispose(&h);
 }
