@@ -21,7 +21,7 @@ typedef struct {
 void hashset_new(hashset*, int, int, hashset_hash_fun, hashset_compare_fun, hashset_free_fun);
 void hashset_dispose(hashset*);
 int hashset_count(hashset*);
-void hashset_enter(hashset*, const void*);
+void hashset_enter(hashset*, void*);
 void* hashset_lookup(const hashset*, const void*);
 void hashset_map(hashset*, hashset_map_fun, const void*);
 

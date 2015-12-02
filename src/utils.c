@@ -10,7 +10,7 @@ int students_compare(const void* elem_addr_1, const void* elem_addr_2)
 		return -1;
 
 	for (int i = 0; i < len; ++i)
-		if (s1->names[i] != s2->names[2] || s1->cal[i] != s2->cal[i])
+		if (strcmp(s1->names[i], s2->names[i]) || s1->cal[i] != s2->cal[i])
 			return -1;
 
 	return 0;

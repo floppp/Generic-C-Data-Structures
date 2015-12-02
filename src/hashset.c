@@ -50,7 +50,7 @@ int hashset_count(hashset* h)
 	return len;
 }
 
-void hashset_enter(hashset* h, const void* elem_addr)
+void hashset_enter(hashset* h, void* elem_addr)
 {
 	assert (elem_addr != NULL);
 	int pos = h->hash_fun(elem_addr, h->num_buckets);
@@ -62,15 +62,14 @@ void hashset_enter(hashset* h, const void* elem_addr)
 		vector_append(h->used_buckets, &pos);
 	}
 	else
-		if (search_element(target, elem_addr, h->compare_fun) == NULL) {
+// if we want to store sort elements in each vector because they will have a lot of collitions,
+// we can use vector_sort and, in hashset_lookup -> search_element, make a binary search changing
+// 'false' by 'true'.
+// vector_sort(target, h->compare_fun);
+		if (search_element(target, elem_addr, h->compare_fun) == NULL)
 			vector_append(target, elem_addr);
-//			 if we want to store sort elements in each vector because
-//			 they will have a lot of collitions, we can use vector_sort
-//			 and, in hashset_lookup -> search_element, make a binary
-//			 search changing 'false' by 'true'.
-//			vector_sort(target, h->compare_fun);
-			return;
-		}
+		else
+			h->free_fun(elem_addr);
 }
 
 void* hashset_lookup(const hashset* h, const void* elem_addr)
@@ -95,6 +94,6 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 static void* search_element(const vector* target, const void* elem_addr, hashset_compare_fun compare_fun)
 {
 	int exists = vector_search(target, elem_addr, compare_fun, 0, false);
-
+	printf("%d", exists);
 	return exists == -1 ? NULL : &exists;
 }
