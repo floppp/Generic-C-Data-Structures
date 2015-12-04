@@ -37,27 +37,27 @@ int random_gen()
 	return rand();
 }
 
-void hashmap_int_print_fun(void* elem_addr, const void* aux_data)
+void hashmap_int_print_pair(void* elem_addr, const void* aux_data)
 {
-	hs_element* pair = (struct hs_element*) elem_addr;
-	printf("key: %d - value: %s\n", *(int*) pair->key, (char*) pair->value);
+	pair* p = (struct pair*) elem_addr;
+	printf("key: %d - value: %s\n", *(int*) p->key, (char*) p->value);
 }
 
 int hashmap_int_compare_fun(const void* elem_addr_1, const void* elem_addr_2)
 {
-	hs_element* pair1 = (struct hs_element*) elem_addr_1;
+	pair* p = (struct pair*) elem_addr_1;
 
-	return int_comparator(pair1->key, elem_addr_2);
+	return int_comparator(p->key, elem_addr_2);
 }
 
 int hashmap_int_hash_fun(const void* elem_addres, int num_buckets)
 {
-	hs_element* pair = (struct hs_element*) elem_addres;
+	pair* p = (struct pair*) elem_addres;
 
-	if (pair == NULL)
+	if (p == NULL)
 		return hash_fun(elem_addres, num_buckets);
 	else
-		return hash_fun(&pair->key, num_buckets);
+		return hash_fun(&p->key, num_buckets);
 }
 
 int hash_fun(const void* elem_addres, int num_buckets)

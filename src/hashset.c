@@ -7,7 +7,6 @@ void hashset_new(hashset *h, int elem_size, int num_buckets, hashset_hash_fun ha
 {
 	assert (elem_size > 0 || num_buckets > 0 || hash_fun != NULL || compare_fun != NULL);
 
-
 	if ((h->elements = malloc(num_buckets * sizeof(vector))) == NULL) {
 		printf("memory allocation error\n");
 		exit(0) ;
@@ -89,7 +88,6 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 		vector_map(v_bucket, map_fun, aux_data);
 	}
 	printf("\n");
-
 }
 
 static void* search_element(const vector* target, const void* elem_addr, hashset_compare_fun compare_fun)

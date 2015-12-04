@@ -1,4 +1,5 @@
 #include "../headers/vector.h"
+#include "../headers/hashmap.h"
 
 static void vector_grow(vector*);
 static void vector_decrease(vector *v);
@@ -38,7 +39,7 @@ int vector_len(vector *v)
 // uncomment the lines commented -> in this case, we must free the returned element.
 void* vector_get(vector *v, int pos)
 {
-	assert(v->len >= 0 && pos < v->len);
+	assert(v->len >= 0 && pos < v->allocat_len);
 
 	void* source = (char*) v->elements + pos*v->elem_size;
 //	void* valu = malloc(v->elem_size);
