@@ -19,14 +19,21 @@ void test_int_hashmap()
 	}
 	printf("\n");
 
+	int k = 88;
+	char* word = (char*) hashmap_get_value(&hm, &k);
+	printf("word with key 88 is %s\n", word);
+
+	vector* res = hashmap_get_values(&hm);
+	for (int i = 0; i < res->len; ++i) {
+		char* w = (char*) res->elements + i*hm.value_size;
+		printf("%s\n", w);
+	}
+
 	hashmap_map(&hm, hashmap_int_print_pair, NULL);
 	hashmap_dispose(&hm);
 }
 
-void free_fun(void* elem_address)
-{
-
-}
+void free_fun(void* elem_address) { }
 
 void print_node(void* elem_addr, const void* aux_data)
 {

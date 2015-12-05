@@ -22,6 +22,7 @@ typedef struct pair {
 typedef struct {
 	key_type k_type;
 	int num_buckets;
+	int value_size;
 	vector* pairs;
 	vector* used_buckets;
 	hashmap_free_fun free_fun;

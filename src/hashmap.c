@@ -34,6 +34,7 @@ void hashmap_new(hashmap* hm, int elem_size, int num_buckets, hashmap_hash_fun h
 	hm->compare_fun = compare_fun;
 	hm->free_fun = free_fun;
 	hm->hash_fun = hash_fun;
+	hm->value_size = elem_size;
 }
 
 void hashmap_enter(hashmap *hm, void *key, void *value)
@@ -50,7 +51,6 @@ void hashmap_enter(hashmap *hm, void *key, void *value)
 	}
 	p->key = key;
 	p->value = value;
-	printf("key: %d - value: %s - pos: %d\n", *(int*) p->key, (char*) p->value, pos);
 
 	if (target->len == 0) {
 		vector_append(target, p);
@@ -75,16 +75,42 @@ void hashmap_map(hashmap* hm, hashmap_map_fun map_fun, const void* aux_data)
 		int pos = *(int*) vector_get(hm->used_buckets, i);
 		printf("Position %d\n", pos);
 		vector_map(hm->pairs + pos, map_fun, aux_data);
-
 	}
 	printf("\n");
 }
 
+void* hashmap_get_value(const hashmap* hm, const void* key)
+{
+	int pos = hm->hash_fun(key, hm->num_buckets) + 1;
+	vector* target = (struct vector*) (hm->pairs + pos);
+
+	int pos_in_vector = vector_search(target, key, hm->compare_fun, 0, false);
+	pair* temp = vector_get(target, pos_in_vector);
+
+	return temp->value;
+}
+
+vector* hashmap_get_values(hashmap* hm)
+{
+	vector* target = malloc(sizeof(vector));
+	vector_new(target, hm->value_size, hm->free_fun, hm->used_buckets->len);
+
+	for (int i = 0; i < hm->used_buckets->len; ++i) {
+		int pos = *(int*) vector_get(hm->used_buckets, i);
+		vector* v = (struct vector*) (hm->pairs + pos);
+		for (int j = 0; j < v->len; ++j) {
+			pair* p = vector_get(v, j);
+			vector_append(target, p->value);
+		}
+	}
+
+	return target;
+}
+
 void hashmap_dispose(hashmap *hm)
 {
-	for (int i = 1; i <= hm->num_buckets; ++i) {
+	for (int i = 1; i <= hm->num_buckets; ++i)
 		vector_dispose(hm->pairs + i);
-	}
 
 	vector_dispose(hm->used_buckets);
 	free(hm->pairs);
