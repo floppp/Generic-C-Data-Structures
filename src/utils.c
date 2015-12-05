@@ -1,5 +1,12 @@
 #include "../headers/utils.h"
 
+int get_random(double (*generator_fun)(), int min, int max)
+{
+	double temp = generator_fun();
+
+	return (min - 1) + ceil(temp*(max - min));
+}
+
 int students_compare(const void* elem_addr_1, const void* elem_addr_2)
 {
 	students_group* s1 = (struct students_group*) elem_addr_1;

@@ -9,13 +9,6 @@ void hashmap_new(hashmap* hm, int elem_size, int num_buckets, hashmap_hash_fun h
 		printf("memory allocation error in hm->pairs creation.\n");
 		exit(0);
 	}
-	// if we do that, we must change the way we initialize each vector:
-//	vector_new(hm->pairs, malloc(sizeof(vector)), free_fun, num_buckets);
-//	for (int i = 0; i < num_buckets; ++i) {
-//		vector* v = malloc(sizeof(vector));
-//		vector_new(v, sizeof(pair), free_fun, 4);
-//		vector_append(hm->pairs, v);
-//	}
 
 	// Problem with position initilization at 0, so i use a dirty solution, added 1 in
 	// some places, but no in hm->num_buckets, for simpliest code.
@@ -63,7 +56,7 @@ void hashmap_enter(hashmap *hm, void *key, void *value)
 			printf("The key %d already exists.\n", *(int*) p->key);
 		}
 	}
-	if (hm->free_fun == NULL)
+	if (hm->free_fun != NULL)
 		hm->free_fun(p);
 	free(p);
 	p = NULL;
@@ -90,6 +83,14 @@ void* hashmap_get_value(const hashmap* hm, const void* key)
 	return temp->value;
 }
 
+/**
+ * @brief Function that gives us all the stored values.
+ *
+ * It's very important dealloc the memory returned from this method in the calling method.
+ *
+ * @param hm Hashmap that storage the values we want.
+ * @return   Values storages in source hashmap.
+ */
 vector* hashmap_get_values(hashmap* hm)
 {
 	vector* target = malloc(sizeof(vector));

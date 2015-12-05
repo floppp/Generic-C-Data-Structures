@@ -3,10 +3,16 @@
 void print_node(void* elem_addr, const void* aux_data);
 void free_fun(void*);
 
+
+void test_students_hashmap()
+{
+
+}
+
 void test_int_hashmap()
 {
 	hashmap hm;
-	hashmap_new(&hm, sizeof(char*), 20, hashmap_int_hash_fun, hashmap_int_compare_fun, free_fun, Number);
+	hashmap_new(&hm, sizeof(char*), 20, hashmap_int_hash_fun, hashmap_int_compare_fun, NULL, Number);
 	char* words[] = { "casa", "borde", "leche", "vaca", "mesa", "pila",
 					  "solo", "pared", "luz", "television", "dvd", "pata",
 					  "plato", "vinilo", "amplificador"};
@@ -30,10 +36,11 @@ void test_int_hashmap()
 	}
 
 	hashmap_map(&hm, hashmap_int_print_pair, NULL);
+	vector_dispose(res);
+	free(res);
+	res = NULL;
 	hashmap_dispose(&hm);
 }
-
-void free_fun(void* elem_address) { }
 
 void print_node(void* elem_addr, const void* aux_data)
 {

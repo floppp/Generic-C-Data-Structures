@@ -1,6 +1,6 @@
 #include "../headers/test_hashset.h"
 
-int get_random(double(*)(), int, int);
+//int get_random(double(*)(), int, int);
 
 void test_int_hashset()
 {
@@ -111,9 +111,9 @@ void test_students_hashset()
 	hashset_dispose(&h);
 }
 
-int get_random(double (*generator_fun)(), int min, int max)
-{
-	double temp = generator_fun();
+//int get_random(double (*generator_fun)(), int min, int max)
+//{
+//	double temp = generator_fun();
 
-	return (min - 1) + ceil(temp*(max - min));
-}
+//	return (min - 1) + ceil(temp*(max - min));
+//}
