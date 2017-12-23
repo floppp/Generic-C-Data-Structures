@@ -3,6 +3,11 @@
 static void print_node(node*);
 static bool get_position(node*, node_type, void*, bool(*)(void*, void*));
 
+/**
+ * Creation of an empty linked list.
+ *
+ * @return Pointer to the linked list.
+ */
 linked_list* linked_list_new()
 {
 	linked_list* list = malloc(sizeof(linked_list));

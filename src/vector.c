@@ -159,3 +159,4 @@ static void vector_grow(vector* v)
 		v->elements = realloc(v->elements, v->allocat_len * v->elem_size);
 	}
 }
+

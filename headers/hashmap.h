@@ -30,6 +30,9 @@ typedef struct {
 	hashmap_compare_fun compare_fun;
 } hashmap;
 
+/**
+ * Function that creates a new hashmap
+ */
 void hashmap_new(hashmap* hm, int elem_size, int num_buckets, hashmap_hash_fun hash_fun, hashmap_compare_fun compare_fun, hashmap_free_fun free_fun, key_type type);
 void hashmap_dispose(hashmap* hm);
 int hashmap_count(hashmap* hm);

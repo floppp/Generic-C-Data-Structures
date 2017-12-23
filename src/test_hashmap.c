@@ -45,5 +45,5 @@ void test_int_hashmap()
 void print_node(void* elem_addr, const void* aux_data)
 {
 	pair* p = (struct pair*) elem_addr;
-	printf("key: %d - value: %s\n", *(int*) p->key, (char*) p->value);
+	printf("key: %d - value: %s\n", *(int*) p->key, *(char**) p->value);
 }

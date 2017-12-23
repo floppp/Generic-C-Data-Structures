@@ -3,7 +3,7 @@
 
 void hashmap_new(hashmap* hm, int elem_size, int num_buckets, hashmap_hash_fun hash_fun, hashmap_compare_fun compare_fun, hashmap_free_fun free_fun, key_type type)
 {
-	assert(elem_size > 0 || num_buckets > 0 || hash_fun != NULL || compare_fun != NULL);
+    assert(elem_size > 0 || num_buckets > 0 || hash_fun != NULL || compare_fun != NULL);
 
 	if ((hm->pairs = malloc((num_buckets + 1) * sizeof(vector))) == NULL) {
 		printf("memory allocation error in hm->pairs creation.\n");
@@ -53,6 +53,7 @@ void hashmap_enter(hashmap *hm, void *key, void *value)
 		if (exists == -1) {
 			vector_append(target, p);
 		} else {
+		    // This is not fine, key may not be an int.
 			printf("The key %d already exists.\n", *(int*) p->key);
 		}
 	}

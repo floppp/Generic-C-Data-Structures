@@ -19,8 +19,7 @@ struct NODE {
 	void (*print_fun)(void*);
 };
 
-typedef struct
-{
+typedef struct {
 	int logical_len;
 	node* head;
 	node* tail;
