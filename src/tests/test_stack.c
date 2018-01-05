@@ -120,7 +120,20 @@ void test_popping_strings()
 
 void test_dispose_strings_stack()
 {
+	const char* friends[] = {"Al", "Bob", "Carl", "John", "Gregor"};
+
+	for (int i = 0; i < 5; ++i) {
+		char* copy = strdup(friends[i]);
+		stack_push(&string_stack, &copy);
+	}
+
 	stack_dispose(&string_stack);
+
+	assert(string_stack.elements == NULL);
+	assert(string_stack.logical_len == 0);
+	assert(string_stack.allocat_len == 4);
+
+	printf("Disposing string Stack --> OK\n");
 }
 
 void stack_test_suite()
@@ -133,6 +146,7 @@ void stack_test_suite()
 	test_string_stack_creation_with_free_function();
 	test_adding_allocated_strings();
 	test_popping_strings();
+	test_dispose_strings_stack();
 }
 
 
