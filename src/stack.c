@@ -6,6 +6,7 @@ static void stack_decrease(stack* s);
 void stack_new(stack* s, int e_size, void(*free_function)(void*))
 {
 	assert(e_size > 0);
+	assert(s->allocat_len == 0);
 
 	s->elem_size = e_size;
 	s->logical_len = 0;
@@ -49,6 +50,11 @@ void stack_push(stack* s, void* e_addr)
 	s->logical_len++;
 }
 
+/**
+ * Auxiliar funciton to increase the memory allocated.
+ *
+ * @param s stack we want to increase.
+ */
 static void stack_grow(stack *s)
 {
 	if (s->logical_len == s->allocat_len) {
@@ -57,6 +63,11 @@ static void stack_grow(stack *s)
 	}
 }
 
+/**
+ * Counterpart of the stack_grow, deallocation of the extra unuses memory.
+ *
+ * @param s stack we want to reduce.
+ */
 static void stack_decrease(stack* s)
 {
 	if (s->allocat_len  == (s->logical_len + 6)) {
