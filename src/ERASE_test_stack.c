@@ -2,34 +2,6 @@
 
 
 
-// void test_stack_heap()
-// {
-// 	const char* friends[] = {"Al", "Bob", "Carl", "John"};
-// 	stack string_stack;
-
-// 	stack_new(&string_stack, (int)sizeof(char*), string_free);
-// 	for (int i = 0; i < 4; ++i) {
-// 		char* copy = strdup(friends[i]);
-// 		stack_push(&string_stack, &copy);
-// 	}
-
-// 	const char* words[] = {"casa", "mar", "mesa", "ropa", "luz", "lampara", "fosforo"};
-
-// 	for (int i = 0; i < 7; ++i) {
-// 		char* copy = strdup(words[i]);
-// 		stack_push(&string_stack, &copy);
-// 	}
-
-// 	char* word;
-// 	for (int var = 0; var < 11; ++var) {
-// 		stack_pop(&string_stack, &word);
-// 		printf("%s\n", word);
-// 		free(word);
-// 	}
-
-// 	stack_dispose(&string_stack);
-// }
-
 // void test_stack_students()
 // {
 // 	stack struct_stack;

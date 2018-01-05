@@ -40,7 +40,7 @@ void stack_new(stack* s, int e_size, void(*free_function)(void*));
 /**
  * Deallocation of all allocated memory used in the stack.
  *
- * @param s stack we want to disponse.
+ * @param s stack we want to dispose.
  */
 void stack_dispose(stack* s);
 

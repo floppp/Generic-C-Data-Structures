@@ -51,7 +51,7 @@ void stack_push(stack* s, void* e_addr)
 }
 
 /**
- * Auxiliar funciton to increase the memory allocated.
+ * Auxiliary function to increase the memory allocated.
  *
  * @param s stack we want to increase.
  */
@@ -64,7 +64,7 @@ static void stack_grow(stack *s)
 }
 
 /**
- * Counterpart of the stack_grow, deallocation of the extra unuses memory.
+ * Counterpart of the stack_grow, deallocation of the extra unused memory.
  *
  * @param s stack we want to reduce.
  */

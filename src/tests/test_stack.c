@@ -1,6 +1,7 @@
 #include "test_stack.h"
 
 stack int_stack;
+stack string_stack;
 
 void test_stack_creation()
 {
@@ -47,12 +48,66 @@ void test_popping_integers()
 	printf("Retriving integers from Stack --> OK\n");
 }
 
+void test_dispose_integer_stack()
+{
+	stack_dispose(&int_stack);
+
+	assert(int_stack.elements == NULL);
+
+	printf("Disposing elementary integers Stack --> OK\n");
+}
+
+
+void test_string_stack_creation_with_free_function()
+{
+	stack_new(&string_stack, (int) sizeof(char*), string_free);
+
+	assert(int_stack.logical_len == 0);
+	assert(int_stack.allocat_len == 4);
+
+	printf("Stack of strings creation --> OK\n");
+}
+
+void test_adding_allocated_strings()
+{
+	const char* friends[] = {"Al", "Bob", "Carl", "John"};
+
+	for (int i = 0; i < 4; ++i) {
+		char* copy = strdup(friends[i]);
+		stack_push(&string_stack, &copy);
+	}
+
+	const char* words[] = {"casa", "mar", "mesa", "ropa", "luz", "lampara", "fosforo"};
+
+	for (int i = 0; i < 7; ++i) {
+		char* copy = strdup(words[i]);
+		stack_push(&string_stack, &copy);
+	}
+}
+
+void test_popping_strings()
+{
+	char* word;
+
+	for (int var = 0; var < 11; ++var) {
+		stack_pop(&string_stack, &word);
+		printf("%s\n", word);
+		free(word);
+	}
+}
+
+void test_dispose_strings_stack()
+{
+	stack_dispose(&string_stack);
+}
 
 void stack_test_suite()
 {
 	test_stack_creation();
 	test_adding_integers();
 	test_popping_integers();
+	test_dispose_integer_stack();
+	test_string_stack_creation_with_free_function();
 }
 
 

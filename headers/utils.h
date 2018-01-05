@@ -3,6 +3,7 @@
 
 #include <time.h>
 #include <stdlib.h>
+#include <math.h>
 #include "students_group.h"
 #include "list.h"
 #include "hashmap.h"
