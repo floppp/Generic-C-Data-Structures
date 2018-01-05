@@ -149,3 +149,15 @@ char* get_format(list* l)
 			return "%s";
 	}
 }
+
+int compare(const char* w1, const char* w2, int l)
+{
+	if (strlen(w1) != strlen(w2))
+		return 0;
+
+	for (int i = 0; i < l; i++)
+		if (w1[i] != w2[i])
+			return 0;
+
+	return 1;
+}

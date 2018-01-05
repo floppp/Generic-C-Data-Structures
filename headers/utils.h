@@ -24,5 +24,6 @@ void hashmap_int_print_pair(void* elem_addr, const void* aux_data);
 int hashmap_int_hash_fun(const void*, int);
 int hashmap_int_compare_fun(const void*, const void*);
 int get_random(double(*)(), int, int);
+int compare(const char* w1, const char* w2, int l);
 
 #endif
