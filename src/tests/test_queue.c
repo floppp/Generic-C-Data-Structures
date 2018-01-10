@@ -122,16 +122,7 @@ void test_queue_dequeue_strings()
 
 void test_queue_dispose_strings()
 {
-	const char* friends[] = {"Al", "Bob", "Carl", "John", "Gregor"};
-
-	for (int i = 0; i < 5; ++i) {
-		char* copy = strdup(friends[i]);
-		queue_enqueue(&str_q, &copy);
-	}
-
-	// printf("%d - %d\n", str_q.logical_len, str_q.allocat_len);
 	queue_dispose(&str_q);
-	// printf("%d - %d\n", str_q.logical_len, str_q.allocat_len);
 
 	assert(str_q.elements == NULL);
 	assert(str_q.logical_len == 0);
@@ -141,7 +132,7 @@ void test_queue_dispose_strings()
 }
 
 
-void test_queue_students()
+void test_queue_students_enqueue(const char* msg)
 {
 	queue_new(&stu_q, sizeof(students_group), students_group_free);
 
@@ -194,111 +185,131 @@ void test_queue_students()
 		assert(stu_q.allocat_len == 4);
 	}
 
-	printf("Adding students to Queue --> OK\n");
+	printf("%s\n", msg);
+}
 
+void test_queue_students_dequeue(const char* msg)
+{
 	// DEQUEUE
 	students_group aux;
 	queue_dequeue(&stu_q, &aux);
-	printf("First element\n");
-	print_students(&aux, NULL);
+	// printf("First element\n");
+	// print_students(&aux, NULL);
 	students_group_free(&aux);
 
-	// // DEQUEUE
-	// queue_dequeue(&stu_q, &aux);
+	// DEQUEUE
+	queue_dequeue(&stu_q, &aux);
 	// printf("Second element\n");
 	// print_students(&aux, NULL);
-	// students_group_free(&aux);
+	students_group_free(&aux);
 
-	// // ENQUEUE
-	// {
-	// 	students_group group_2;
-	// 	group_2.elem = 6;
-	// 	const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
-	// 	const int notas_2[] = {1, 2, 3, 2, 0, 2};
+	assert(stu_q.logical_len == 0);
+	assert(stu_q.allocat_len == 4);
 
-	// 	group_2.names = malloc(group_2.elem * sizeof(char*));
-	// 	group_2.cal = malloc(group_2.elem * sizeof(int));
+	// ENQUEUE AGAIN
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-	// 	for (int j = 0; j < group_2.elem; ++j) {
-	// 		group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-	// 		strcpy(group_2.names[j], names_2[j]);
-	// 		group_2.cal[j] = notas_2[j];
-	// 	}
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-	// 	queue_enqueue(&stu_q, &group_2);
-	// }
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
 
-	// {
-	// 	students_group group_2;
-	// 	group_2.elem = 6;
-	// 	const char* names_2[] = {"zzzzzz", "xxxxxx", "yyyyyy", "wwwwww", "uuuuuuu", "pppppp"};
-	// 	const int notas_2[] = {1, 2, 3, 2, 0, 2};
+		queue_enqueue(&stu_q, &group_2);
+	}
 
-	// 	group_2.names = malloc(group_2.elem * sizeof(char*));
-	// 	group_2.cal = malloc(group_2.elem * sizeof(int));
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"zzzzzz", "xxxxxx", "yyyyyy", "wwwwww", "uuuuuuu", "pppppp"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-	// 	for (int j = 0; j < group_2.elem; ++j) {
-	// 		group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-	// 		strcpy(group_2.names[j], names_2[j]);
-	// 		group_2.cal[j] = notas_2[j];
-	// 	}
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-	// 	queue_enqueue(&stu_q, &group_2);
-	// }
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
 
-	// // DEQUEUE
-	// queue_dequeue(&stu_q, &aux);
+		queue_enqueue(&stu_q, &group_2);
+	}
+
+	// DEQUEUE
+	queue_dequeue(&stu_q, &aux);
 	// printf("Third element\n");
 	// print_students(&aux, NULL);
-	// students_group_free(&aux);
+	students_group_free(&aux);
 
-	// // ENQUEUE
-	// {
-	// 	students_group group_2;
-	// 	group_2.elem = 6;
-	// 	const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
-	// 	const int notas_2[] = {1, 2, 3, 2, 0, 2};
+	// ENQUEUE
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"Lou", "David", "Steven", "Logan", "Popi", "Juno"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-	// 	group_2.names = malloc(group_2.elem * sizeof(char*));
-	// 	group_2.cal = malloc(group_2.elem * sizeof(int));
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-	// 	for (int j = 0; j < group_2.elem; ++j) {
-	// 		group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-	// 		strcpy(group_2.names[j], names_2[j]);
-	// 		group_2.cal[j] = notas_2[j];
-	// 	}
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
 
-	// 	queue_enqueue(&stu_q, &group_2);
-	// }
+		queue_enqueue(&stu_q, &group_2);
+	}
 
-	// // ENQUEUE
-	// {
-	// 	students_group group_2;
-	// 	group_2.elem = 6;
-	// 	const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
-	// 	const int notas_2[] = {1, 2, 3, 2, 0, 2};
+	// ENQUEUE
+	{
+		students_group group_2;
+		group_2.elem = 6;
+		const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
+		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-	// 	group_2.names = malloc(group_2.elem * sizeof(char*));
-	// 	group_2.cal = malloc(group_2.elem * sizeof(int));
+		group_2.names = malloc(group_2.elem * sizeof(char*));
+		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-	// 	for (int j = 0; j < group_2.elem; ++j) {
-	// 		group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-	// 		strcpy(group_2.names[j], names_2[j]);
-	// 		group_2.cal[j] = notas_2[j];
-	// 	}
+		for (int j = 0; j < group_2.elem; ++j) {
+			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+			strcpy(group_2.names[j], names_2[j]);
+			group_2.cal[j] = notas_2[j];
+		}
 
-	// 	queue_enqueue(&stu_q, &group_2);
-	// }
+		queue_enqueue(&stu_q, &group_2);
+	}
 
-	// for (int i = 0; i < 3; ++i) {
-	// 	students_group aux;
-	// 	queue_dequeue(&stu_q, &aux);
-	// 	printf("Inside 'for' element\n");
-	// 	print_students(&aux, NULL);
-	// 	students_group_free(&aux);
-	// }
+	for (int i = 0; i < 3; ++i) {
+		students_group aux;
+		queue_dequeue(&stu_q, &aux);
+		// printf("Inside 'for' element\n");
+		// print_students(&aux, NULL);
+		students_group_free(&aux);
+	}
 
-	// queue_dispose(&stu_q);
+	assert(stu_q.logical_len == 0);
+	assert(stu_q.allocat_len == 4);
+
+	printf("%s\n", msg);
+}
+
+void test_queue_students_dispose(const char* msg)
+{
+	queue_dispose(&stu_q);
+
+	assert(str_q.elements == NULL);
+	assert(str_q.logical_len == 0);
+	assert(str_q.allocat_len == 4);
+
+	printf("%s\n", msg);
 }
 
 void queue_test_suite()
@@ -314,6 +325,8 @@ void queue_test_suite()
 	test_queue_adding_allocated_strings();
 	test_queue_dequeue_strings();
 	test_queue_dispose_strings();
-	// test_queue_students();
+	test_queue_students_enqueue("Queue students enqueue --> OK");
+	test_queue_students_dequeue("Queue students dequeue --> OK");
+	test_queue_students_dispose("Queue students dispose --> OK");
 }
 
