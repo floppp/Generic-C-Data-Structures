@@ -1,12 +1,13 @@
 #### Generic Data Structures in C
-Like thousends of other programmers, i felt that i need to implement some data structures in pure C, with no objects. So i did it, using some of the background learned in the awsome Stanford Course "Paradigms of Programming".
+Implementation of some data structures in pure C, with no objects.  
 
-There are:
-* Stack -> implemented like java array list (resizable array).
-* Queue -> idem.
-* List -> deprecated.
-* Vector -> like a java array list.
-* Linked List -> it allows to store any kind of data or struct in the same list (like python lists).
-* HashSet -> implemented using vector structure.
-* HashMap -> idem.
+Starting from those explained in the awsome Stanford Course "Paradigms of Programming", and continued with other I have needed in my job, studied in other courses, books, etc.
+
+* Stack:  implemented like java array list (resizable array).
+* Queue:  idem.
+* List:   deprecated.
+* Vector: like a java array list.
+* Linked List:  to store any kind of data or struct in the same list (like python lists).
+* HashSet: implemented using vector structure.
+* HashMap: idem.
 

@@ -62,8 +62,8 @@ void test_string_stack_creation_with_free_function()
 {
 	stack_new(&string_stack, (int) sizeof(char*), string_free);
 
-	assert(int_stack.logical_len == 0);
-	assert(int_stack.allocat_len == 4);
+	assert(string_stack.logical_len == 0);
+	assert(string_stack.allocat_len == 4);
 
 	printf("Stack of strings creation --> OK\n");
 }
