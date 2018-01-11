@@ -1,5 +1,4 @@
 #include "../headers/vector.h"
-#include "../headers/hashmap.h"
 
 static void vector_grow(vector*);
 static void vector_decrease(vector *v);
