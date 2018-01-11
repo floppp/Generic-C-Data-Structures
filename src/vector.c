@@ -14,7 +14,7 @@ void vector_new(vector *v, int elem_size, vector_free_fun free_fun, int init_all
 	}
 
 	v->len = 0;
-	v->allocat_len = init_allocation;
+	v->all_len = init_allocation;
 	v->elem_size = elem_size;
 	v->free_fun = free_fun;
 }
@@ -34,18 +34,21 @@ int vector_len(vector *v)
 	return v->len;
 }
 
-// Return a pointer to the vector storage. If we want return a copy, only need
-// uncomment the lines commented -> in this case, we must free the returned element.
-void* vector_get(vector *v, int pos)
+// This won't work because we don't know the size in the outside.
+// void* vector_get(vector *v, int pos)
+// {
+// 	assert(v->len >= 0 && pos < v->all_len);
+// 	void* source = (char*) v->elements + pos*v->elem_size;
+// 	return source;
+// }
+
+void vector_get(vector *v, int pos, void* e_addr)
 {
-	assert(v->len >= 0 && pos < v->allocat_len);
+	assert(v->len >= 0 && pos < v->all_len);
 
 	void* source = (char*) v->elements + pos*v->elem_size;
-//	void* valu = malloc(v->elem_size);
-//	memcpy(valu, source, v->elem_size);
-//	return value;
-	return source;
 
+	memcpy(e_addr, source, v->elem_size);
 }
 
 void vector_insert(vector* v, const void* elem_addr, int pos)
@@ -145,17 +148,17 @@ static int vector_binary_search(const vector* v, const void* key, vector_compare
 
 static void vector_decrease(vector *v)
 {
-	if (v->allocat_len == (v->len * 2)) {
-		v->allocat_len = v->allocat_len / 3;
-		v->elements = realloc(v->elements, v->allocat_len * v->elem_size);
+	if (v->all_len == (v->len * 2)) {
+		v->all_len = v->all_len / 3;
+		v->elements = realloc(v->elements, v->all_len * v->elem_size);
 	}
 }
 
 static void vector_grow(vector* v)
 {
-	if (v->len == v->allocat_len) {
-		v->allocat_len *= 2;
-		v->elements = realloc(v->elements, v->allocat_len * v->elem_size);
+	if (v->len == v->all_len) {
+		v->all_len *= 2;
+		v->elements = realloc(v->elements, v->all_len * v->elem_size);
 	}
 }
 

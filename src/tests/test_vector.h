@@ -7,6 +7,6 @@
 #include "../../headers/vector.h"
 #include "../../headers/students_group.h"
 
-void test_vector_suite();
+void vector_test_suite();
 
 #endif
