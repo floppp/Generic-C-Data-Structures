@@ -1,7 +1,8 @@
 #### Generic Data Structures in C
 Implementation of some data structures in pure C, with no objects.  
 
-Starting from those explained in the awsome Stanford Course "Paradigms of Programming", and continued with other I have needed in my job, studied in other courses, books, etc.
+Starting from those explained in the awesome Stanford Course "Paradigms of Programming", and continued with other I have needed in my job, studied in other 
+courses, books, etc.
 
 * Stack:  implemented like java array list (resizable array).
 * Queue:  idem.
