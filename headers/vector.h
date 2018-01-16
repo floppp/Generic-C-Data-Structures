@@ -26,7 +26,8 @@ typedef struct vector
 	int all_len;
 	int elem_size;
 	void* elements;
-	vector_free_fun free_fun;
+	// vector_free_fun free_fun;
+	void (*free_fun)(void*);
 } vector;
 
 /**
@@ -62,7 +63,13 @@ void vector_append(vector* v, const void* e_addr);
 int vector_len(vector* v);
 
 /**
- * Function that returns the element in an address we pass as a parameter.
+ * @brief Function that returns the element in an address we pass as a
+ *        parameter.
+ *
+ * Function that makes a copy of the information that is stored in position
+ * <b>pos</b> inside the vector <b>v</b>, in the memory <b>e_addr</b>. We must
+ * ensure in the call moment the type of e_addr is the same the elements we
+ * are storing in the vector.
  *
  * @param v   		vector we work in.
  * @param pos 		position of the element we want to return.

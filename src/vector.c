@@ -21,12 +21,26 @@ void vector_new(vector *v, int elem_size, vector_free_fun free_fun, int init_all
 
 void vector_dispose(vector *v)
 {
-	if (v->free_fun != NULL)
-		for (int var = 0; var < v->len; ++var)
-			v->free_fun((char*) v->elements + var*v->elem_size);
+	// const char* word;
+	// for (short i = 0; i < 7; ++i) {
+		// vector_get(v, i, &word);
+		// printf("--> %s\n", word);
+	// }
+
+	if (v->free_fun) {
+		for (short i = 0; i < v->len; ++i) {
+			// vector_get(v, i, &word);
+			// printf("=== %s\n", word);
+			// printf("=== %d - %d - %d - %d\n", i, v->len, v->elements,
+				// v->elements + i*v->elem_size);
+			v->free_fun((char*) v->elements + i*v->elem_size);
+		}
+	}
 
 	free(v->elements);
 	v->elements = NULL;
+	v->len = 0;
+	v->all_len = 0;
 }
 
 int vector_len(vector *v)
@@ -71,10 +85,12 @@ void vector_insert(vector* v, const void* elem_addr, int pos)
 
 void vector_append(vector *v, const void *elem_addr)
 {
-	void* target = (char*) v->elements + (v->len++)*v->elem_size;
+	void* target = (char*) v->elements + (v->len)*v->elem_size;
 	memcpy(target, elem_addr, v->elem_size);
 
+	v->len++;
 	vector_grow(v);
+
 }
 
 void vector_replace(vector *v, const void *elem_addr, int pos)

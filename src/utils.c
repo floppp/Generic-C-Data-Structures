@@ -150,7 +150,7 @@ char* get_format(list* l)
 	}
 }
 
-int compare(const char* w1, const char* w2, int l)
+int string_compare(const char* w1, const char* w2, int l)
 {
 	if (strlen(w1) != strlen(w2))
 		return 0;
@@ -160,4 +160,10 @@ int compare(const char* w1, const char* w2, int l)
 			return 0;
 
 	return 1;
+}
+
+void launch_test(void(*f)(), const char* msg)
+{
+	f();
+	printf("%s\n", msg);
 }

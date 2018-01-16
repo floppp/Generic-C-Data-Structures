@@ -11,9 +11,9 @@
  *
  * 		elements	--> data storage.
  * 		elem_size	--> size of the element to store.
- * 		logical_len	--> number of stored elements.
- * 		allocat_len	--> size of the allocated memory for elements.
- * 		queue_pos	-->	position of the first element we'll retrieve.
+ * 		len	--> number of stored elements.
+ * 		all_len	--> size of the allocated memory for elements.
+ * 		q_pos	-->	position of the first element in the queue we'll retrieve.
  * 		last_pos	-->	last element in the queue.
  *
  */
@@ -21,9 +21,9 @@ typedef struct
 {
 	void* elements;
 	int elem_size;
-	int logical_len;
-	int allocat_len;
-	int queue_pos;
+	int len;
+	int all_len;
+	int q_pos;
 	int last_pos;
 	void (*free_function)(void*);
 } queue;

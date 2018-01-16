@@ -107,7 +107,7 @@ void test_popping_strings()
 
 	for (short i = 0; i < 11; ++i) {
 		stack_pop(&string_stack, &word);
-		assert(compare(word, words[idx], strlen(word)));
+		assert(string_compare(word, words[idx], strlen(word)));
 		free(word);
 		idx += 1;
 	}
