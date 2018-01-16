@@ -26,7 +26,7 @@ void stack_dispose(stack* s)
 			s->free_function((char*)s->elements + i*s->elem_size);
 
 	s->logical_len = LOGICAL_DEFAULT_SIZE;
-	s->allocat_len = ALLOCAT_DEFAULT_SIZE;
+	s->allocat_len = 0;
 
 	free(s->elements);
 	s->elements = NULL;

@@ -7,24 +7,25 @@
 #include <stdio.h>
 #include "stack.h"
 
-static const int ALLOCATED_DEFAULT_SIZE = 4;
-static const int LOGICAL_DEFAULT_SIZE = 0;
+static const int QUEUE_ALLOCATED_DEFAULT_SIZE = 4;
+static const int QUEUE_LOGICAL_DEFAULT_SIZE = 0;
+
 /**
  * @brief Generic Queue (FIFO).
  *
  * Generic Queue implemented with the classic two-stacks representation, the
  * first for queing elements, the second one for dequeing.
  *
- * @param fst_s    stack for enqueing values.
- * @param scd_s    stack for dequeing values.
- * @param e_size   size of the elements to store.
- * @param len      number of elements actually stored in the queue.
- * @param a_len    space allocated in memory.
- * @param free_fun function for deallocating elements.
+ * @param fst_s    {stack} stack for enqueing values.
+ * @param scd_s    {stack} stack for dequeing values.
+ * @param e_size   {int}   size of the elements to store.
+ * @param len      {int}   number of elements actually stored in the queue.
+ * @param a_len    {int}   space allocated in memory.
+ * @param free_fun {void*} function for deallocating elements.
  */
 typedef struct {
-	stack* fst_s;
-	stack* scd_s;
+	stack fst_s;
+	stack scd_s;
 	int e_size;
 	int len;
 	int a_len;

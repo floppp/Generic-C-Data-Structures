@@ -131,7 +131,7 @@ void test_dispose_strings_stack()
 
 	assert(string_stack.elements == NULL);
 	assert(string_stack.logical_len == 0);
-	assert(string_stack.allocat_len == 4);
+	assert(string_stack.allocat_len == 0);
 
 	printf("Disposing string Stack --> OK\n");
 }

@@ -1,5 +1,6 @@
 CC = clang
 CCFLAGS = -Wall
+CDFLAGS = -g -Wall
 LDFLAGS = -lm # Requirement to <math.h> compiling
 HEADIR = headers
 SRCDIR = src
@@ -19,15 +20,15 @@ all: $(OBJECTS) $(TEST_OBJECTS)
 	$(CC) $(OBJECTS) $(TEST_OBJECTS) $(CCFLAGS) -o $(TEST_EXECUTABLE) $(LDFLAGS)
 
 debug: $(OBJECTS) $(TEST_OBJECTS)
-	$(CC) $(OBJECTS) $(TEST_OBJECTS) -g $(CCFLAGS) -o $(TEST_EXECUTABLE) $(LDFLAGS)
+	$(CC) $(OBJECTS) $(TEST_OBJECTS) $(CDFLAGS) -o $(TEST_EXECUTABLE) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c $(CCFLAGS) $< -o $@
+	$(CC) -c $(CDFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: $(TESDIR)/%.c
-	$(CC) -c $(CCFLAGS) $< -o $@
+	$(CC) -c $(CDFLAGS) $< -o $@
 
 .PHONY: clean
 
 clean:
-	rm main *.o $(OBJDIR)/*.o
+	rm main_test *.o $(OBJDIR)/*.o

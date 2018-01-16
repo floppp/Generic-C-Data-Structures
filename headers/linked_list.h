@@ -9,17 +9,18 @@
 
 typedef enum TYPE { String, Char, Integer, Double, Boolean, Other, Nil } node_type;
 
-typedef struct NODE node;
-struct NODE {
+// typedef struct NODE node;
+// typedef struct NODE {
+typedef struct node {
 	int elem_size;
 	node_type type;
 	void* element;
 	node* next;
 	void (*free_fun)(void*);
 	void (*print_fun)(void*);
-};
+} node;
 
-typedef struct {
+typedef struct linked_list {
 	int logical_len;
 	node* head;
 	node* tail;

@@ -20,7 +20,7 @@ linked_list* linked_list_new()
 	return list;
 }
 
-void linked_list_add(linked_list* l, node_type type, int elem_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
+void linked_list_add(lminked_list* l, node_type type, int elem_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
 {
 	node* n;
 	if (l->logical_len == 0) {

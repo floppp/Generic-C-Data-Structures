@@ -1,84 +1,54 @@
 #include "../headers/queue.h"
 
-static void queue_grow(queue* q);
-static void queue_drecrease(queue* q);
-const int Q_ALL_DEF_SIZE = 4;
-const int Q_LOG_DEF_SIZE = 0;
+static void fill_second_queue();
+// static void queue_grow(queue* q);
+// static void queue_drecrease(queue* q);
 
-void queue_new(queue *q, int e_size, void(*free_function)(void*))
+void queue_new(queue *q, int e_size, void(*free_fun)(void*))
 {
 	assert(e_size > 0);
 
-	q->elem_size = e_size;
-	q->last_pos = 0;
-	q->len = Q_LOG_DEF_SIZE;
-	q->all_len = Q_ALL_DEF_SIZE;
-	q->elements = malloc(q->all_len * e_size);
-	q->free_function = free_function;
-	q->q_pos = 0;
+	stack_new(&q->fst_s, e_size, free_fun);
+	stack_new(&q->scd_s, e_size, free_fun);
 
-	assert(q->elements != NULL);
-}
+	q->e_size = e_size;
+	q->len = QUEUE_LOGICAL_DEFAULT_SIZE;
+	q->a_len = QUEUE_ALLOCATED_DEFAULT_SIZE;
+	q->free_fun = free_fun;
+}i
 
 void queue_dispose(queue *q)
 {
-	if (q->free_function)
-		for (short i = 0; i < q->len; ++i)
-			q->free_function((char*) q->elements + i*q->elem_size);
-
-	free(q->elements);
-	q->elements = NULL;
-	q->len = Q_LOG_DEF_SIZE;
-	q->all_len = 0;
+	stack_dispose(&q->fst_s);
+	stack_dispose(&q->scd_s);
 }
 
 void queue_enqueue(queue *q, void *e_addr)
 {
-	queue_grow(q);
-
-	void* target = (char*) q->elements + (q->last_pos++)*q->elem_size;
-	memcpy(target, e_addr, q->elem_size);
-
-	q->len++;
-
+	stack_push(q->fst_s, e_addr);
+	q->len = q->fst_s->logical_len + q->scd_s->logical_len;
+	q->a_len = q->fst_s->allocat_len + q->scd_s->allocat_len;
 }
 
 void queue_dequeue(queue *q, void *e_addr)
 {
 	assert(q->len > 0);
 
-	void* source = (char*) q->elements + q->q_pos*q->elem_size;
-	memcpy(e_addr, source, q->elem_size);
-	q->len--;
-
-	queue_drecrease(q);
-}
-
-static void queue_grow(queue* q)
-{
-	if (q->len == q->all_len) {
-		q->all_len += Q_ALL_DEF_SIZE;
-		q->elements = realloc(q->elements, q->all_len * q->elem_size);
+	if (q->scd_s->logical_len == 0) {
+		fill_second_queue(q);
 	}
+
+	stack_pop(q->scd_s, e_addr);
+	q->len = q->fst_s->logical_len + q->scd_s->logical_len;
+	q->a_len = q->fst_s->allocat_len + q->scd_s->allocat_len;
 }
 
-static void queue_drecrease(queue* q)
+static void fill_second_queue(queue* q)
 {
-	if (q->q_pos++ == (q->all_len/2)) {
-		for (int i = 0; i < q->len; ++i) {
-			void* target = (char*) q->elements + i*q->elem_size;
-			void* source = (char*) q->elements + (q->q_pos + i)*q->elem_size;
-			memcpy(target, source, q->elem_size);
-		}
-
-		q->all_len = q->len + (4 - (q->len % 4));
-		q->q_pos = 0;
-		q->last_pos = q->len;
-
-		void* tmp = realloc(q->elements, q->all_len * q->elem_size);
-		if (tmp)
-		    q->elements = tmp;
-		else
-			exit(-1);
+	int end = q->fst_s->logical_len;
+	for (int i = 0; i < end; ++i) {
+		void* e;
+		stack_pop(q->fst_s->elements, &e);
+		stack_push(q->scd_s, e);
 	}
 }

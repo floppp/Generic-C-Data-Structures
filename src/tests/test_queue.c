@@ -7,12 +7,14 @@ queue stu_q;
 void test_queue_creation()
 {
 	queue_new(&int_q, sizeof(int), NULL);
+	printf("allocat in str_q before queue new : %d\n", str_q.a_len);
 	queue_new(&str_q, sizeof(char*), string_free);
+	printf("allocat in str_q after queue new : %d\n", str_q.a_len);
 
 	assert(str_q.len == 0);
-	assert(str_q.all_len == 4);
-	assert(int_q.len == 0);
-	assert(int_q.all_len == 4);
+	assert(str_q.a_len == 4);
+	assert(int_q.len == 0);in
+	assert(int_q.a_len == 4);
 }
 
 void test_int_q_enqueue()
@@ -27,7 +29,7 @@ void test_int_q_enqueue()
 	queue_enqueue(&int_q, &i);
 
 	assert(int_q.len == 3);
-	assert(int_q.all_len == 4);
+	assert(int_q.a_len == 4);
 }
 
 void test_int_q_dequeue()
@@ -50,7 +52,8 @@ void test_int_q_dispose()
 {
 	queue_dispose(&int_q);
 
-	assert(int_q.elements == NULL);
+	assert(int_q.fst_s->elements == NULL);
+	assert(int_q.scd_s->elements == NULL);
 }
 
 void test_enqueue_string()
@@ -65,7 +68,7 @@ void test_enqueue_string()
 	}
 
 	assert(str_q.len == 4);
-	assert(str_q.all_len == 4);
+	assert(str_q.a_len == 4);
 
 	const char* words[] = {"casa", "mar", "mesa", "ropa", "luz", "lampara", "fosforo"};
 
@@ -76,7 +79,7 @@ void test_enqueue_string()
 	}
 
 	assert(str_q.len == 11);
-	assert(str_q.all_len == 12);
+	assert(str_q.a_len == 12);
 }
 
 void test_dequeue_string()
@@ -92,7 +95,7 @@ void test_dequeue_string()
 		free(word);
 	}
 
-	// assert(str_q.all_len == 4 && str_q.len == 0);
+	// assert(str_q.a_len == 4 && str_q.len == 0);
 	assert(str_q.len == 0);
 }
 
@@ -111,9 +114,10 @@ void test_str_q_dispose()
 
 	queue_dispose(&str_q);
 
-	assert(str_q.elements == NULL);
+	assert(str_q.fst_s->elements == NULL);
+	assert(str_q.scd_s->elements == NULL);
 	assert(str_q.len == 0);
-	assert(str_q.all_len == 0);
+	assert(str_q.a_len == 0);
 }
 
 
@@ -122,7 +126,7 @@ void test_queue_students_enqueue(const char* msg)
 	queue_new(&stu_q, sizeof(students_group), students_group_free);
 
 	assert(stu_q.len == 0);
-	assert(stu_q.all_len == 4);
+	assert(stu_q.a_len == 4);
 
 	printf("Queue students creation --> OK\n");
 
@@ -145,7 +149,7 @@ void test_queue_students_enqueue(const char* msg)
 		queue_enqueue(&stu_q, &group_1);
 
 		assert(stu_q.len == 1);
-		assert(stu_q.all_len == 4);
+		assert(stu_q.a_len == 4);
 	}
 
 	{
@@ -167,7 +171,7 @@ void test_queue_students_enqueue(const char* msg)
 		queue_enqueue(&stu_q, &group_2);
 
 		assert(stu_q.len == 2);
-		assert(stu_q.all_len == 4);
+		assert(stu_q.a_len == 4);
 	}
 
 	printf("%s\n", msg);
@@ -189,7 +193,7 @@ void test_queue_students_dequeue(const char* msg)
 	students_group_free(&aux);
 
 	assert(stu_q.len == 0);
-	assert(stu_q.all_len == 4);
+	assert(stu_q.a_len == 4);
 
 	// ENQUEUE AGAIN
 	{
@@ -281,7 +285,7 @@ void test_queue_students_dequeue(const char* msg)
 	}
 
 	assert(stu_q.len == 0);
-	assert(stu_q.all_len == 4);
+	assert(stu_q.a_len == 4);
 
 	printf("%s\n", msg);
 }
@@ -290,9 +294,10 @@ void test_queue_students_dispose(const char* msg)
 {
 	queue_dispose(&stu_q);
 
-	assert(str_q.elements == NULL);
+	assert(str_q.fst_s->elements == NULL);
+	assert(str_q.scd_s->elements == NULL);
 	assert(str_q.len == 0);
-	assert(str_q.all_len == 0);
+	assert(str_q.a_len == 0);
 
 	printf("%s\n", msg);
 }

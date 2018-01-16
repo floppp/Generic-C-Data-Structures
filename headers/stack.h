@@ -7,19 +7,17 @@
 #include <string.h>
 
 /**
- *  Struct that defines an stack. We can only pass single elements, or structs
- *  without pointers (memory allocated) in them.
+ *  @brief Struct that defines an stack. We can only pass single elements
+ *  or structs without pointers (memory allocated) in them.
  *
- * 		void* elements -> where data is store
- * 		elem_size -> size of the elements (all elements must be equal)
- * 		logical_len -> size that actually is store (number of elements)
- * 		allocat_len -> number of elements we can allocate
- * 		void (*free_function)(void*) -> for deallocating memory, only if we
- * 										need it
+ * @param elements      {void*} where data is store.
+ * @param elem_size     {int}   size of the elements.
+ * @param logical_len   {int}   size that actually is store.
+ * @param allocat_len   {int}   number of elements we can allocate.
+ * @param free_function {void*} for deallocating memory
  *
  */
-typedef struct
-{
+typedef struct stack {
 	void* elements;
 	int elem_size;
 	int logical_len;
