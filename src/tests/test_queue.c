@@ -79,7 +79,7 @@ void test_enqueue_string()
 	assert(str_q.all_len == 12);
 }
 
-void test_str_q_dequeue()
+void test_dequeue_string()
 {
 	char* word;
 	short idx = 0;
@@ -307,7 +307,7 @@ void queue_test_suite()
 	launch_test(test_int_q_dequeue, "Queue retrieving integers --> OK");
 	launch_test(test_int_q_dispose, "Queue disposing integers --> OK");
 	launch_test(test_enqueue_string, "Queue adding strings --> OK");
-	// launch_test(test_str_q_dequeue, "Retriving strings from Queue --> OK");
+	launch_test(test_dequeue_string, "Retriving strings from Queue --> OK");
 	launch_test(test_str_q_dispose, "Disposing string Queue --> OK");
 	// launch_test(test_queue_students_enqueue, "Queue students enqueue --> OK");
 	// launch_test(test_queue_students_dequeue, "Queue students dequeue --> OK");
