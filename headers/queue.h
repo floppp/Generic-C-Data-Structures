@@ -5,31 +5,34 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include "stack.h"
 
+static const int ALLOCATED_DEFAULT_SIZE = 4;
+static const int LOGICAL_DEFAULT_SIZE = 0;
 /**
- * Struct for queue (FIFO) representation.
+ * @brief Generic Queue (FIFO).
  *
- * 		elements	--> data storage.
- * 		elem_size	--> size of the element to store.
- * 		len	--> number of stored elements.
- * 		all_len	--> size of the allocated memory for elements.
- * 		q_pos	-->	position of the first element in the queue we'll retrieve.
- * 		last_pos	-->	last element in the queue.
+ * Generic Queue implemented with the classic two-stacks representation, the
+ * first for queing elements, the second one for dequeing.
  *
+ * @param fst_s    stack for enqueing values.
+ * @param scd_s    stack for dequeing values.
+ * @param e_size   size of the elements to store.
+ * @param len      number of elements actually stored in the queue.
+ * @param a_len    space allocated in memory.
+ * @param free_fun function for deallocating elements.
  */
-typedef struct
-{
-	void* elements;
-	int elem_size;
+typedef struct {
+	stack* fst_s;
+	stack* scd_s;
+	int e_size;
 	int len;
-	int all_len;
-	int q_pos;
-	int last_pos;
-	void (*free_function)(void*);
+	int a_len;
+	void (*free_fun)(void*);
 } queue;
 
 /**
- * Creation of auxiliary data structures for the queue.
+ * @brief Creation of auxiliary data structures for the queue.
  *
  * @param q					memory position of the queue.
  * @param e_size			size of the elements to store.
@@ -38,14 +41,15 @@ typedef struct
 void queue_new(queue* q, int e_size, void(*free_function)(void*));
 
 /**
- * Deallocation of all allocated memory used in the queue.
+ * @brief Deallocation of all allocated memory used in the queue.
  *
  * @param q queue we want to deallocate.
  */
 void queue_dispose(queue* s);
 
 /**
- * Introduction of the element in e_addr in the last position of the queue.
+ * @brief Introduction of the element in e_addr in the last position of the
+ * queue.
  *
  * @param q      queue we are working in.
  * @param e_addr memory where the element to store is.
@@ -53,13 +57,7 @@ void queue_dispose(queue* s);
 void queue_enqueue(queue* q, void* e_addr);
 
 /**
- * Retrieve of the first element of the queue (FIFO).
- * The implementation moves to pointers, so in case of huge queues, it is
- * possible to ask for positions outside the memory assigned for the process.
- * The correct solution, moving all elements when we ask for one, we'll be
- * slower but safer.
- *
- * I'M ACTUALLY NOT PRETTY SURE ABOUT THE TEXT ABOVE.
+ * @brief Retrieve of the first element of the queue (FIFO).
  *
  * @param q      queue we are working in.
  * @param e_addr memory address where we'll store the element to retrieve.
