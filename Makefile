@@ -1,4 +1,4 @@
-CC = gcc
+CC = clang
 CCFLAGS = -Wall
 CDFLAGS = -g -Wall
 LDFLAGS = -lm # Requirement to <math.h> compiling
@@ -8,6 +8,7 @@ OBJDIR  = obj
 TESDIR  = $(SRCDIR)/tests
 LIBDIR  = lib
 DEPEND  = students_group.c utils.c stack.c queue.c vector.c
+DEPEND  += utils_map_functions.c
 DEPEND_TESTS = test_stack.c test_queue.c test_vector.c
 SOURCES = $(addprefix $(SRCDIR)/, $(DEPEND))
 OBJECTS = $(addprefix $(OBJDIR)/, $(DEPEND:.c=.o))

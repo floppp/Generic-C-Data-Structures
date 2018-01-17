@@ -268,8 +268,24 @@ void test_vector_delete()
 
 void test_vector_map()
 {
+	int n;
+	const char* word;
+	const int zs[] = { 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
+	const char* words_res[] = { "csa", "msa", "opa", "rpa", "uz", "lz",
+                                "ampara", "lmpara", "osforo", "fsforo" };
+
+	vector_map(&int_v, odd_numbers, NULL);
+
+	for (short i = 0; i < N_INT; i++) {
+		vector_get(&int_v, i, &n);
+		assert(n == zs[i]);
+	}
+
+	vector_map(&str_v, removing_first_or_second_char, NULL);
 
 }
+
+
 
 void test_vector_dispose()
 {
