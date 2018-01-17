@@ -48,7 +48,6 @@ void stack_pop(stack *s, void *e_addr)
 void stack_push(stack* s, void* e_addr)
 {
 	stack_grow(s);
-
 	void* target = (char*) s->elements + s->logical_len*s->elem_size;
 	memcpy(target, e_addr, s->elem_size);
 

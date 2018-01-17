@@ -7,14 +7,12 @@ queue stu_q;
 void test_queue_creation()
 {
 	queue_new(&int_q, sizeof(int), NULL);
-	printf("allocat in str_q before queue new : %d\n", str_q.a_len);
 	queue_new(&str_q, sizeof(char*), string_free);
-	printf("allocat in str_q after queue new : %d\n", str_q.a_len);
 
 	assert(str_q.len == 0);
-	assert(str_q.a_len == 4);
-	assert(int_q.len == 0);in
-	assert(int_q.a_len == 4);
+	assert(str_q.a_len == 8);
+	assert(int_q.len == 0);
+	assert(int_q.a_len == 8);
 }
 
 void test_int_q_enqueue()
@@ -29,7 +27,7 @@ void test_int_q_enqueue()
 	queue_enqueue(&int_q, &i);
 
 	assert(int_q.len == 3);
-	assert(int_q.a_len == 4);
+	assert(int_q.a_len == 8);
 }
 
 void test_int_q_dequeue()
@@ -52,8 +50,8 @@ void test_int_q_dispose()
 {
 	queue_dispose(&int_q);
 
-	assert(int_q.fst_s->elements == NULL);
-	assert(int_q.scd_s->elements == NULL);
+	assert(int_q.fst_s.elements == NULL);
+	assert(int_q.scd_s.elements == NULL);
 }
 
 void test_enqueue_string()
@@ -68,7 +66,7 @@ void test_enqueue_string()
 	}
 
 	assert(str_q.len == 4);
-	assert(str_q.a_len == 4);
+	assert(str_q.a_len == 8);
 
 	const char* words[] = {"casa", "mar", "mesa", "ropa", "luz", "lampara", "fosforo"};
 
@@ -79,7 +77,7 @@ void test_enqueue_string()
 	}
 
 	assert(str_q.len == 11);
-	assert(str_q.a_len == 12);
+	assert(str_q.a_len == 16);
 }
 
 void test_dequeue_string()
@@ -114,19 +112,19 @@ void test_str_q_dispose()
 
 	queue_dispose(&str_q);
 
-	assert(str_q.fst_s->elements == NULL);
-	assert(str_q.scd_s->elements == NULL);
+	assert(str_q.fst_s.elements == NULL);
+	assert(str_q.scd_s.elements == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 }
 
 
-void test_queue_students_enqueue(const char* msg)
+void test_queue_students_enqueue()
 {
 	queue_new(&stu_q, sizeof(students_group), students_group_free);
 
 	assert(stu_q.len == 0);
-	assert(stu_q.a_len == 4);
+	assert(stu_q.a_len == 8);
 
 	printf("Queue students creation --> OK\n");
 
@@ -149,7 +147,7 @@ void test_queue_students_enqueue(const char* msg)
 		queue_enqueue(&stu_q, &group_1);
 
 		assert(stu_q.len == 1);
-		assert(stu_q.a_len == 4);
+		assert(stu_q.a_len == 8);
 	}
 
 	{
@@ -171,31 +169,22 @@ void test_queue_students_enqueue(const char* msg)
 		queue_enqueue(&stu_q, &group_2);
 
 		assert(stu_q.len == 2);
-		assert(stu_q.a_len == 4);
+		assert(stu_q.a_len == 8);
 	}
-
-	printf("%s\n", msg);
 }
 
-void test_queue_students_dequeue(const char* msg)
+void test_queue_students_dequeue()
 {
-	// DEQUEUE
 	students_group aux;
 	queue_dequeue(&stu_q, &aux);
-	// printf("First element\n");
-	// print_students(&aux, NULL);
 	students_group_free(&aux);
 
-	// DEQUEUE
 	queue_dequeue(&stu_q, &aux);
-	// printf("Second element\n");
-	// print_students(&aux, NULL);
 	students_group_free(&aux);
 
 	assert(stu_q.len == 0);
-	assert(stu_q.a_len == 4);
+	assert(stu_q.a_len == 8);
 
-	// ENQUEUE AGAIN
 	{
 		students_group group_2;
 		group_2.elem = 6;
@@ -232,13 +221,9 @@ void test_queue_students_dequeue(const char* msg)
 		queue_enqueue(&stu_q, &group_2);
 	}
 
-	// DEQUEUE
 	queue_dequeue(&stu_q, &aux);
-	// printf("Third element\n");
-	// print_students(&aux, NULL);
 	students_group_free(&aux);
 
-	// ENQUEUE
 	{
 		students_group group_2;
 		group_2.elem = 6;
@@ -257,7 +242,6 @@ void test_queue_students_dequeue(const char* msg)
 		queue_enqueue(&stu_q, &group_2);
 	}
 
-	// ENQUEUE
 	{
 		students_group group_2;
 		group_2.elem = 6;
@@ -279,27 +263,22 @@ void test_queue_students_dequeue(const char* msg)
 	for (int i = 0; i < 3; ++i) {
 		students_group aux;
 		queue_dequeue(&stu_q, &aux);
-		// printf("Inside 'for' element\n");
-		// print_students(&aux, NULL);
 		students_group_free(&aux);
 	}
 
 	assert(stu_q.len == 0);
 	assert(stu_q.a_len == 4);
-
-	printf("%s\n", msg);
 }
 
-void test_queue_students_dispose(const char* msg)
+void test_queue_students_dispose()
 {
 	queue_dispose(&stu_q);
 
-	assert(str_q.fst_s->elements == NULL);
-	assert(str_q.scd_s->elements == NULL);
+	assert(str_q.fst_s.elements == NULL);
+	assert(str_q.scd_s.elements == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 
-	printf("%s\n", msg);
 }
 
 void queue_test_suite()
@@ -314,8 +293,8 @@ void queue_test_suite()
 	launch_test(test_enqueue_string, "Queue adding strings --> OK");
 	launch_test(test_dequeue_string, "Retriving strings from Queue --> OK");
 	launch_test(test_str_q_dispose, "Disposing string Queue --> OK");
-	// launch_test(test_queue_students_enqueue, "Queue students enqueue --> OK");
-	// launch_test(test_queue_students_dequeue, "Queue students dequeue --> OK");
+	launch_test(test_queue_students_enqueue, "Queue students enqueue --> OK");
+	launch_test(test_queue_students_dequeue, "Queue students dequeue --> OK");
 	// launch_test(test_queue_students_dispose, "Queue students dispose --> OK");
 }
 
