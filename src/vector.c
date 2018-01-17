@@ -84,8 +84,6 @@ void vector_replace(vector *v, const void *elem_addr, int pos, char erase)
 
 void vector_delete(vector *v, int pos)
 {
-	vector_decrease(v);
-
 	assert(v->len > 0 && pos < v->len);
 
 	if (v->free_fun)
@@ -98,6 +96,7 @@ void vector_delete(vector *v, int pos)
 	}
 
 	v->len--;
+	vector_decrease(v);
 }
 
 int vector_search(const vector *v, const void *key, vector_compare_fun
@@ -148,7 +147,7 @@ static int vector_binary_search(const vector* v, const void* key,
 static void vector_decrease(vector *v)
 {
 	if (v->all_len == (v->len * 2)) {
-		v->all_len = v->all_len / 3;
+		v->all_len = v->all_len / 2;
 		v->elements = realloc(v->elements, v->all_len * v->elem_size);
 	}
 }

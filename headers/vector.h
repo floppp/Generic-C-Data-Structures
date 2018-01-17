@@ -53,7 +53,7 @@ void vector_dispose(vector* v);
 /**
  * Addition of elements to the end of the vector.
  *
- * @param v         vector where we are appending.
+ * @param v      vector where we are appending.
  * @param e_addr memory direction of the element to add.
  */
 void vector_append(vector* v, const void* e_addr);
@@ -77,7 +77,7 @@ int vector_len(vector* v);
  *
  * @param v   		vector we work in.
  * @param pos 		position of the element we want to return.
- * @param e_addr 	position of the element we'll copy the element.
+ * @param e_addr 	memory address where we'll copy the element in pos.
  */
 void vector_get(vector* v, int pos, void* e_addr);
 
@@ -95,23 +95,47 @@ void vector_get(vector* v, int pos, void* e_addr);
 void vector_insert(vector* v, const void* e_addr, int pos);
 
 /**
- * [vector_replace description]
- * @param v         [description]
- * @param e_addr [description]
- * @param pos       [description]
- * @param erase
+ * @brief Replacement of a vector element.
+ *
+ * Function that allow to replace the element <b>pos</pos> in <b>v</b> for the
+ * element stored in the address <b>e_addr</b>. The original element can be
+ * deallocated or not.
+ *
+ * @param v      {vector*} vector we are working with.
+ * @param e_addr {void*}   memory direction of the new element.
+ * @param pos    {int}     position we are goint to replace.
+ * @param erase  {char}    deallocation flag, 1 for free, 0 not.
  */
 void vector_replace(vector* v, const void* e_addr, int pos, char erase);
 
 /**
- * [vector_delete description]
- * @param v   [description]
- * @param pos [description]
+ * @brief Deletion of vector element.
+ *
+ * Deletion and deallocation (if it must be) of the element in <b>pos</b>
+ * in <b>v</b>.
+ *
+ * @param v   {vector*} vector we are working with.
+ * @param pos {int}     position we want to erase.
  */
 void vector_delete(vector* v, int pos);
 
+
 /**
+ * @brief
+ *
+ * [vector_map description]
+ *
+ * @param v        [description]
+ * @param map_fn   [description]
+ * @param aux_data [description]
+ */
+void vector_map(vector* v, vector_map_fun map_fn, const void* aux_data);
+
+/**
+ * @brief
+ *
  * [vector_search description]
+ *
  * @param  v          [description]
  * @param  key        [description]
  * @param  search_fun [description]
@@ -122,18 +146,13 @@ void vector_delete(vector* v, int pos);
 int vector_search(const vector* v, const void* key, vector_compare_fun search_fun, int start_idx, bool is_sorted);
 
 /**
+ * @brief
+ *
  * [vector_sort description]
+ *
  * @param v           [description]
  * @param compare_fun [description]
  */
 void vector_sort(vector* v, vector_compare_fun compare_fun);
-
-/**
- * [vector_map description]
- * @param v        [description]
- * @param map_fn   [description]
- * @param aux_data [description]
- */
-void vector_map(vector* v, vector_map_fun map_fn, const void* aux_data);
 
 #endif

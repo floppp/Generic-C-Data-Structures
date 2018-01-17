@@ -194,8 +194,6 @@ void test_vector_replace()
 	const int N = 4;
 	const int ys[] = { 10, 100, 90, 1000 };
 	const int zs[] = { 10, 1, 100, 2, 90, 3, 1000, 4, 2, 5, 6, 7, 1, 2, 3, 0 };
-	// const char* aux;
-	// const char* words[] = { "casa", "casa", "casa", "mar", "casa", "mesa", "mar", "ropa", "casa", "luz", "mesa", "lampara", "mar", "fosforo" };
 
 	for (int i = 0; i < N; ++i)
 		vector_replace(&int_v, &ys[i], i+i, 0);
@@ -235,6 +233,44 @@ void test_vector_replace()
 	assert(!students_compare(&group, &groups[3]));
 }
 
+void test_vector_delete()
+{
+	int n;
+	int N = 4;
+	const char* word;
+	const int zs[] = { 90, 3, 1000, 4, 2, 5, 6, 7, 1, 2, 3, 0 };
+	const char* words_res[] = { "casa", "mesa", "ropa", "ropa", "luz", "luz",
+                                "lampara", "lampara", "fosforo", "fosforo" };
+
+	for (int i = 0; i < N; ++i) {
+		vector_delete(&int_v, 0);
+		vector_delete(&str_v, 1);
+		vector_delete(&stu_v, 0);
+	}
+
+	for (short i = 0; i < N_INT; i++) {
+		vector_get(&int_v, i, &n);
+		assert(n == zs[i]);
+	}
+
+	for (int i = N; i < 2*N_STR; ++i) {
+		vector_get(&str_v, i-N, &word);
+		assert(string_compare(word, words_res[i-N], strlen(word)));
+	}
+
+	assert(int_v.len == 12);
+	assert(int_v.all_len == 20);
+	assert(str_v.len == (2*N_STR - 4));
+	assert(str_v.all_len == 10);
+	assert(stu_v.len == 0);
+	assert(stu_v.all_len == 10);
+}
+
+void test_vector_map()
+{
+
+}
+
 void test_vector_dispose()
 {
 
@@ -268,5 +304,7 @@ void vector_test_suite()
 	launch_test(test_vector_get, "Vector get element --> OK");
 	launch_test(test_vector_insert, "Vector insert --> OK");
 	launch_test(test_vector_replace, "Vector replace --> OK");
+	launch_test(test_vector_delete, "Vector delete --> OK");
+	launch_test(test_vector_map, "Vector map --> OK");
 	launch_test(test_vector_dispose, "Vector dispose --> OK");
 }
