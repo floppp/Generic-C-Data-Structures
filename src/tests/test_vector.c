@@ -198,28 +198,41 @@ void test_vector_replace()
 	// const char* words[] = { "casa", "casa", "casa", "mar", "casa", "mesa", "mar", "ropa", "casa", "luz", "mesa", "lampara", "mar", "fosforo" };
 
 	for (int i = 0; i < N; ++i)
-		vector_replace(&int_v, &ys[i], i+i);
+		vector_replace(&int_v, &ys[i], i+i, 0);
 
 	for (short i = 0; i <N_INT+N; i++) {
 		vector_get(&int_v, i, &n);
 		assert(n == zs[i]);
 	}
 
-	// students_group group_2;
-	// group_2.elem = 6;
-	// const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
-	// const int notas_2[] = {1, 2, 3, 2, 0, 2};
+	students_group group_2;
+	group_2.elem = 6;
+	const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
+	const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-	// group_2.names = malloc(group_2.elem * sizeof(char*));
-	// group_2.cal = malloc(group_2.elem * sizeof(int));
+	group_2.names = malloc(group_2.elem * sizeof(char*));
+	group_2.cal = malloc(group_2.elem * sizeof(int));
 
-	// for (int j = 0; j < group_2.elem; ++j) {
-	// 	group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-	// 	strcpy(group_2.names[j], names_2[j]);
-	// 	group_2.cal[j] = notas_2[j];
-	// }
+	for (int j = 0; j < group_2.elem; ++j) {
+		group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+		strcpy(group_2.names[j], names_2[j]);
+		group_2.cal[j] = notas_2[j];
+	}
 
-	// vector_replace(&stu_v, &group_2, 2);
+	vector_replace(&stu_v, &group_2, 2, 1);
+
+	students_group group;
+	vector_get(&stu_v, 2, &group);
+	assert(students_compare(&group, &group_2));
+
+	vector_get(&stu_v, 3, &group);
+	assert(students_compare(&group, &groups[2]));
+	assert(!students_compare(&group, &group_2));
+
+	assert(!students_compare(&group, &groups[0]));
+	/* We cannot check this because we erase it */
+	// assert(!students_compare(&group, &groups[1]));
+	assert(!students_compare(&group, &groups[3]));
 }
 
 void test_vector_dispose()
@@ -254,6 +267,6 @@ void vector_test_suite()
 	launch_test(test_vector_len, "Vector length --> OK");
 	launch_test(test_vector_get, "Vector get element --> OK");
 	launch_test(test_vector_insert, "Vector insert --> OK");
-	// launch_test(test_vector_replace, "Vector replace --> OK");
+	launch_test(test_vector_replace, "Vector replace --> OK");
 	launch_test(test_vector_dispose, "Vector dispose --> OK");
 }

@@ -72,12 +72,12 @@ void vector_append(vector *v, const void *elem_addr)
 	v->len++;
 }
 
-void vector_replace(vector *v, const void *elem_addr, int pos)
+void vector_replace(vector *v, const void *elem_addr, int pos, char erase)
 {
 	assert(v->len > 0 && pos < v->len);
 
 	void* target = (char*) v->elements + pos*v->elem_size;
-	if (v->free_fun != NULL)
+	if (erase && v->free_fun)
 		v->free_fun(target);
 	memcpy(target, elem_addr, v->elem_size);
 }
@@ -88,7 +88,7 @@ void vector_delete(vector *v, int pos)
 
 	assert(v->len > 0 && pos < v->len);
 
-	if (v->free_fun != NULL)
+	if (v->free_fun)
 		v->free_fun((char*) v->elements + pos*v->elem_size);
 
 	for (int i = pos; i < v->len - 1; ++i) {

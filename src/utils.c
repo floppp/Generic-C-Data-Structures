@@ -14,10 +14,7 @@ int students_compare(const void* elem_addr_1, const void* elem_addr_2)
 
 	int len = s1->elem;
 	if (len != s2->elem)
-	{
-		printf("%d - %d\n", len, s2->elem);
 		return 0;
-	}
 
 	for (int i = 0; i < len; ++i)
 		if (strcmp(s1->names[i], s2->names[i]) || s1->cal[i] != s2->cal[i])

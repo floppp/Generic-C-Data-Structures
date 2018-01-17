@@ -99,8 +99,9 @@ void vector_insert(vector* v, const void* e_addr, int pos);
  * @param v         [description]
  * @param e_addr [description]
  * @param pos       [description]
+ * @param erase
  */
-void vector_replace(vector* v, const void* e_addr, int pos);
+void vector_replace(vector* v, const void* e_addr, int pos, char erase);
 
 /**
  * [vector_delete description]
