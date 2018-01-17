@@ -85,7 +85,8 @@ void vector_get(vector* v, int pos, void* e_addr);
  * @brief Inserting an element in an specific position.
  *
  * Function that inserts the content in the <b>e_addr</b> in the position
- * <b>pos</b> of the <b>v</b>, copying it
+ * <b>pos</b> of the <b>v</b>, copying it. The <b>pos</b> must be between
+ * 0 and v->len-1
  *
  * @param v      {vector*}     destination vector.
  * @param e_addr {const void*} memory direction of the element.

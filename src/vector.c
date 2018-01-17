@@ -47,10 +47,10 @@ void vector_get(vector *v, int pos, void* e_addr)
 
 void vector_insert(vector* v, const void* elem_addr, int pos)
 {
-	assert(pos < v->len);
+	assert(pos < v->len++);
 	vector_grow(v);
 
-	for (int i = v->len; i > pos; --i) {
+	for (int i = v->len-1; i > pos; --i) {
 		void* next = (char*) v->elements + i*v->elem_size;
 		void* prev = (char*) v->elements + (i - 1)*v->elem_size;
 
@@ -59,8 +59,6 @@ void vector_insert(vector* v, const void* elem_addr, int pos)
 
 	void* target = (char*) v->elements + pos*v->elem_size;
 	memcpy(target, elem_addr, v->elem_size);
-
-	v->len++;
 }
 
 void vector_append(vector *v, const void *elem_addr)

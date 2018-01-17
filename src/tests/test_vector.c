@@ -129,8 +129,12 @@ void test_vector_insert()
 	const int N = 4;
 	const int ys[] = {-1, -2, -3, -4};
 	const int zs[] = {-1, 1, -2, 2, -3, 3, -4, 4, 2, 5, 6, 7, 1, 2, 3, 0};
-	const char* aux;
-	const char* words[] = { "casa", "casa", "casa", "mar", "casa", "mesa", "mar", "ropa", "casa", "luz", "mesa", "lampara", "mar", "fosforo" };
+	const char* words_res[] = { "casa", "casa", "mar", "mar", "mesa", "mesa",
+                                "ropa", "ropa", "luz", "luz", "lampara",
+                                "lampara", "fosforo", "fosforo" };
+	const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
+                            "fosforo" };
+	char** auxs = malloc(N_STR * sizeof(char*));
 
 	for (int i = 0; i < N; ++i)
 		vector_insert(&int_v, &ys[i], i*2);
@@ -141,14 +145,17 @@ void test_vector_insert()
 	}
 
 	for (short i = 0; i < N_STR; ++i) {
-		vector_get(&str_v, i, &aux);
-		vector_insert(&str_v, &aux, i*2);
+		auxs[i] = malloc(strlen(words[i]) + 1);
+		strcpy(auxs[i], words[i]);
+		vector_insert(&str_v, &auxs[i], i*2);
+
 	}
+	free(auxs);
 
 	const char* word;
 	for (int i = 0; i < 2*N_STR; ++i) {
 		vector_get(&str_v, i, &word);
-		assert(string_compare(word, words[i], strlen(word)));
+		assert(string_compare(word, words_res[i], strlen(word)));
 	}
 
 	groups[3].elem = 5;
@@ -215,78 +222,14 @@ void test_vector_replace()
 	// vector_replace(&stu_v, &group_2, 2);
 }
 
-// {
-// 	vector_map(&v, print_int, NULL);
-// 	printf("\n");
-
-// 	int x = *(int*) vector_get(&v, 0);
-// 	printf("pos 0: %d\n", x);
-
-// 	printf("vector len: %d\n", vector_len(&v));
-
-// 	printf("vector len: %d\n", vector_len(&v));
-// 	vector_map(&v, print_int, &x);
-// 	printf("\n");
-
-// 	x = 9999;
-// 	vector_replace(&v, &x, 5);
-// 	vector_map(&v, print_int, &x);
-// 	printf("\n");
-
-// 	vector_delete(&v, 0);
-// 	vector_delete(&v, v.len - 1);
-// 	vector_map(&v, print_int, &x);
-// 	printf("\n");
-
-// 	int s = 7;
-// 	int pos = vector_search(&v, &s, int_comparator, 0, false);
-// 	printf("LINEAR SEARCH: elem %d is in position %d\n", s, pos);
-// 	vector_sort(&v, int_comparator);
-// 	vector_map(&v, print_int, &x);
-// 	printf("\n");
-// 	pos = vector_search(&v, &s, int_comparator, 0, true);
-// 	printf("BINARY SEARCH AFTER QSORT: elem %d is in position %d\n", s, pos);
-
-
-// 	vector_dispose(&v);
-// }
-
-
-// void test_students_vector()
-// {
-// //	vector v;
-// //	vector_new(&v, sizeof(students_group), students_group_free, 4);
-// 	vector* v = malloc(sizeof(vector));
-// 	vector_new(v, sizeof(students_group), students_group_free, 4);
-
-
-// //	vector_map(&v, print_students, NULL);
-// //	vector_delete(&v, 1);
-// 	vector_map(v, print_students, NULL);
-// 	vector_delete(v, 1);
-
-// 	printf("\n---------\nerasing position 1\n----------\n\n");
-// //	vector_map(&v, print_students, NULL);
-// 	vector_map(v, print_students, NULL);
-
-
-// //	vector_map(&v, print_students, NULL);
-// 	vector_map(v, print_students, NULL);
-
-// //	vector_dispose(&v);
-// 	vector_dispose(v);
-// 	free(v);
-// 	v = NULL;
-// }
-
-
 void test_vector_dispose()
 {
+
 	vector_dispose(&int_v);
 	vector_dispose(&str_v);
 	vector_dispose(&stu_v);
 
-	// free(words_m);
+	free(words_m);
 
 	assert(int_v.elements == NULL);
 	assert(int_v.len == 0);
@@ -311,6 +254,6 @@ void vector_test_suite()
 	launch_test(test_vector_len, "Vector length --> OK");
 	launch_test(test_vector_get, "Vector get element --> OK");
 	launch_test(test_vector_insert, "Vector insert --> OK");
-	launch_test(test_vector_replace, "Vector replace --> OK");
+	// launch_test(test_vector_replace, "Vector replace --> OK");
 	launch_test(test_vector_dispose, "Vector dispose --> OK");
 }
