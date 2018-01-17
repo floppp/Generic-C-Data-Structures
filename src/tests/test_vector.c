@@ -7,8 +7,7 @@ vector stu_v;
 short N_INT = 12;
 short N_STR = 7;
 int xs[] = { 1, 2, 3, 4, 2, 5, 6, 7, 1, 2, 3, 0};
-const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
-						"fosforo" };
+char** words_m;
 students_group groups[N_STU];
 
 void test_vector_new()
@@ -29,12 +28,18 @@ void test_vector_new()
 
 void test_vector_append()
 {
-	for (short var = 0; var < N_INT; ++var) {
-		vector_append(&int_v, &xs[var]);
+	for (short i = 0; i < N_INT; ++i) {
+		vector_append(&int_v, &xs[i]);
 	}
 
-	for (short var = 0; var < N_STR; ++var)
-		vector_append(&str_v, &words[var]);
+	const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
+                            "fosforo" };
+	words_m = malloc(N_STR * sizeof(char*));
+	for (short i = 0; i < N_STR; ++i) {
+		words_m[i] = malloc(strlen(words[i]) + 1);
+		strcpy(words_m[i], words[i]);
+		vector_append(&str_v, &words_m[i]);
+	}
 
 	groups[0].elem = 4;
 
@@ -108,7 +113,7 @@ void test_vector_get()
 	const char* word;
 	for (short i = 0; i < N_STR; ++i) {
 		vector_get(&str_v, i, &word);
-		assert(string_compare(word, words[i], strlen(word)));
+		assert(string_compare(word, words_m[i], strlen(word)));
 	}
 
 	students_group group;
@@ -120,27 +125,34 @@ void test_vector_get()
 
 void test_vector_dispose()
 {
-	// const char* word;
-	// for (short i = 0; i < N_STR; ++i) {
-		// vector_get(&str_v, i, &word);
-		// printf("%s - %s\n", word, words[i]);
-		// assert(string_compare(word, words[i], strlen(word)));
-	// }
-	// vector_dispose(&int_v);
+	const char* word;
+	for (short i = 0; i < N_STR; ++i) {
+		vector_get(&str_v, i, &word);
+		assert(string_compare(word, words_m[i], strlen(word)));
+	}
+
+	vector_dispose(&int_v);
 	vector_dispose(&str_v);
 	vector_dispose(&stu_v);
 
-	// assert(int_v.elements == NULL);
-	// assert(int_v.len == 0);
-	// assert(int_v.all_len == 0);
+	free(words_m);
 
-	// assert(str_v.elements == NULL);
-	// assert(str_v.len == 0);
-	// assert(str_v.all_len == 0);
+	assert(int_v.elements == NULL);
+	assert(int_v.len == 0);
+	assert(int_v.all_len == 0);
 
-	// assert(stu_v.elements == NULL);
-	// assert(stu_v.len == 0);
-	// assert(stu_v.all_len == 0);
+	assert(str_v.elements == NULL);
+	assert(str_v.len == 0);
+	assert(str_v.all_len == 0);
+
+	assert(stu_v.elements == NULL);
+	assert(stu_v.len == 0);
+	assert(stu_v.all_len == 0);
+}
+
+void test_vector_insert()
+{
+
 }
 
 // {
@@ -184,71 +196,71 @@ void test_vector_dispose()
 // }
 
 
-void test_students_vector()
-{
-//	vector v;
-//	vector_new(&v, sizeof(students_group), students_group_free, 4);
-	vector* v = malloc(sizeof(vector));
-	vector_new(v, sizeof(students_group), students_group_free, 4);
+// void test_students_vector()
+// {
+// //	vector v;
+// //	vector_new(&v, sizeof(students_group), students_group_free, 4);
+// 	vector* v = malloc(sizeof(vector));
+// 	vector_new(v, sizeof(students_group), students_group_free, 4);
 
-	// Add in 0
-	{
-		students_group group_2;
-		group_2.elem = 6;
-		const char* names_2[] = {"----", ",,,,", "....", "????", "++++", "===="};
-		const int notas_2[] = {1, 2, 3, 2, 0, 2};
+// 	// Add in 0
+// 	{
+// 		students_group group_2;
+// 		group_2.elem = 6;
+// 		const char* names_2[] = {"----", ",,,,", "....", "????", "++++", "===="};
+// 		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-		group_2.names = malloc(group_2.elem * sizeof(char*));
-		group_2.cal = malloc(group_2.elem * sizeof(int));
+// 		group_2.names = malloc(group_2.elem * sizeof(char*));
+// 		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-		for (int j = 0; j < group_2.elem; ++j) {
-			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-			strcpy(group_2.names[j], names_2[j]);
-			group_2.cal[j] = notas_2[j];
-		}
+// 		for (int j = 0; j < group_2.elem; ++j) {
+// 			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+// 			strcpy(group_2.names[j], names_2[j]);
+// 			group_2.cal[j] = notas_2[j];
+// 		}
 
-//		vector_insert(&v, &group_2, 0);
-		vector_insert(v, &group_2, 0);
-	}
+// //		vector_insert(&v, &group_2, 0);
+// 		vector_insert(v, &group_2, 0);
+// 	}
 
-//	vector_map(&v, print_students, NULL);
-//	vector_delete(&v, 1);
-	vector_map(v, print_students, NULL);
-	vector_delete(v, 1);
+// //	vector_map(&v, print_students, NULL);
+// //	vector_delete(&v, 1);
+// 	vector_map(v, print_students, NULL);
+// 	vector_delete(v, 1);
 
-	printf("\n---------\nerasing position 1\n----------\n\n");
-//	vector_map(&v, print_students, NULL);
-	vector_map(v, print_students, NULL);
+// 	printf("\n---------\nerasing position 1\n----------\n\n");
+// //	vector_map(&v, print_students, NULL);
+// 	vector_map(v, print_students, NULL);
 
-//	 Replace 2
-	{
-		students_group group_2;
-		group_2.elem = 6;
-		const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
-		const int notas_2[] = {1, 2, 3, 2, 0, 2};
+// //	 Replace 2
+// 	{
+// 		students_group group_2;
+// 		group_2.elem = 6;
+// 		const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
+// 		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-		group_2.names = malloc(group_2.elem * sizeof(char*));
-		group_2.cal = malloc(group_2.elem * sizeof(int));
+// 		group_2.names = malloc(group_2.elem * sizeof(char*));
+// 		group_2.cal = malloc(group_2.elem * sizeof(int));
 
-		for (int j = 0; j < group_2.elem; ++j) {
-			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-			strcpy(group_2.names[j], names_2[j]);
-			group_2.cal[j] = notas_2[j];
-		}
+// 		for (int j = 0; j < group_2.elem; ++j) {
+// 			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+// 			strcpy(group_2.names[j], names_2[j]);
+// 			group_2.cal[j] = notas_2[j];
+// 		}
 
-//		vector_replace(&v, &group_2, 2);
-		vector_replace(v, &group_2, 2);
-	}
+// //		vector_replace(&v, &group_2, 2);
+// 		vector_replace(v, &group_2, 2);
+// 	}
 
-	printf("\n---------\nreplacing position 2\n----------\n\n");
-//	vector_map(&v, print_students, NULL);
-	vector_map(v, print_students, NULL);
+// 	printf("\n---------\nreplacing position 2\n----------\n\n");
+// //	vector_map(&v, print_students, NULL);
+// 	vector_map(v, print_students, NULL);
 
-//	vector_dispose(&v);
-	vector_dispose(v);
-	free(v);
-	v = NULL;
-}
+// //	vector_dispose(&v);
+// 	vector_dispose(v);
+// 	free(v);
+// 	v = NULL;
+// }
 
 void vector_test_suite()
 {
@@ -260,4 +272,5 @@ void vector_test_suite()
 	launch_test(test_vector_len, "Vector length --> OK");
 	launch_test(test_vector_get, "Vector get element --> OK");
 	launch_test(test_vector_dispose, "Vector dispose --> OK");
+	launch_test(test_vector_insert, "Vector insert --> OK");
 }

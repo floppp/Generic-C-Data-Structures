@@ -26,12 +26,14 @@ typedef struct vector
 	int all_len;
 	int elem_size;
 	void* elements;
-	// vector_free_fun free_fun;
-	void (*free_fun)(void*);
+	vector_free_fun free_fun;
 } vector;
 
 /**
- * [vector_new description]
+ * @brief Vector creation
+ *
+ * Vector creation
+ *
  * @param v               memory position for the vector.
  * @param elem_size       size of elements we'll store
  * @param free_fun        function for deallocating elements.
@@ -40,6 +42,8 @@ typedef struct vector
 void vector_new(vector* v, int elem_size, vector_free_fun free_fun, int init_allocation);
 
 /**
+ * @brief Deallocation of vector.
+ *
  * Deallocation of all the elements and memory used by the vector.
  *
  * @param v vector to deallocate.
@@ -78,10 +82,14 @@ int vector_len(vector* v);
 void vector_get(vector* v, int pos, void* e_addr);
 
 /**
- * [vector_insert description]
- * @param v         [description]
- * @param e_addr [description]
- * @param pos       [description]
+ * @brief Inserting an element in an specific position.
+ *
+ * Function that inserts the content in the <b>e_addr</b> in the position
+ * <b>pos</b> of the <b>v</b>, copying it
+ *
+ * @param v      {vector*}     destination vector.
+ * @param e_addr {const void*} memory direction of the element.
+ * @param pos    {int{}        position where we want to insert.
  */
 void vector_insert(vector* v, const void* e_addr, int pos);
 

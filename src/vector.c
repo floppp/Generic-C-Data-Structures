@@ -21,21 +21,9 @@ void vector_new(vector *v, int elem_size, vector_free_fun free_fun, int init_all
 
 void vector_dispose(vector *v)
 {
-	// const char* word;
-	// for (short i = 0; i < 7; ++i) {
-		// vector_get(v, i, &word);
-		// printf("--> %s\n", word);
-	// }
-
-	if (v->free_fun) {
-		for (short i = 0; i < v->len; ++i) {
-			// vector_get(v, i, &word);
-			// printf("=== %s\n", word);
-			// printf("=== %d - %d - %d - %d\n", i, v->len, v->elements,
-				// v->elements + i*v->elem_size);
+	if (v->free_fun)
+		for (short i = 0; i < v->len; ++i)
 			v->free_fun((char*) v->elements + i*v->elem_size);
-		}
-	}
 
 	free(v->elements);
 	v->elements = NULL;
@@ -47,14 +35,6 @@ int vector_len(vector *v)
 {
 	return v->len;
 }
-
-// This won't work because we don't know the size in the outside.
-// void* vector_get(vector *v, int pos)
-// {
-// 	assert(v->len >= 0 && pos < v->all_len);
-// 	void* source = (char*) v->elements + pos*v->elem_size;
-// 	return source;
-// }
 
 void vector_get(vector *v, int pos, void* e_addr)
 {
@@ -68,6 +48,7 @@ void vector_get(vector *v, int pos, void* e_addr)
 void vector_insert(vector* v, const void* elem_addr, int pos)
 {
 	assert(pos < v->len);
+	vector_grow(v);
 
 	for (int i = v->len; i > pos; --i) {
 		void* next = (char*) v->elements + i*v->elem_size;
@@ -80,17 +61,17 @@ void vector_insert(vector* v, const void* elem_addr, int pos)
 	memcpy(target, elem_addr, v->elem_size);
 
 	v->len++;
-	vector_grow(v);
 }
 
 void vector_append(vector *v, const void *elem_addr)
 {
-	void* target = (char*) v->elements + (v->len)*v->elem_size;
+	vector_grow(v);
+
+	void* target = (char*) v->elements + (v->len * v->elem_size);
+
 	memcpy(target, elem_addr, v->elem_size);
 
 	v->len++;
-	vector_grow(v);
-
 }
 
 void vector_replace(vector *v, const void *elem_addr, int pos)
@@ -105,6 +86,8 @@ void vector_replace(vector *v, const void *elem_addr, int pos)
 
 void vector_delete(vector *v, int pos)
 {
+	vector_decrease(v);
+
 	assert(v->len > 0 && pos < v->len);
 
 	if (v->free_fun != NULL)
@@ -117,10 +100,10 @@ void vector_delete(vector *v, int pos)
 	}
 
 	v->len--;
-	vector_decrease(v);
 }
 
-int vector_search(const vector *v, const void *key, vector_compare_fun search_fun, int start_idx, bool is_sorted)
+int vector_search(const vector *v, const void *key, vector_compare_fun
+                  search_fun, int start_idx, bool is_sorted)
 {
 	assert(start_idx >= 0 && start_idx < v->len);
 
@@ -143,7 +126,8 @@ void vector_sort(vector *v, vector_compare_fun compare_fun)
 	qsort(v->elements, v->len, v->elem_size, compare_fun);
 }
 
-static int vector_linear_search(const vector* v, const void* key, vector_compare_fun search_fun, int start_idx)
+static int vector_linear_search(const vector* v, const void* key,
+                                vector_compare_fun search_fun, int start_idx)
 {
 	for (int i = start_idx; i < v->len; ++i) {
 		void* candidate = (char*) v->elements + i*v->elem_size;
@@ -154,7 +138,8 @@ static int vector_linear_search(const vector* v, const void* key, vector_compare
 	return -1;
 }
 
-static int vector_binary_search(const vector* v, const void* key, vector_compare_fun search_fun, int start_idx)
+static int vector_binary_search(const vector* v, const void* key,
+                                vector_compare_fun search_fun, int start_idx)
 {
 	void* init = (char*) v->elements + start_idx*v->elem_size;
 	void* res = bsearch(key, init, v->len, v->elem_size, search_fun);

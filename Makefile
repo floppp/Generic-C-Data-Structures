@@ -31,4 +31,4 @@ $(OBJDIR)/%.o: $(TESDIR)/%.c
 .PHONY: clean
 
 clean:
-	rm main_test *.o $(OBJDIR)/*.o
+	rm main_test *.o $(OBJDIR)/*.o vgcore.*
