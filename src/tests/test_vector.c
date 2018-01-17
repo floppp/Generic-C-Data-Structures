@@ -126,16 +126,16 @@ void test_vector_get()
 void test_vector_insert()
 {
 	int n;
-	const int N_INT_PLUS = 4;
+	const int N = 4;
 	const int ys[] = {-1, -2, -3, -4};
 	const int zs[] = {-1, 1, -2, 2, -3, 3, -4, 4, 2, 5, 6, 7, 1, 2, 3, 0};
 	const char* aux;
 	const char* words[] = { "casa", "casa", "casa", "mar", "casa", "mesa", "mar", "ropa", "casa", "luz", "mesa", "lampara", "mar", "fosforo" };
 
-	for (int i = 0; i < N_INT_PLUS; ++i)
+	for (int i = 0; i < N; ++i)
 		vector_insert(&int_v, &ys[i], i*2);
 
-	for (short i = 0; i < N_INT+N_INT_PLUS; i++) {
+	for (short i = 0; i <N_INT+N; i++) {
 		vector_get(&int_v, i, &n);
 		assert(n == zs[i]);
 	}
@@ -179,6 +179,40 @@ void test_vector_insert()
 
 	vector_get(&stu_v, 3, &group);
 	assert(students_compare(&group, &groups[2]));
+}
+
+void test_vector_replace()
+{
+	int n;
+	const int N = 4;
+	const int ys[] = { 10, 100, 90, 1000 };
+	const int zs[] = { 10, 1, 100, 2, 90, 3, 1000, 4, 2, 5, 6, 7, 1, 2, 3, 0 };
+	// const char* aux;
+	// const char* words[] = { "casa", "casa", "casa", "mar", "casa", "mesa", "mar", "ropa", "casa", "luz", "mesa", "lampara", "mar", "fosforo" };
+
+	for (int i = 0; i < N; ++i)
+		vector_replace(&int_v, &ys[i], i+i);
+
+	for (short i = 0; i <N_INT+N; i++) {
+		vector_get(&int_v, i, &n);
+		assert(n == zs[i]);
+	}
+
+	// students_group group_2;
+	// group_2.elem = 6;
+	// const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
+	// const int notas_2[] = {1, 2, 3, 2, 0, 2};
+
+	// group_2.names = malloc(group_2.elem * sizeof(char*));
+	// group_2.cal = malloc(group_2.elem * sizeof(int));
+
+	// for (int j = 0; j < group_2.elem; ++j) {
+	// 	group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
+	// 	strcpy(group_2.names[j], names_2[j]);
+	// 	group_2.cal[j] = notas_2[j];
+	// }
+
+	// vector_replace(&stu_v, &group_2, 2);
 }
 
 // {
@@ -235,27 +269,7 @@ void test_vector_insert()
 // //	vector_map(&v, print_students, NULL);
 // 	vector_map(v, print_students, NULL);
 
-// //	 Replace 2
-// 	{
-// 		students_group group_2;
-// 		group_2.elem = 6;
-// 		const char* names_2[] = {"AAA", "BBB", "CCC", "DDD", "EEE", "FFF"};
-// 		const int notas_2[] = {1, 2, 3, 2, 0, 2};
 
-// 		group_2.names = malloc(group_2.elem * sizeof(char*));
-// 		group_2.cal = malloc(group_2.elem * sizeof(int));
-
-// 		for (int j = 0; j < group_2.elem; ++j) {
-// 			group_2.names[j] = malloc((strlen(names_2[j]) + 1)*sizeof(char));
-// 			strcpy(group_2.names[j], names_2[j]);
-// 			group_2.cal[j] = notas_2[j];
-// 		}
-
-// //		vector_replace(&v, &group_2, 2);
-// 		vector_replace(v, &group_2, 2);
-// 	}
-
-// 	printf("\n---------\nreplacing position 2\n----------\n\n");
 // //	vector_map(&v, print_students, NULL);
 // 	vector_map(v, print_students, NULL);
 
@@ -272,7 +286,7 @@ void test_vector_dispose()
 	vector_dispose(&str_v);
 	vector_dispose(&stu_v);
 
-	free(words_m);
+	// free(words_m);
 
 	assert(int_v.elements == NULL);
 	assert(int_v.len == 0);
@@ -297,5 +311,6 @@ void vector_test_suite()
 	launch_test(test_vector_len, "Vector length --> OK");
 	launch_test(test_vector_get, "Vector get element --> OK");
 	launch_test(test_vector_insert, "Vector insert --> OK");
+	launch_test(test_vector_replace, "Vector replace --> OK");
 	launch_test(test_vector_dispose, "Vector dispose --> OK");
 }
