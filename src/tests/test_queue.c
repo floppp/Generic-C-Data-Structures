@@ -50,8 +50,8 @@ void test_int_q_dispose()
 {
 	queue_dispose(&int_q);
 
-	assert(int_q.fst_s->elements == NULL);
-	assert(int_q.scd_s->elements == NULL);
+	assert(int_q.fst_s == NULL);
+	assert(int_q.scd_s == NULL);
 }
 
 void test_enqueue_string()
@@ -112,8 +112,8 @@ void test_str_q_dispose()
 
 	queue_dispose(&str_q);
 
-	assert(str_q.fst_s->elements == NULL);
-	assert(str_q.scd_s->elements == NULL);
+	assert(str_q.fst_s == NULL);
+	assert(str_q.scd_s == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 }
@@ -274,8 +274,8 @@ void test_queue_students_dispose()
 {
 	queue_dispose(&stu_q);
 
-	assert(str_q.fst_s->elements == NULL);
-	assert(str_q.scd_s->elements == NULL);
+	assert(str_q.fst_s == NULL);
+	assert(str_q.scd_s == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 

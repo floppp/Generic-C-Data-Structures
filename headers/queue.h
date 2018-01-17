@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <assert.h>
-#include <string.h>
 #include <stdio.h>
 #include "stack.h"
 
@@ -11,12 +10,12 @@
  * @brief Generic Queue (FIFO).
  *
  * Generic Queue implemented with the classic two-stacks representation, the
- * first for queing elements, the second one for dequeing.
+ * first for queuing elements, the second one for dequeuing.
  *
- * @param fst_s    {stack} stack for enqueing values. No pointers because of
- *                         insantiation problems. If we want ptr, we must use
+ * @param fst_s    {stack} stack for queuing values. No pointers because of
+ *                         instantiation problems. If we want ptr, we must use
  *                         same ideas than in linked_list
- * @param scd_s    {stack} stack for dequeing values.
+ * @param scd_s    {stack} stack for dequeuing values.
  * @param e_size   {int}   size of the elements to store.
  * @param len      {int}   number of elements actually stored in the queue.
  * @param a_len    {int}   space allocated in memory.
@@ -32,7 +31,9 @@ typedef struct {
 } queue;
 
 /**
- * @brief Creation of auxiliary data structures for the queue.
+ * @brief Creation of a queue.
+ *
+ * Creation of auxiliary data structures for the queue we are working with.
  *
  * @param q					memory position of the queue.
  * @param e_size			size of the elements to store.
@@ -43,12 +44,17 @@ void queue_new(queue* q, int e_size, void(*free_function)(void*));
 /**
  * @brief Deallocation of all allocated memory used in the queue.
  *
+ * Deallocation of the memory allocated in the stacks, their own dispose
+ * methods are those that actually are freeing memory.
+ *
  * @param q queue we want to deallocate.
  */
 void queue_dispose(queue* s);
 
 /**
- * @brief Introduction of the element in e_addr in the last position of the
+ * @brief Adding an element at the end of the queue.
+ *
+ * Introduction of the element in e_addr in the last position of the
  * queue.
  *
  * @param q      queue we are working in.
@@ -57,7 +63,10 @@ void queue_dispose(queue* s);
 void queue_enqueue(queue* q, void* e_addr);
 
 /**
- * @brief Retrieve of the first element of the queue (FIFO).
+ * @brief Getting the first element of the queue.
+ *
+ * Retrieve of the first element of the queue (FIFO), the function will store
+ * this first element in e_addr direction.
  *
  * @param q      queue we are working in.
  * @param e_addr memory address where we'll store the element to retrieve.
