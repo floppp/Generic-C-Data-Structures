@@ -50,8 +50,8 @@ void test_int_q_dispose()
 {
 	queue_dispose(&int_q);
 
-	assert(int_q.fst_s.elements == NULL);
-	assert(int_q.scd_s.elements == NULL);
+	assert(int_q.fst_s->elements == NULL);
+	assert(int_q.scd_s->elements == NULL);
 }
 
 void test_enqueue_string()
@@ -112,8 +112,8 @@ void test_str_q_dispose()
 
 	queue_dispose(&str_q);
 
-	assert(str_q.fst_s.elements == NULL);
-	assert(str_q.scd_s.elements == NULL);
+	assert(str_q.fst_s->elements == NULL);
+	assert(str_q.scd_s->elements == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 }
@@ -267,15 +267,15 @@ void test_queue_students_dequeue()
 	}
 
 	assert(stu_q.len == 0);
-	assert(stu_q.a_len == 4);
+	assert(stu_q.a_len == 8);
 }
 
 void test_queue_students_dispose()
 {
 	queue_dispose(&stu_q);
 
-	assert(str_q.fst_s.elements == NULL);
-	assert(str_q.scd_s.elements == NULL);
+	assert(str_q.fst_s->elements == NULL);
+	assert(str_q.scd_s->elements == NULL);
 	assert(str_q.len == 0);
 	assert(str_q.a_len == 0);
 
@@ -295,6 +295,6 @@ void queue_test_suite()
 	launch_test(test_str_q_dispose, "Disposing string Queue --> OK");
 	launch_test(test_queue_students_enqueue, "Queue students enqueue --> OK");
 	launch_test(test_queue_students_dequeue, "Queue students dequeue --> OK");
-	// launch_test(test_queue_students_dispose, "Queue students dispose --> OK");
+	launch_test(test_queue_students_dispose, "Queue students dispose --> OK");
 }
 

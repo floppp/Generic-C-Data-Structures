@@ -8,7 +8,6 @@ const int LOGICAL_DEFAULT_SIZE = 0;
 void stack_new(stack* s, int e_size, void(*free_function)(void*))
 {
 	assert(e_size > 0);
-	assert(s->allocat_len == 0);
 
 	s->elem_size = e_size;
 	s->logical_len = LOGICAL_DEFAULT_SIZE;

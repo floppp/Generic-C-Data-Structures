@@ -23,8 +23,8 @@
  * @param free_fun {void*} function for deallocating elements.
  */
 typedef struct {
-	stack fst_s;
-	stack scd_s;
+	stack* fst_s;
+	stack* scd_s;
 	int e_size;
 	int len;
 	int a_len;
