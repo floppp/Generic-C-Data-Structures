@@ -151,12 +151,12 @@ void vector_map(vector* v, vector_map_fun map_fn, const void* aux_data);
 int vector_search(const vector* v, const void* key, vector_compare_fun search_fun, int start_idx, bool is_sorted);
 
 /**
- * @brief
+ * @brief Sorting function for vectors.
  *
- * [vector_sort description]
+ * Function that sort <b>v</b> using <b>compare_fun</b>.
  *
- * @param v           [description]
- * @param compare_fun [description]
+ * @param v           {vector*}            vector we are working with.
+ * @param compare_fun {vector_compare_fun} comparator function.
  */
 void vector_sort(vector* v, vector_compare_fun compare_fun);
 
