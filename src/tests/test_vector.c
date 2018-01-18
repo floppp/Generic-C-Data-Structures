@@ -271,8 +271,8 @@ void test_vector_map()
 	int n;
 	const char* word;
 	const int zs[] = { 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
-	const char* words_res[] = { "csa", "msa", "opa", "rpa", "uz", "lz",
-                                "ampara", "lmpara", "osforo", "fsforo" };
+	const char* words_res[] = { "Casa", "Mesa", "Ropa", "Ropa", "Luz", "Luz",
+                                "Lampara", "Lampara", "Fosforo", "Fosforo" };
 
 	vector_map(&int_v, odd_numbers, NULL);
 
@@ -281,8 +281,13 @@ void test_vector_map()
 		assert(n == zs[i]);
 	}
 
-	vector_map(&str_v, removing_first_or_second_char, NULL);
+	vector_map(&str_v, capitalize_word, NULL);
 
+	for (int i = 0; i < 2*N_STR; ++i) {
+		vector_get(&str_v, i, &word);
+		printf("%s\n", word);
+		assert(string_compare(word, words_res[i], strlen(word)));
+	}
 }
 
 

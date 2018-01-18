@@ -4,9 +4,14 @@
 #include <time.h>
 #include <stdlib.h>
 #include <math.h>
-#include "students_group.h"
 #include "list.h"
 #include "hashmap.h"
+
+typedef struct students_group {
+	int elements;
+	char** names;
+	int** cal;
+} students_group;
 
 int random_gen();
 void print_array(void* base, int n, int elem_size);

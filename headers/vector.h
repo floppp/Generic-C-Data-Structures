@@ -121,13 +121,14 @@ void vector_delete(vector* v, int pos);
 
 
 /**
- * @brief
+ * @brief Mapping values inside the vector.
  *
- * [vector_map description]
+ * Function that apply <b>map_fn</b> to all values inside <b>v</b>, with
+ * in-place modifications.
  *
- * @param v        [description]
- * @param map_fn   [description]
- * @param aux_data [description]
+ * @param v        {vector*}        vector we are working with.
+ * @param map_fn   {vector_map_fun} function to apply on the elements.
+ * @param aux_data {void*}          auxiliar data (NULL if don't needed).
  */
 void vector_map(vector* v, vector_map_fun map_fn, const void* aux_data);
 
