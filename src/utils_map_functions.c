@@ -11,8 +11,8 @@ void odd_numbers(void* e_addr, const void* aux_data)
 
 void capitalize_word(void* e_addr, const void* aux_data)
 {
-	char* s = (char*) e_addr;
-	printf("%s\n", s);
+	// char* s = (char*) e_addr;
+	printf("%s - ", ((char*) e_addr));
 
 	// c += 'A' - 'a';
 }
@@ -23,7 +23,7 @@ void base_fail_grades(void* addr, const void* aux_data)
 
 	for (int i = 0; i < students->elem; ++i) {
 		int n = students->cal[i];
-		students->cal[i] = n >= 2 ? 1 : 0;
+		students->cal[i] = n > 2 ? 1 : 0;
 	}
 }
 

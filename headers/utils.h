@@ -8,9 +8,9 @@
 #include "hashmap.h"
 
 typedef struct students_group {
-	int elements;
 	char** names;
-	int** cal;
+	int* cal;
+	int elem;
 } students_group;
 
 int random_gen();

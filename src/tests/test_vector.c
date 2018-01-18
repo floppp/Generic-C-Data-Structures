@@ -71,7 +71,7 @@ void test_vector_append()
 
 	groups[2].elem = 6;
 	const char* names_3[] = {"Juno", "Lola", "Bimba", "Lia", "Bimba",
-							 "Nina"};
+	                         "Nina"};
 	const int notas_3[] = {1, 2, 3, 2, 0, 2};
 
 	groups[2].names = malloc(groups[2].elem * sizeof(char*));
@@ -130,10 +130,10 @@ void test_vector_insert()
 	const int ys[] = {-1, -2, -3, -4};
 	const int zs[] = {-1, 1, -2, 2, -3, 3, -4, 4, 2, 5, 6, 7, 1, 2, 3, 0};
 	const char* words_res[] = { "casa", "casa", "mar", "mar", "mesa", "mesa",
-                                "ropa", "ropa", "luz", "luz", "lampara",
-                                "lampara", "fosforo", "fosforo" };
+	                            "ropa", "ropa", "luz", "luz", "lampara",
+	                            "lampara", "fosforo", "fosforo" };
 	const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
-                            "fosforo" };
+	                        "fosforo" };
 	char** auxs = malloc(N_STR * sizeof(char*));
 
 	for (int i = 0; i < N; ++i)
@@ -233,14 +233,41 @@ void test_vector_replace()
 	assert(!students_compare(&group, &groups[3]));
 }
 
+void test_vector_map()
+{
+	int n;
+	const char* word;
+	students_group group;
+	const int zs[] = { 0, 1, 0, 0, 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
+	const char* words_res[] = { "Casa", "Mesa", "Ropa", "Ropa", "Luz", "Luz",
+	                            "Lampara", "Lampara", "Fosforo", "Fosforo" };
+	int notas[4][6] = { { 0, 0, 1, 0, 0,   100 },
+	                    { 1, 1, 1, 1, 100, 100 },
+	                    { 0, 0, 1, 0, 0,   0   },
+	                    { 0, 0, 1, 0, 0,   0   } };
+
+	vector_map(&int_v, odd_numbers, NULL);
+	for (short i = 0; i < N_INT; i++) {
+		vector_get(&int_v, i, &n);
+		assert(n == zs[i]);
+	}
+
+	vector_map(&stu_v, base_fail_grades, NULL);
+	for (int i = 0; i < 4; ++i) {
+		vector_get(&stu_v, i, &group);
+		for (int j = 0; j < group.elem; ++j)
+			assert(group.cal[j] == notas[i][j]);
+	}
+}
+
 void test_vector_delete()
 {
 	int n;
 	int N = 4;
 	const char* word;
-	const int zs[] = { 90, 3, 1000, 4, 2, 5, 6, 7, 1, 2, 3, 0 };
+	const int zs[] = { 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
 	const char* words_res[] = { "casa", "mesa", "ropa", "ropa", "luz", "luz",
-                                "lampara", "lampara", "fosforo", "fosforo" };
+	                            "lampara", "lampara", "fosforo", "fosforo" };
 
 	for (int i = 0; i < N; ++i) {
 		vector_delete(&int_v, 0);
@@ -265,31 +292,6 @@ void test_vector_delete()
 	assert(stu_v.len == 0);
 	assert(stu_v.all_len == 10);
 }
-
-void test_vector_map()
-{
-	int n;
-	const char* word;
-	const int zs[] = { 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
-	const char* words_res[] = { "Casa", "Mesa", "Ropa", "Ropa", "Luz", "Luz",
-                                "Lampara", "Lampara", "Fosforo", "Fosforo" };
-
-	vector_map(&int_v, odd_numbers, NULL);
-
-	for (short i = 0; i < N_INT; i++) {
-		vector_get(&int_v, i, &n);
-		assert(n == zs[i]);
-	}
-
-	vector_map(&str_v, capitalize_word, NULL);
-
-	for (int i = 0; i < 2*N_STR; ++i) {
-		vector_get(&str_v, i, &word);
-		printf("%s\n", word);
-		assert(string_compare(word, words_res[i], strlen(word)));
-	}
-}
-
 
 
 void test_vector_dispose()
@@ -319,13 +321,13 @@ void vector_test_suite()
 	printf("\t--------------------\n\t");
 	printf("  VECTOR TEST SUITE\n\t---------------------\n");
 
-	launch_test(test_vector_new, "Vector creation --> OK");
-	launch_test(test_vector_append, "Vector appending elements --> OK");
-	launch_test(test_vector_len, "Vector length --> OK");
-	launch_test(test_vector_get, "Vector get element --> OK");
-	launch_test(test_vector_insert, "Vector insert --> OK");
-	launch_test(test_vector_replace, "Vector replace --> OK");
-	launch_test(test_vector_delete, "Vector delete --> OK");
-	launch_test(test_vector_map, "Vector map --> OK");
-	launch_test(test_vector_dispose, "Vector dispose --> OK");
+	launch_test(test_vector_new,     "Vector creation           --> OK");
+	launch_test(test_vector_append,  "Vector appending elements --> OK");
+	launch_test(test_vector_len,     "Vector length             --> OK");
+	launch_test(test_vector_get,     "Vector get element        --> OK");
+	launch_test(test_vector_insert,  "Vector insert             --> OK");
+	launch_test(test_vector_replace, "Vector replace            --> OK");
+	launch_test(test_vector_map,     "Vector map                --> OK");
+	launch_test(test_vector_delete,  "Vector delete             --> OK");
+	launch_test(test_vector_dispose, "Vector dispose            --> OK");
 }

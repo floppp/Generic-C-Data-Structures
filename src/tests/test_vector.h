@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include "../../headers/utils.h"
 #include "../../headers/vector.h"
-#include "../../headers/students_group.h"
 #include "../../headers/utils_map_functions.h"
 
 void vector_test_suite();
