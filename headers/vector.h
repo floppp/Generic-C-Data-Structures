@@ -133,16 +133,20 @@ void vector_delete(vector* v, int pos);
 void vector_map(vector* v, vector_map_fun map_fn, const void* aux_data);
 
 /**
- * @brief
+ * @brief Searching elements inside the vector.
  *
- * [vector_search description]
+ * Searching element <b>key</b> inside <b>v</b>, or inside the subvector
+ * defined by <b>start_idx</b>. We must pass the comparator (<b>search_fun</b>)
+ * and should specify if the vector <b>is_sorted</b> or not.
  *
- * @param  v          [description]
- * @param  key        [description]
- * @param  search_fun [description]
- * @param  start_idx  [description]
- * @param  is_sorted  [description]
- * @return            [description]
+ * @param v           {vector*} vector we are working with.
+ * @param  key        {void*}   addres of the element to find.
+ * @param  start_idx  {int}     index of the subvector, 0 in case we want
+ *                              search in vector.
+ * @param  is_sorted  {bool}    vector is sorted or not.
+ * @param  search_fun {vectore_compare_fun} comparator function.
+ *
+ * @return            {int}                 position of the element in v.
  */
 int vector_search(const vector* v, const void* key, vector_compare_fun search_fun, int start_idx, bool is_sorted);
 

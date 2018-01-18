@@ -33,7 +33,7 @@ void test_vector_append()
 	}
 
 	const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
-                            "fosforo" };
+							"fosforo" };
 	words_m = malloc(N_STR * sizeof(char*));
 	for (short i = 0; i < N_STR; ++i) {
 		words_m[i] = malloc(strlen(words[i]) + 1);
@@ -71,7 +71,7 @@ void test_vector_append()
 
 	groups[2].elem = 6;
 	const char* names_3[] = {"Juno", "Lola", "Bimba", "Lia", "Bimba",
-	                         "Nina"};
+							 "Nina"};
 	const int notas_3[] = {1, 2, 3, 2, 0, 2};
 
 	groups[2].names = malloc(groups[2].elem * sizeof(char*));
@@ -130,10 +130,10 @@ void test_vector_insert()
 	const int ys[] = {-1, -2, -3, -4};
 	const int zs[] = {-1, 1, -2, 2, -3, 3, -4, 4, 2, 5, 6, 7, 1, 2, 3, 0};
 	const char* words_res[] = { "casa", "casa", "mar", "mar", "mesa", "mesa",
-	                            "ropa", "ropa", "luz", "luz", "lampara",
-	                            "lampara", "fosforo", "fosforo" };
+								"ropa", "ropa", "luz", "luz", "lampara",
+								"lampara", "fosforo", "fosforo" };
 	const char* words[] = { "casa", "mar", "mesa", "ropa", "luz", "lampara",
-	                        "fosforo" };
+							"fosforo" };
 	char** auxs = malloc(N_STR * sizeof(char*));
 
 	for (int i = 0; i < N; ++i)
@@ -236,15 +236,12 @@ void test_vector_replace()
 void test_vector_map()
 {
 	int n;
-	const char* word;
 	students_group group;
 	const int zs[] = { 0, 1, 0, 0, 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
-	const char* words_res[] = { "Casa", "Mesa", "Ropa", "Ropa", "Luz", "Luz",
-	                            "Lampara", "Lampara", "Fosforo", "Fosforo" };
 	int notas[4][6] = { { 0, 0, 1, 0, 0,   100 },
-	                    { 1, 1, 1, 1, 100, 100 },
-	                    { 0, 0, 1, 0, 0,   0   },
-	                    { 0, 0, 1, 0, 0,   0   } };
+						{ 1, 1, 1, 1, 100, 100 },
+						{ 0, 0, 1, 0, 0,   0   },
+						{ 0, 0, 1, 0, 0,   0   } };
 
 	vector_map(&int_v, odd_numbers, NULL);
 	for (short i = 0; i < N_INT; i++) {
@@ -267,7 +264,7 @@ void test_vector_delete()
 	const char* word;
 	const int zs[] = { 0, 3, 0, 0, 0, 5, 0, 7, 1, 0, 3, 0 };
 	const char* words_res[] = { "casa", "mesa", "ropa", "ropa", "luz", "luz",
-	                            "lampara", "lampara", "fosforo", "fosforo" };
+								"lampara", "lampara", "fosforo", "fosforo" };
 
 	for (int i = 0; i < N; ++i) {
 		vector_delete(&int_v, 0);
@@ -293,6 +290,18 @@ void test_vector_delete()
 	assert(stu_v.all_len == 10);
 }
 
+void test_search_sort()
+{
+	int s = 1;
+	int pos;
+
+	pos = vector_search(&int_v, &s, int_comparator, 0, false);
+	assert(pos == 8);
+
+	vector_sort(&int_v, int_comparator);
+	pos = vector_search(&int_v, &s, int_comparator, 0, true);
+	assert(pos == 7);
+}
 
 void test_vector_dispose()
 {
@@ -329,5 +338,6 @@ void vector_test_suite()
 	launch_test(test_vector_replace, "Vector replace            --> OK");
 	launch_test(test_vector_map,     "Vector map                --> OK");
 	launch_test(test_vector_delete,  "Vector delete             --> OK");
+	launch_test(test_search_sort,    "Vector sort and search    --> OK");
 	launch_test(test_vector_dispose, "Vector dispose            --> OK");
 }
