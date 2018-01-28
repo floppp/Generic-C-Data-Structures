@@ -10,7 +10,7 @@ LIBDIR  = lib
 DEPEND   = utils.c stack.c queue.c vector.c
 DEPEND  += utils_map_functions.c linked_list.c
 DEPEND_TESTS  = test_stack.c test_queue.c test_vector.c
-DEPEND_TESTS += test_linked_list.c
+DEPEND_TESTS += test_linked_list.c test_hashmap.c
 SOURCES = $(addprefix $(SRCDIR)/, $(DEPEND))
 OBJECTS = $(addprefix $(OBJDIR)/, $(DEPEND:.c=.o))
 EXECUTABLE      =
