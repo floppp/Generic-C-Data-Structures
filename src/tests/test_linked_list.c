@@ -97,9 +97,6 @@ void test_linked_list_remove_list()
 
 	/* We dont assert here; valgrind tell us everything was free, so
 	we take that as a proof of validation. */
-	// assert(stu_ll == NULL);
-	// assert(int_ll == NULL);
-	// assert(str_ll == NULL);
 }
 
 /* Both, linked_list_add and linked_list_add_node are tested with
@@ -124,6 +121,29 @@ void test_linked_list_add()
 	assert(str_ll->len == N_STRINGS);
 }
 
+void test_linked_list_get()
+{
+	int n;
+	char* word;
+	students_group group;
+
+	for (int i = 0; i < N_INTEGERS; ++i) {
+		linked_list_get(int_ll, i, &n);
+		assert(n == is[i]);
+	}
+
+	for (int i = 0; i < N_STRINGS; ++i) {
+		linked_list_get(str_ll, i, &word);
+		assert(string_compare(word, words[i], strlen(words[i])));
+	}
+
+
+	for (int i = 0; i < N_GROUPS; ++i) {
+		linked_list_get(stu_ll, i, &group);
+		assert(students_compare(&group, &groups[i]));
+	}
+}
+
 // 	linked_list_print(list);
 // 	linked_list_remove_node(list, 2);
 // 	linked_list_print(list);
@@ -144,63 +164,43 @@ void test_linked_list_add()
 // 	linked_list_remove_list(string_list);
 // }
 
-// void test_linked_list()
-// {
-// 	linked_list* list = linked_list_new();
-// 	int a = 775;
-// 	linked_list_append(list, Integer, sizeof(int), &a, NULL, NULL);
-// 	int c = 998;
-// 	linked_list_append(list, Integer, sizeof(int), &c, NULL, NULL);
-// 	int d = -1000;
-// 	linked_list_append(list, Integer, sizeof(int), &d, NULL, NULL);
-// 	char* e = "casa";
-// 	linked_list_append(list, String, sizeof(char*), &e, NULL, NULL);
+void test_mixed_linked_list()
+{
+	int a = 775;
+	int c = 998;
+	int d = -1000;
+	char* e = "casa";
+	linked_list_append(mix_ll, INTEGER, sizeof(int), &a, NULL, NULL);
+	linked_list_append(mix_ll, INTEGER, sizeof(int), &c, NULL, NULL);
+	linked_list_append(mix_ll, INTEGER, sizeof(int), &d, NULL, NULL);
+	linked_list_append(mix_ll, STRING, sizeof(char*), &e, NULL, NULL);
+
+	int q;
+	char* word;
+	linked_list_get(mix_ll, 2, &q);
+	assert(q == -1000);
+	linked_list_remove_node(mix_ll, 2);
+	linked_list_get(mix_ll, 2, &word);
+	assert(string_compare(word, e, sizeof(e)));
+
+	int z = 111;
+	double l = 4.5;
+	int x = 444;
+	linked_list_add(mix_ll, 0, INTEGER, sizeof(int), &z, NULL, NULL);
+	linked_list_add(mix_ll, 3, DOUBLE, sizeof(double), &l, NULL, NULL);
+	linked_list_add(mix_ll, 4, INTEGER, sizeof(int), &x, NULL, NULL);
 
 
-// 	linked_list_print(list);
-// 	linked_list_remove_node(list, 2);
-// 	linked_list_print(list);
+	char o = 'o';
+	char* y = "eeee";
+	linked_list_add(mix_ll, 3, CHAR, sizeof(char), &o, NULL, NULL);
+	linked_list_add(mix_ll, 2, STRING, sizeof(char*), &y, NULL, NULL);
 
-// 	int z = 111;
-// 	linked_list_add(list, 0, Integer, sizeof(int), &z, NULL, NULL);
-// 	linked_list_print(list);
-
-// 	double l = 4.5;
-// 	linked_list_add(list, 3, Double, sizeof(double), &l, NULL, NULL);
-// 	linked_list_print(list);
-
-
-// 	int x = 444;
-// 	linked_list_add(list, 4, Integer, sizeof(int), &x, NULL, NULL);
-// 	linked_list_print(list);
-
-// 	char o = 'o';
-// 	linked_list_add(list, 3, Char, sizeof(char), &o, NULL, NULL);
-// 	linked_list_print(list);
-
-// 	char* y = "eeee";
-// 	linked_list_add(list, 2, String, sizeof(char*), &y, NULL, NULL);
-// 	linked_list_print(list);
-
-// //	char* h = "casa";
-// //	double j = 4.5;
-// //	char n = "a";
-// 	int m = 444;
-// 	int pos = linked_list_find(list, Integer, &m, NULL);
-// 	printf("pos %d: %d\n", m, pos);
-
-// 	linked_list_remove_node(list, 0);
-// 	linked_list_print(list);
-
-// 	linked_list* string_list = linked_list_get_subtype(list, String);
-// 	linked_list_print(string_list);
-
-// 	linked_list_remove_node(list, 6);
-// 	linked_list_print(list);
-
-// 	linked_list_remove_list(list);
-// 	linked_list_remove_list(string_list);
-// }
+	int m = 444;
+	int pos = linked_list_find(mix_ll, INTEGER, &m, NULL);
+	assert(pos == 6);
+	linked_list* string_list = linked_list_get_subtype(mix_ll, STRING);
+}
 
 void dispose_data() { }
 
@@ -214,6 +214,8 @@ void linked_list_test_suite()
 	launch_test(test_node_new,                "Node creation          --> OK");
 	launch_test(test_linked_list_new,         "Linked list creation   --> OK");
 	launch_test(test_linked_list_add,         "Linked list add [node] --> OK");
+	launch_test(test_linked_list_get,         "Linked list get        --> OK");
+	launch_test(test_mixed_linked_list,       "Linked list mixed      --> OK");
 	launch_test(test_linked_list_remove_list, "Linked list remove     --> OK");
 
 	dispose_data();

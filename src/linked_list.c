@@ -27,13 +27,17 @@ void linked_list_append_node(linked_list* l, node* n)
 		l->head = n;
 		l->tail = n;
 	} else {
-		node* current = l->head;
-
-		for (int i = 0; i < l->len-1; ++i)
-			current = current->next;
-
+		node* current = l->tail;
 		current->next = n;
+		n->prev = current;
 		l->tail = n;
+
+		// for (int i = 0; i < l->len-1; ++i)
+		// 	current = current->next;
+
+		// current->next = n;
+		// n->prev = current;
+		// l->tail = n;
 	}
 
 	l->len++;
@@ -97,24 +101,26 @@ void linked_list_remove_list(linked_list *list)
 
 void linked_list_remove_node(linked_list *l, int pos)
 {
-	if (pos < l->len--) {
-		node* current = l->head;
-		node* prev;
+	assert(pos < l->len);
 
-		for (int i = 0; i < pos; ++i) {
-			prev = current;
-			current = current->next;
-		}
+	node* current = l->head;
+	node* prev;
 
-		if (pos > 0 && pos < l->len)
-			prev->next = current->next;
-		else if (pos == 0)
-			l->head = current->next;
-		else if (pos == l->len)
-			l->tail = prev;
-
-		node_free(current);
+	for (int i = 0; i < pos; ++i) {
+		prev = current;
+		current = current->next;
 	}
+
+	if (pos > 0 && pos < l->len)
+		prev->next = current->next;
+	else if (pos == 0)
+		l->head = current->next;
+	else if (pos == l->len)
+		l->tail = prev;
+
+	node_free(current);
+
+	l->len--;
 }
 
 void node_free(node* n)
@@ -127,7 +133,6 @@ void node_free(node* n)
 	n = NULL;
 }
 
-// node* node_new(node_type t, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
 node* node_new(node_type t, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*), int e_size)
 {
 	node* n;
@@ -135,31 +140,10 @@ node* node_new(node_type t, void* address, void(*free_fun)(void*), void(*print_f
 	n->type = t;
 	n->free_fun = free_fun;
 	n->print_fun = print_fun;
-
-	// switch (n->type) {
-	// 	case INTEGER:
-	// 		n->e_size = sizeof(int); break;
-	// 	case STRING:
-	// 		n->e_size = sizeof(char*); break;
-	// 	case CHAR:
-	// 		n->e_size = sizeof(char); break;
-	// 	case DOUBLE:
-	// 		n->e_size = sizeof(double); break;
-	// 	case BOOLEAN:
-	// 		n->e_size = 1; break;
-	// 	case NIL: break;
-	// 	case OTHER: {
-	// 		/* Catching the optional value if it exists */
-	// 		va_list ap;
-	// 		int size;
-	// 		va_start(ap, print_fun);
-	// 		size = va_arg(ap, int);
-	// 		va_end(ap);
-	// 		n->e_size = size;
-	// 	} break;
-	// }
 	n->e_size = e_size;
 	n->element = malloc(n->e_size);
+	n->next = NULL;
+	n->prev = NULL;
 
 	memcpy(n->element, address, n->e_size);
 
@@ -169,9 +153,12 @@ node* node_new(node_type t, void* address, void(*free_fun)(void*), void(*print_f
 void linked_list_print(linked_list *list)
 {
 	node* current = list->head;
+	const char* separation = " - ";
 	for (int i = 0; i < list->len; ++i) {
 		print_node(current);
 		current = current->next;
+		if (current)
+			printf("%s", separation);
 	}
 	printf("\n");
 }
@@ -240,13 +227,13 @@ static void print_node(node* node)
 {
 	switch(node->type) {
 		case INTEGER:
-			printf("%d - ", *(int*) node->element); break;
+			printf("%d", *(int*) node->element); break;
 		case STRING:
-			printf("%s - ", *(char**) node->element); break;
+			printf("%s", *(char**) node->element); break;
 		case CHAR:
-			printf("%c - ", *(char*) node->element); break;
+			printf("%c", *(char*) node->element); break;
 		case DOUBLE:
-			printf("%lf - ", *(double*) node->element); break;
+			printf("%lf", *(double*) node->element); break;
 		case OTHER:
 			node->print_fun(node->element, NULL); break;
 		case BOOLEAN:

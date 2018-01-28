@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <stdarg.h>
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -28,6 +27,7 @@ typedef struct node {
 	node_type type;
 	void* element;
 	struct node* next;
+	struct node* prev;
 	void (*free_fun)(void*);
 	void (*print_fun)(void*, const void*);
 } node;
@@ -60,7 +60,7 @@ linked_list* linked_list_new();
  *
  * Node addition in the final position of a list. We must pass the
  * characteristics of the node, we cannot create the node in the outside
- * of this method and pass directly the node. Log(N).
+ * of this method and pass directly the node. Log(1).
  *
  * @param *l         list where we are adding.
  * @param type       type of the node.
@@ -84,19 +84,58 @@ void linked_list_append(linked_list* l, node_type type, int e_size, void* addres
 void linked_list_append_node(linked_list* l, node* n);
 
 void linked_list_add(linked_list*, int, node_type, int, void*, void(*)(void*), void(*)(void*, const void*));
-void linked_list_get(linked_list*, int, void*);
-void linked_list_remove_list(linked_list*);
-void linked_list_remove_node(linked_list*, int);
-void linked_list_print(linked_list*);
+
+/**
+ * @brief Getter function for the element in <b>pos</b> position.
+ *
+ * Getter function that store in <b>address</b> the info stored in <b>pos</b>
+ * inside <b>l</b>.
+ *
+ * @param *l       list that contains data.
+ * @param pos      position we want to retrieve.
+ * @param *address address where we are going to copy the data.
+ */
+void linked_list_get(linked_list* l, int pos, void* address);
+
+/**
+ * @brief Deallocation of list memory.
+ *
+ * Deallocation of the memory that was allocated for the elements inserted
+ * in the list.
+ *
+ * @param *l linked_list to deallocate.
+ */
+void linked_list_remove_list(linked_list* l);
+
+/**
+ * @brief Function for erase a node.
+ *
+ * Function that erase the node inserted in <b>pos</b> previously.
+ *
+ * @param l   list we are working with.
+ * @param int position we want to erase.
+ */
+void linked_list_remove_node(linked_list* l, int);
+
+/**
+ * @brief Function for printing the elements in the list.
+ *
+ * Function for printing the elements in the list.
+ *
+ * @param *l linked_list to print.
+ */
+void linked_list_print(linked_list* l);
+
 int linked_list_find(linked_list*, node_type, void*, bool(*)(void*, void*));
 linked_list* linked_list_get_subtype(linked_list*, node_type);
 
 /**
  * @brief Node creation
  *
- * Node creation. The bits in address aren't copied to a new memory address,
+ * Node creation. The bits in address aren't copied to a new memory address
+ * if we are working with complex structs with dynamic memory allocation,
  * but the address itself is copied, so we don't have to free the data after
- * inserted in a node. Any change made in the original data structured which
+ * inserted in a node. Any change made in the original data structure which
  * was pointing originally to address will modify the node.
  *
  * @param t          type of the node.
