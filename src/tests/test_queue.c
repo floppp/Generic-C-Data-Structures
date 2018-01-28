@@ -71,7 +71,7 @@ void test_enqueue_string()
 	const char* words[] = {"casa", "mar", "mesa", "ropa", "luz", "lampara", "fosforo"};
 
 	for (short i = 0; i < 7; ++i) {
-		const char* copy = strdup(words[i]);
+		char* copy = strdup(words[i]);
 		queue_enqueue(&str_q, &copy);
 		assert(str_q.len == ++count);
 	}

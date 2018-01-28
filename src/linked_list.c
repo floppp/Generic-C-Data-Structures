@@ -3,54 +3,70 @@
 static void print_node(node*);
 static bool get_position(node*, node_type, void*, bool(*)(void*, void*));
 
-/**
- * Creation of an empty linked list.
- *
- * @return Pointer to the linked list.
- */
 linked_list* linked_list_new()
 {
 	linked_list* list = malloc(sizeof(linked_list));
 	list->head = NULL;
 	list->tail = NULL;
-	list->logical_len = 0;
+	list->len = 0;
 
 	assert(list != NULL);
 
 	return list;
 }
 
-void linked_list_add(lminked_list* l, node_type type, int elem_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
+void linked_list_add(linked_list* l, node_type type, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*))
 {
-	node* n;
-	if (l->logical_len == 0) {
-		n = node_new(type, elem_size, address, free_fun, print_fun);
+	// node* n;
+	// if (l->len == 0) {
+	// 	n = node_new(type, address, free_fun, print_fun, e_size);
+	// 	l->head = n;
+	// 	l->tail = n;
+	// } else {
+	// 	n = node_new(type, address, free_fun, print_fun, e_size);
+	// 	node* current = l->head;
+
+	// 	for (int i = 0; i < l->len-1; ++i)
+	// 		current = current->next;
+
+	// 	current->next = n;
+	// 	l->tail = n;
+	// }
+
+	// l->len++;
+	node* n = node_new(type, address, free_fun, print_fun, e_size);
+	linked_list_add_node(l, n);
+}
+
+void linked_list_add_node(linked_list* l, node* n)
+{
+	if (l->len == 0) {
 		l->head = n;
 		l->tail = n;
 	} else {
-		n = node_new(type, elem_size, address, free_fun, print_fun);
 		node* current = l->head;
 
-		for (int i = 0; i < l->logical_len-1; ++i)
+		for (int i = 0; i < l->len-1; ++i)
 			current = current->next;
 
 		current->next = n;
 		l->tail = n;
 	}
 
-	l->logical_len++;
+	l->len++;
 }
 
-void linked_list_add_at(linked_list *l, int pos, node_type type, int elem_size, void *address, void(*free_fun)(void*), void(*print_fun)(void*))
+void linked_list_add_at(linked_list *l, int pos, node_type type, int e_size, void *address, void(*free_fun)(void*),
+	void(*print_fun)(void*, const void*))
 {
-	if (pos <= l->logical_len) {
-		l->logical_len++;
-		node* n = node_new(type, elem_size, address, free_fun, print_fun);
+	if (pos <= l->len) {
+		l->len++;
+		node* n = node_new(type, address, free_fun, print_fun, e_size);
 
 		if (pos == 0) {
 			n->next = l->head;
 			l->head = n;
-		} else if (pos < l->logical_len - 1) {
+		} else if (pos < l->len - 1) {
 			node* current = l->head;
 			node* prev;
 
@@ -75,29 +91,30 @@ void linked_list_get(linked_list* l, int pos, void* address)
 		current = current->next;
 	}
 
-	memcpy(address, current->element, current->elem_size);
+	memcpy(address, current->element, current->e_size);
 }
 
 // do not reuse remove_node because performance issues
 void linked_list_remove_list(linked_list *list)
 {
-	for (int i = 0; i < list->logical_len; ++i) {
+	for (int i = 0; i < list->len; ++i) {
 		node* aux = list->head;
 
 		if (aux->free_fun != NULL)
 			aux->free_fun(aux->element);
-		if (i < list->logical_len - 1)
+		if (i < list->len - 1)
 			list->head = aux->next;
 
 		free(aux->element);
 		free(aux);
+		aux = NULL;
 	}
 	free(list);
 }
 
 void linked_list_remove_node(linked_list *l, int pos)
 {
-	if (pos < l->logical_len--) {
+	if (pos < l->len--) {
 		node* current = l->head;
 		node* prev;
 
@@ -106,31 +123,62 @@ void linked_list_remove_node(linked_list *l, int pos)
 			current = current->next;
 		}
 
-		if (pos > 0 && pos < l->logical_len)
+		if (pos > 0 && pos < l->len)
 			prev->next = current->next;
 		else if (pos == 0)
 			l->head = current->next;
-		else if (pos == l->logical_len)
+		else if (pos == l->len)
 			l->tail = prev;
 
-		if (current->free_fun != NULL)
-			current->free_fun(current->element);
-
-		free(current->element);
-		free(current);
+		node_free(current);
 	}
 }
 
-node* node_new(node_type t, int elem_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
+void node_free(node* n)
+{
+	if (n->free_fun)
+		n->free_fun(n->element);
+
+	free(n->element);
+	free(n);
+	n = NULL;
+}
+
+// node* node_new(node_type t, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*))
+node* node_new(node_type t, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*), int e_size)
 {
 	node* n;
 	n = malloc(sizeof(node));
 	n->type = t;
-	n->elem_size = elem_size;
-	n->element = malloc(n->elem_size);
 	n->free_fun = free_fun;
 	n->print_fun = print_fun;
-	memcpy(n->element, address, n->elem_size);
+
+	// switch (n->type) {
+	// 	case INTEGER:
+	// 		n->e_size = sizeof(int); break;
+	// 	case STRING:
+	// 		n->e_size = sizeof(char*); break;
+	// 	case CHAR:
+	// 		n->e_size = sizeof(char); break;
+	// 	case DOUBLE:
+	// 		n->e_size = sizeof(double); break;
+	// 	case BOOLEAN:
+	// 		n->e_size = 1; break;
+	// 	case NIL: break;
+	// 	case OTHER: {
+	// 		/* Catching the optional value if it exists */
+	// 		va_list ap;
+	// 		int size;
+	// 		va_start(ap, print_fun);
+	// 		size = va_arg(ap, int);
+	// 		va_end(ap);
+	// 		n->e_size = size;
+	// 	} break;
+	// }
+	n->e_size = e_size;
+	n->element = malloc(n->e_size);
+
+	memcpy(n->element, address, n->e_size);
 
 	return n;
 }
@@ -138,7 +186,7 @@ node* node_new(node_type t, int elem_size, void* address, void(*free_fun)(void*)
 void linked_list_print(linked_list *list)
 {
 	node* current = list->head;
-	for (int i = 0; i < list->logical_len; ++i) {
+	for (int i = 0; i < list->len; ++i) {
 		print_node(current);
 		current = current->next;
 	}
@@ -149,7 +197,7 @@ int linked_list_find(linked_list* list, node_type type, void* value, bool(*compa
 {
 	node* current = list->head;
 
-	for (int i = 0; i < list->logical_len; ++i) {
+	for (int i = 0; i < list->len; ++i) {
 		if (get_position(current, type, value, compare_fun))
 			return i;
 
@@ -164,9 +212,9 @@ linked_list* linked_list_get_subtype(linked_list* origin, node_type type)
 	node* current = origin->head;
 	linked_list* copy = linked_list_new();
 
-	for (int i = 0; i < origin->logical_len; ++i) {
+	for (int i = 0; i < origin->len; ++i) {
 		if (current->type == type)
-			linked_list_add(copy, current->type, current->elem_size, current->element, current->free_fun, current->print_fun);
+			linked_list_add(copy, current->type, current->e_size, current->element, current->free_fun, current->print_fun);
 		current = current->next;
 	}
 
@@ -177,28 +225,28 @@ static bool get_position(node* current, node_type type, void* value, bool(*compa
 {
 	if (current->type == type) {
 		switch (type) {
-			case Integer:
+			case INTEGER:
 				if (*(int*) current->element == *(int*) value)
 					return true;
 			break;
-			case String:
+			case STRING:
 				if (*(char**) current->element == *(char**) value)
 					return true;
 			break;
-			case Char:
+			case CHAR:
 				if (*(char*) current->element == *(char*) value)
 					return true;
 			break;
-			case Double:
+			case DOUBLE:
 				if (*(double*) current->element == *(double*) value)
 					return true;
 			break;
-			case Other:
+			case OTHER:
 				return compare_fun == NULL ? false : compare_fun(current->element, value);
 			break;
-			case Boolean:
+			case BOOLEAN:
 				break;
-			case Nil:
+			case NIL:
 				break;
 		}
 	}
@@ -208,19 +256,19 @@ static bool get_position(node* current, node_type type, void* value, bool(*compa
 static void print_node(node* node)
 {
 	switch(node->type) {
-		case Integer:
+		case INTEGER:
 			printf("%d - ", *(int*) node->element); break;
-		case String:
+		case STRING:
 			printf("%s - ", *(char**) node->element); break;
-		case Char:
+		case CHAR:
 			printf("%c - ", *(char*) node->element); break;
-		case Double:
+		case DOUBLE:
 			printf("%lf - ", *(double*) node->element); break;
-		case Other:
-			node->print_fun(node->element); break;
-		case Boolean:
+		case OTHER:
+			node->print_fun(node->element, NULL); break;
+		case BOOLEAN:
 			break;
-		case Nil:
+		case NIL:
 			 break;
 	}
 }
