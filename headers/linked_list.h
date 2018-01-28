@@ -126,8 +126,29 @@ void linked_list_remove_node(linked_list* l, int);
  */
 void linked_list_print(linked_list* l);
 
-int linked_list_find(linked_list*, node_type, void*, bool(*)(void*, void*));
-linked_list* linked_list_get_subtype(linked_list*, node_type);
+/**
+ * @brief Position of a node in a list
+ *
+ * @param list        list we are working with.
+ * @param type        type of node we are searching for.
+ * @param value       value of the node we want to find.
+ * @param compare_fun function for testing equality.
+ */
+int linked_list_find(linked_list* list, node_type type, void* value,
+                     bool(*compare_fun)(void*, void*));
+
+/**
+ * @brief Function for recover only the elements of <b>type</b>.
+ *
+ * Function that allocates a new list and store inside it copies of the
+ * elements of <b>type</b> that are stored in the original <b>origin</b>.
+ *
+ *@param origin original list that acts as source.
+ *@param type   data type we want to store in the new list.
+ *
+ * @return a new list with elements of <b>type</b>.
+ */
+linked_list* linked_list_get_subtype(linked_list* origin, node_type type);
 
 /**
  * @brief Node creation

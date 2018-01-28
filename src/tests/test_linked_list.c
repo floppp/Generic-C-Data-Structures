@@ -144,36 +144,22 @@ void test_linked_list_get()
 	}
 }
 
-// 	linked_list_print(list);
-// 	linked_list_remove_node(list, 2);
-// 	linked_list_print(list);
-// 	int x = 444;
-// 	linked_list_add(list, 4, Integer, sizeof(int), &x, NULL, NULL);
-// 	char o = 'o';
-// 	linked_list_add(list, 3, Char, sizeof(char), &o, NULL, NULL);
-// 	char* y = "eeee";
-// 	linked_list_add(list, 1, String, sizeof(char*), &y, NULL, NULL);
-// //	char* h = "casa";
-// //	double j = 4.5;
-// //	char n = "a";
-// 	int m = 444;
-// 	int pos = linked_list_find(list, Integer, &m, NULL);
-// 	linked_list_remove_node(list, 0);
-// 	linked_list* string_list = linked_list_get_subtype(list, String);
-// 	linked_list_remove_list(list);
-// 	linked_list_remove_list(string_list);
-// }
-
-void test_mixed_linked_list()
+/**
+ *  This function tests
+ *   - linked_list_subtype
+ *   - linked_list_find
+ *   - linked_list_remove_node
+ */
+void test_linked_list_subtype()
 {
 	int a = 775;
 	int c = 998;
 	int d = -1000;
-	char* e = "casa";
+	char* w1 = "casa";
 	linked_list_append(mix_ll, INTEGER, sizeof(int), &a, NULL, NULL);
 	linked_list_append(mix_ll, INTEGER, sizeof(int), &c, NULL, NULL);
 	linked_list_append(mix_ll, INTEGER, sizeof(int), &d, NULL, NULL);
-	linked_list_append(mix_ll, STRING, sizeof(char*), &e, NULL, NULL);
+	linked_list_append(mix_ll, STRING, sizeof(char*), &w1, NULL, NULL);
 
 	int q;
 	char* word;
@@ -181,7 +167,7 @@ void test_mixed_linked_list()
 	assert(q == -1000);
 	linked_list_remove_node(mix_ll, 2);
 	linked_list_get(mix_ll, 2, &word);
-	assert(string_compare(word, e, sizeof(e)));
+	assert(string_compare(word, w1, sizeof(w1)));
 
 	int z = 111;
 	double l = 4.5;
@@ -192,14 +178,22 @@ void test_mixed_linked_list()
 
 
 	char o = 'o';
-	char* y = "eeee";
+	char* w2 = "eeeeMP";
 	linked_list_add(mix_ll, 3, CHAR, sizeof(char), &o, NULL, NULL);
-	linked_list_add(mix_ll, 2, STRING, sizeof(char*), &y, NULL, NULL);
+	linked_list_add(mix_ll, 2, STRING, sizeof(char*), &w2, NULL, NULL);
 
 	int m = 444;
 	int pos = linked_list_find(mix_ll, INTEGER, &m, NULL);
 	assert(pos == 6);
 	linked_list* string_list = linked_list_get_subtype(mix_ll, STRING);
+
+	assert(string_list->len == 2);
+	linked_list_get(string_list, 0, &word);
+	assert(string_compare(word, w2, sizeof(w2)));
+	linked_list_get(string_list, 1, &word);
+	assert(string_compare(word, w1, sizeof(w1)));
+
+	linked_list_remove_list(string_list);
 }
 
 void dispose_data() { }
@@ -215,7 +209,7 @@ void linked_list_test_suite()
 	launch_test(test_linked_list_new,         "Linked list creation   --> OK");
 	launch_test(test_linked_list_add,         "Linked list add [node] --> OK");
 	launch_test(test_linked_list_get,         "Linked list get        --> OK");
-	launch_test(test_mixed_linked_list,       "Linked list mixed      --> OK");
+	launch_test(test_linked_list_subtype,     "Linked list subtype    --> OK");
 	launch_test(test_linked_list_remove_list, "Linked list remove     --> OK");
 
 	dispose_data();
