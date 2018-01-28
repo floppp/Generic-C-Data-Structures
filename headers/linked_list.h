@@ -69,7 +69,7 @@ linked_list* linked_list_new();
  * @param *free_fun  deallocating function.
  * @param *print_fun printing function.
  */
-void linked_list_add(linked_list* l, node_type type, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*));
+void linked_list_append(linked_list* l, node_type type, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*));
 
 /**
  * @brief Node addition at the end of the list.
@@ -81,9 +81,9 @@ void linked_list_add(linked_list* l, node_type type, int e_size, void* address, 
  * @param *l list where we are adding.
  * @param *n node with the info we want to add.
  */
-void linked_list_add_node(linked_list* l, node* n);
+void linked_list_append_node(linked_list* l, node* n);
 
-void linked_list_add_at(linked_list*, int, node_type, int, void*, void(*)(void*), void(*)(void*, const void*));
+void linked_list_add(linked_list*, int, node_type, int, void*, void(*)(void*), void(*)(void*, const void*));
 void linked_list_get(linked_list*, int, void*);
 void linked_list_remove_list(linked_list*);
 void linked_list_remove_node(linked_list*, int);
@@ -94,7 +94,10 @@ linked_list* linked_list_get_subtype(linked_list*, node_type);
 /**
  * @brief Node creation
  *
- * Node creation.
+ * Node creation. The bits in address aren't copied to a new memory address,
+ * but the address itself is copied, so we don't have to free the data after
+ * inserted in a node. Any change made in the original data structured which
+ * was pointing originally to address will modify the node.
  *
  * @param t          type of the node.
  * @param *address   memory address we want to store inside the node.

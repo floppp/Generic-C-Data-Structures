@@ -102,19 +102,21 @@ void test_linked_list_remove_list()
 	// assert(str_ll == NULL);
 }
 
+/* Both, linked_list_add and linked_list_add_node are tested with
+   this test. */
 void test_linked_list_add()
 {
 	for (int i = 0; i < N_GROUPS; ++i) {
-		linked_list_add(stu_ll, OTHER, sizeof(students_group), &groups[i],
+		linked_list_append(stu_ll, OTHER, sizeof(students_group), &groups[i],
 		                students_group_free, print_students);
 	}
 
 	for (int i = 0; i < N_INTEGERS; ++i) {
-		linked_list_add(int_ll, INTEGER, sizeof(int), &is[i], NULL, NULL);
+		linked_list_append(int_ll, INTEGER, sizeof(int), &is[i], NULL, NULL);
 	}
 
 	for (int i = 0; i < N_STRINGS; ++i) {
-		linked_list_add(str_ll, STRING, sizeof(char*), &words[i], NULL, NULL);
+		linked_list_append(str_ll, STRING, sizeof(char*), &words[i], NULL, NULL);
 	}
 
 	assert(stu_ll->len == N_GROUPS);
@@ -122,62 +124,22 @@ void test_linked_list_add()
 	assert(str_ll->len == N_STRINGS);
 }
 
-
-void test_linked_list_add_node()
-{
-	node* n;
-	for (int i = 0; i < N_GROUPS; ++i) {
-		n = node_new(INTEGER, &groups[i], students_group_free,
-		             print_students, sizeof(students_group));
-		linked_list_add_node(stu_ll, n);
-	}
-
-	// for (int i = 0; i < N_INTEGERS; ++i) {
-	// 	linked_list_add(int_ll, INTEGER, sizeof(int), &is[i], NULL, NULL);
-	// }
-
-	// for (int i = 0; i < N_STRINGS; ++i) {
-	// 	linked_list_add(str_ll, STRING, sizeof(char*), &words[i], NULL, NULL);
-	// }
-
-	// assert(stu_ll->len == N_GROUPS);
-	// assert(int_ll->len == N_INTEGERS);
-	// assert(str_ll->len == N_STRINGS);
-}
-
-
-// 	printf("\n------------------------------\nPRINT LINKED LIST\n----------------------------\n\n");
 // 	linked_list_print(list);
-
 // 	linked_list_remove_node(list, 2);
-
-// 	printf("\n------------------------------\nPRINT LINKED LIST\n----------------------------\n\n");
 // 	linked_list_print(list);
-
 // 	int x = 444;
-// 	linked_list_add_at(list, 4, Integer, sizeof(int), &x, NULL, NULL);
-
+// 	linked_list_add(list, 4, Integer, sizeof(int), &x, NULL, NULL);
 // 	char o = 'o';
-// 	linked_list_add_at(list, 3, Char, sizeof(char), &o, NULL, NULL);
-
+// 	linked_list_add(list, 3, Char, sizeof(char), &o, NULL, NULL);
 // 	char* y = "eeee";
-// 	linked_list_add_at(list, 1, String, sizeof(char*), &y, NULL, NULL);
-
-// 	printf("\n------------------------------\nPRINT LINKED LIST\n----------------------------\n\n");
-// 	linked_list_print(list);
-
+// 	linked_list_add(list, 1, String, sizeof(char*), &y, NULL, NULL);
 // //	char* h = "casa";
 // //	double j = 4.5;
 // //	char n = "a";
 // 	int m = 444;
 // 	int pos = linked_list_find(list, Integer, &m, NULL);
-// 	printf("pos %d: %d\n", m, pos);
-
 // 	linked_list_remove_node(list, 0);
-
 // 	linked_list* string_list = linked_list_get_subtype(list, String);
-// 	linked_list_print(string_list);
-
 // 	linked_list_remove_list(list);
 // 	linked_list_remove_list(string_list);
 // }
@@ -186,13 +148,13 @@ void test_linked_list_add_node()
 // {
 // 	linked_list* list = linked_list_new();
 // 	int a = 775;
-// 	linked_list_add(list, Integer, sizeof(int), &a, NULL, NULL);
+// 	linked_list_append(list, Integer, sizeof(int), &a, NULL, NULL);
 // 	int c = 998;
-// 	linked_list_add(list, Integer, sizeof(int), &c, NULL, NULL);
+// 	linked_list_append(list, Integer, sizeof(int), &c, NULL, NULL);
 // 	int d = -1000;
-// 	linked_list_add(list, Integer, sizeof(int), &d, NULL, NULL);
+// 	linked_list_append(list, Integer, sizeof(int), &d, NULL, NULL);
 // 	char* e = "casa";
-// 	linked_list_add(list, String, sizeof(char*), &e, NULL, NULL);
+// 	linked_list_append(list, String, sizeof(char*), &e, NULL, NULL);
 
 
 // 	linked_list_print(list);
@@ -200,24 +162,24 @@ void test_linked_list_add_node()
 // 	linked_list_print(list);
 
 // 	int z = 111;
-// 	linked_list_add_at(list, 0, Integer, sizeof(int), &z, NULL, NULL);
+// 	linked_list_add(list, 0, Integer, sizeof(int), &z, NULL, NULL);
 // 	linked_list_print(list);
 
 // 	double l = 4.5;
-// 	linked_list_add_at(list, 3, Double, sizeof(double), &l, NULL, NULL);
+// 	linked_list_add(list, 3, Double, sizeof(double), &l, NULL, NULL);
 // 	linked_list_print(list);
 
 
 // 	int x = 444;
-// 	linked_list_add_at(list, 4, Integer, sizeof(int), &x, NULL, NULL);
+// 	linked_list_add(list, 4, Integer, sizeof(int), &x, NULL, NULL);
 // 	linked_list_print(list);
 
 // 	char o = 'o';
-// 	linked_list_add_at(list, 3, Char, sizeof(char), &o, NULL, NULL);
+// 	linked_list_add(list, 3, Char, sizeof(char), &o, NULL, NULL);
 // 	linked_list_print(list);
 
 // 	char* y = "eeee";
-// 	linked_list_add_at(list, 2, String, sizeof(char*), &y, NULL, NULL);
+// 	linked_list_add(list, 2, String, sizeof(char*), &y, NULL, NULL);
 // 	linked_list_print(list);
 
 // //	char* h = "casa";
@@ -249,11 +211,10 @@ void linked_list_test_suite()
 
 	data_preparation();
 
-	launch_test(test_node_new,                "Node creation        --> OK");
-	launch_test(test_linked_list_new,         "Linked list creation --> OK");
-	launch_test(test_linked_list_add,         "Linked list add      --> OK");
-	// launch_test(test_linked_list_add_node,    "Linked list add node --> OK");
-	launch_test(test_linked_list_remove_list, "Linked list remove   --> OK");
+	launch_test(test_node_new,                "Node creation          --> OK");
+	launch_test(test_linked_list_new,         "Linked list creation   --> OK");
+	launch_test(test_linked_list_add,         "Linked list add [node] --> OK");
+	launch_test(test_linked_list_remove_list, "Linked list remove     --> OK");
 
 	dispose_data();
 }

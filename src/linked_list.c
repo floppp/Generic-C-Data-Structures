@@ -15,30 +15,13 @@ linked_list* linked_list_new()
 	return list;
 }
 
-void linked_list_add(linked_list* l, node_type type, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*))
+void linked_list_append(linked_list* l, node_type type, int e_size, void* address, void(*free_fun)(void*), void(*print_fun)(void*, const void*))
 {
-	// node* n;
-	// if (l->len == 0) {
-	// 	n = node_new(type, address, free_fun, print_fun, e_size);
-	// 	l->head = n;
-	// 	l->tail = n;
-	// } else {
-	// 	n = node_new(type, address, free_fun, print_fun, e_size);
-	// 	node* current = l->head;
-
-	// 	for (int i = 0; i < l->len-1; ++i)
-	// 		current = current->next;
-
-	// 	current->next = n;
-	// 	l->tail = n;
-	// }
-
-	// l->len++;
 	node* n = node_new(type, address, free_fun, print_fun, e_size);
-	linked_list_add_node(l, n);
+	linked_list_append_node(l, n);
 }
 
-void linked_list_add_node(linked_list* l, node* n)
+void linked_list_append_node(linked_list* l, node* n)
 {
 	if (l->len == 0) {
 		l->head = n;
@@ -56,7 +39,7 @@ void linked_list_add_node(linked_list* l, node* n)
 	l->len++;
 }
 
-void linked_list_add_at(linked_list *l, int pos, node_type type, int e_size, void *address, void(*free_fun)(void*),
+void linked_list_add(linked_list *l, int pos, node_type type, int e_size, void *address, void(*free_fun)(void*),
 	void(*print_fun)(void*, const void*))
 {
 	if (pos <= l->len) {
@@ -214,7 +197,7 @@ linked_list* linked_list_get_subtype(linked_list* origin, node_type type)
 
 	for (int i = 0; i < origin->len; ++i) {
 		if (current->type == type)
-			linked_list_add(copy, current->type, current->e_size, current->element, current->free_fun, current->print_fun);
+			linked_list_append(copy, current->type, current->e_size, current->element, current->free_fun, current->print_fun);
 		current = current->next;
 	}
 
