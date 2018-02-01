@@ -57,7 +57,7 @@ int hashmap_int_compare_fun(const void* elem_addr_1, const void* elem_addr_2)
 	return int_comparator(p->key, elem_addr_2);
 }
 
-int hashmap_int_hash_fun(const void* elem_addres, int num_buckets)
+unsigned long long hashmap_long_hash_fun(const void* elem_addres, int num_buckets)
 {
 	pair* p = (struct pair*) elem_addres;
 
@@ -67,9 +67,9 @@ int hashmap_int_hash_fun(const void* elem_addres, int num_buckets)
 		return hash_fun(&p->key, num_buckets);
 }
 
-int hash_fun(const void* elem_addres, int num_buckets)
+unsigned long long hash_fun(const void* elem_addres, int num_buckets)
 {
-	long value = *(int*) elem_addres;
+	unsigned long long value = *(long*) elem_addres;
 
 	return (value * 2654435761) % num_buckets;
 }

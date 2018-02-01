@@ -13,7 +13,7 @@ linked_list* str_ll;
 linked_list* mix_ll;
 students_group groups[N_GROUPS];
 
-void data_preparation()
+static void data_preparation()
 {
 	// students_group group_1;
 	groups[0].elem = 4;
