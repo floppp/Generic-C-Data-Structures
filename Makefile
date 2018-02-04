@@ -7,10 +7,11 @@ SRCDIR  = src
 OBJDIR  = obj
 TESDIR  = $(SRCDIR)/tests
 LIBDIR  = lib
-DEPEND   = utils.c stack.c queue.c vector.c
+DEPEND   = utils.c stack.c queue.c vector.c lookup3.c
 DEPEND  += utils_map_functions.c linked_list.c hashmap.c
 DEPEND_TESTS  = test_stack.c test_queue.c test_vector.c
 DEPEND_TESTS += test_linked_list.c test_hashmap.c libaleatorios.c
+DEPEND_TESTS += test_utils.c
 SOURCES = $(addprefix $(SRCDIR)/, $(DEPEND))
 OBJECTS = $(addprefix $(OBJDIR)/, $(DEPEND:.c=.o))
 EXECUTABLE      =
@@ -33,4 +34,4 @@ $(OBJDIR)/%.o: $(TESDIR)/%.c
 .PHONY: clean
 
 clean:
-	rm main_test *.o $(OBJDIR)/*.o vgcore.*
+	rm main_test *.o $(OBJDIR)/*.o

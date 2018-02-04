@@ -7,7 +7,7 @@
   * and not give full responsability to hashset.
   */
 #include "vector.h"
-
+#include "lookup3.h"
 
 typedef enum KEY_TYPE { NUMBER, CHARACTER, WORD } key_type;
 
@@ -21,30 +21,64 @@ typedef struct pair {
 	void* value;
 } pair;
 
-typedef int (*hashmap_compare_fun)(const void* elem_addr_1, const void* elem_addr_2);
-typedef unsigned long long (*hashmap_hash_fun)(const void* elem_addr, int num_buckets);
-typedef void (*hashmap_map_fun)(void* elem_addr, const void* aux_data);
-typedef void (*hashmap_free_fun)(void* elem_addr);
+typedef int (*hm_compare_fun)(const void* e_addr_1, const void* e_addr_2);
+typedef void (*hm_map_fun)(void* e_addr, const void* aux_data);
+typedef void (*hm_free_fun)(void* e_addr);
 
 typedef struct {
 	key_type k_type; // We must put this again for simplicy.
-	int num_buckets;
+	int n_buckets;   // the n_buckets are the elements the map will have.
 	int value_size;
-	vector* pairs;
-	vector* used_buckets;
-	hashmap_free_fun free_fun;
-	hashmap_hash_fun hash_fun;
-	hashmap_compare_fun compare_fun;
+	vector* pairs; // here we are to store data. Each key will give us a hash
+	               // value between 0 and n_buckets, and with this value the
+	               // data will be stored in the right position.
+	vector* used_buckets; // vector we are going to use for store the positions
+	                      // already in use in the pairs vector.
+	hm_free_fun free_fun;
+	hm_compare_fun compare_fun;
 } hashmap;
 
+
 /**
- * Function that creates a new hashmap
+ * @brief Hashmap allocation and creation.
+ *
+ * Function that allocates the memrory a hashmap needs, initialize the data
+ * structures it needs, and returns a pointer to the allocated map.
+ *
+ * @param  e_size      size of the elements.
+ * @param  n_buckets   number of elements buckets the map contains.
+ * @param  compare_fun function to compare key values.
+ * @param  free_fun    function for pair deallocation.
+ * @param  type        type of the keys we are going to use.
+ *
+ * @return             pointer to the created hashmap.
  */
-void hashmap_new(hashmap* hm, int elem_size, int num_buckets, hashmap_hash_fun hash_fun, hashmap_compare_fun compare_fun, hashmap_free_fun free_fun, key_type type);
+hashmap* hashmap_new(int e_size, hm_compare_fun compare_fun,
+                     hm_free_fun free_fun, key_type type);
+
+/**
+ * @brief Hashmap dealloation.
+ *
+ * Hashmap dealloation.
+ *
+ * @param hm hashmap we want to deallocate.
+ */
 void hashmap_dispose(hashmap* hm);
+
+/**
+ * @brief Total number of elements in the map.
+ *
+ * Total number of elements that a map contains, computed with the sum of all
+ * the elements for each key.
+ *
+ * @param  hm map we want to know the elements it contains.
+ *
+ * @return total number of elements in the map.
+ */
 int hashmap_count(hashmap* hm);
-void hashmap_enter(hashmap* hm, void* key, void* value);
-void* hashmap_get_value(const hashmap* hm, const void* key);
+
+void hashmap_put(hashmap* hm, void* key, void* value);
+void* hashmap_get(const hashmap* hm, const void* key);
 
 /**
  * @brief Function that gives us all the stored values.
@@ -57,5 +91,5 @@ void* hashmap_get_value(const hashmap* hm, const void* key);
  * @return   Values stored in source hashmap.
  */
 vector* hashmap_get_values(hashmap* hm);
-void hashmap_map(hashmap* hm, hashmap_map_fun map_fun, const void* aux_data);
+hashmap* hashmap_map(hashmap* hm, hm_map_fun map_fun, const void* aux_data);
 #endif
