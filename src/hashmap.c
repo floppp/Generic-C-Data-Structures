@@ -74,7 +74,7 @@ void hashmap_put(hashmap* hm, void* key, void* value)
 		vector_append(target, p);
 
 	if (hm->free_fun)
-		hm->free_fun(p);
+		hm->free_fun(p->value);
 
 	free(p);
 	p = NULL;
@@ -95,7 +95,7 @@ static pair* create_pair(key_type t, void* k, void* v)
 	return p;
 }
 
-void* hashmap_get(const hashmap* hm, const void* key)
+pair* hashmap_get_pair(const hashmap* hm, const void* key)
 {
 	uint32_t pos = hashlittle(&key, get_key_size(hm->k_type), key);
 	pos = (pos & hashmask(SHIFT));
@@ -112,6 +112,22 @@ void* hashmap_get(const hashmap* hm, const void* key)
 		exit(0);
 	}
 	vector_get(target, pos_in_vector, temp);
+
+	return temp;
+}
+
+void* hashmap_get_value(const hashmap* hm, const void* key)
+{
+	uint32_t pos = hashlittle(&key, get_key_size(hm->k_type), key);
+	pos = (pos & hashmask(SHIFT));
+
+	assert(pos >= 0 && pos < hm->n_buckets);
+
+	vector* target = (struct vector*) (hm->pairs + pos);
+
+	int pos_in_vector = vector_search(target, key, hm->compare_fun, 0, false);
+
+	pair* temp = target->elements + (pos_in_vector*target->elem_size);
 
 	return temp->value;
 }

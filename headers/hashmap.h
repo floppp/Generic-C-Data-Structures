@@ -78,7 +78,45 @@ void hashmap_dispose(hashmap* hm);
 int hashmap_count(hashmap* hm);
 
 void hashmap_put(hashmap* hm, void* key, void* value);
-void* hashmap_get(const hashmap* hm, const void* key);
+
+/**
+ * @brief Key associated pair getter.
+ *
+ * Function that returns the value associated with <b>key</b> from the <b>
+ * hashmap</b> we are searching in. We must free the memory of the returned
+ * pair, so we are not working directly with the memory inside the hashmap.
+ *
+ * Example:
+ *
+ *   pair* p = hashmap_get(hm, k);
+ *   int a = v->value;
+ *   printf("%d", a);
+ *   free(p);
+ *
+ * If we free'd before using the value, maybe it will work maybe not, but of
+ * course Valgring will compain.
+ *
+ * @param  hm  hashmap we are searching in.
+ * @param  key key we are searching for.
+ *
+ * @return     pair containing the value we are searching for.
+ */
+pair* hashmap_get_pair(const hashmap* hm, const void* key);
+
+/**
+ * @brief Key associated pair getter.
+ *
+ * Function that returns a pointer in the right vector to the value associated
+ * with <b>key</b> from the <b> hashmap</b> we are searching in, so we will
+ * be working to the memory allocated inside the hashmap.
+ * pair.
+ *
+ * @param  hm  hashmap we are searching in.
+ * @param  key key we are searching for.
+ *
+ * @return     pair containing the value we are searching for.
+ */
+void* hashmap_get_value(const hashmap* hm, const void* key);
 
 /**
  * @brief Function that gives us all the stored values.
