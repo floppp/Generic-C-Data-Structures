@@ -3,7 +3,7 @@
 void print_node(void* elem_addr, const void* aux_data);
 void free_fun(void*);
 
-hashmap* int_hm;
+hashmap* int_hm; // key type integer, value type string
 hashmap* str_hm;
 hashmap* stu_hm;
 
@@ -14,12 +14,12 @@ static void data_preparation()
 
 void test_hashmap_new()
 {
-	// hashmap_new(int_hm, sizeof(int), 10)
+  hashmap_new(&int_hm, sizeof(char*), 20, hashmap_long_hash_fun)
 }
 
 void test_int_hashmap()
 {
-	hashmap hm;
+  //	hashmap hm;
 	hashmap_new(&hm, sizeof(char*), 20, hashmap_long_hash_fun, hashmap_int_compare_fun, NULL, NUMBER);
 	char* words[] = { "casa", "borde", "leche", "vaca", "mesa", "pila",
 					  "solo", "pared", "luz", "television", "dvd", "pata",

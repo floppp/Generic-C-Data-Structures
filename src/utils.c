@@ -118,7 +118,6 @@ int str_comparator(const void* left, const void* right)
 	const char *str2 = *(char**) right;
 
 	return strcmp(str1, str2);
-//	return -1;
 }
 
 void list_print(list *l)

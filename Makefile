@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 CCFLAGS = -Wall
 CDFLAGS = -g -Wall
 LDFLAGS = -lm # Requirement to <math.h> compiling
