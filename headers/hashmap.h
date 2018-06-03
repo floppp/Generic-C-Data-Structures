@@ -7,6 +7,7 @@
   * and not give full responsability to hashset.
   */
 #include "vector.h"
+#include "linked_list.h"
 #include "lookup3.h"
 
 typedef enum KEY_TYPE { NUMBER, CHARACTER, WORD } key_type;
@@ -25,15 +26,27 @@ typedef int (*hm_compare_fun)(const void* e_addr_1, const void* e_addr_2);
 typedef void (*hm_map_fun)(void* e_addr, const void* aux_data);
 typedef void (*hm_free_fun)(void* e_addr);
 
+/**
+ * @brief [short description]
+ *
+ * [description]
+ *
+ * @param k_type
+ * @param e_size      size of the elements are going to be stored
+ * @param pairs
+ * @param n_buckets   number of elements of pairs vector
+ * @param used        tells us if a bucket is used
+ * @param free_fun
+ * @param compare_fun
+ */
 typedef struct {
 	key_type k_type; // We must put this again for simplicy.
-	int n_buckets;   // the n_buckets are the elements the map will have.
-	int value_size;
+	int n_buckets;
+	int e_size;
 	vector* pairs; // here we are to store data. Each key will give us a hash
 	               // value between 0 and n_buckets, and with this value the
 	               // data will be stored in the right position.
-	vector* used_buckets; // vector we are going to use for store the positions
-	                      // already in use in the pairs vector.
+    char* used; //
 	hm_free_fun free_fun;
 	hm_compare_fun compare_fun;
 } hashmap;

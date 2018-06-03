@@ -144,9 +144,9 @@ void hashmap_test_suite()
 
 	data_preparation();
 
-	launch_test(test_hashmap_new, "Hashmap new     --> OK");
-	launch_test(test_hashmap_put, "Hashmap put     --> OK");
-	launch_test(test_hashmap_get, "Hashmap get     --> OK");
+	// launch_test(test_hashmap_new, "Hashmap new     --> OK");
+	// launch_test(test_hashmap_put, "Hashmap put     --> OK");
+	// launch_test(test_hashmap_get, "Hashmap get     --> OK");
 
-	data_dispose();
+	// data_dispose();
 }

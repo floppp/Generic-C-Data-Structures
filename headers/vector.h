@@ -32,7 +32,8 @@ typedef struct vector
 /**
  * @brief Vector creation
  *
- * Vector creation
+ * Vector creation. We must pass <b>v</b>, and it will create data structures
+ * at this memory address.
  *
  * @param v               memory position for the vector.
  * @param elem_size       size of elements we'll store

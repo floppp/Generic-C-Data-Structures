@@ -30,54 +30,43 @@ static void hm_init(hashmap* hm, int e_size, hm_compare_fun compare_fun,
 		exit(0);
 	}
 
-	// To each bucket we are going to create a vector for store all the
-	// colisions we could have. Vector instead of Linked List because
-	// of performance issues.
-	for (int i = 0; i < hm->n_buckets; ++i)
-		vector_new(hm->pairs + i, sizeof(pair), free_fun, 4);
-
-	if ((hm->used_buckets = malloc(sizeof(vector))) == NULL) {
-		printf("memory allocation error in hm->used_buckets creation.\n");
-		return ;
-	}
-	vector_new(hm->used_buckets, sizeof(int), NULL, 4);
+	vector_new(hm->pairs, sizeof(linked_list), NULL, hm->n_buckets);
 
 	hm->k_type = type;
 	hm->pairs->elem_size = sizeof(vector);
 	hm->compare_fun = compare_fun;
 	hm->free_fun = free_fun;
-	hm->value_size = e_size;
+	hm->e_size = e_size;
 }
 
 void hashmap_put(hashmap* hm, void* key, void* value)
 {
 	assert(hm && key && value);
 
-	// we get the positions where the data will be stored.
-	uint32_t pos = hashlittle(&key, get_key_size(hm->k_type), key);
-	pos = (pos & hashmask(SHIFT));
+	// // we get the positions where the data will be stored.
+	// uint32_t pos = hashlittle(&key, get_key_size(hm->k_type), key);
+	// pos = (pos & hashmask(SHIFT));
 
-	// printf("%u - %u\n", pos, N_BUCKETS_DEFAULT);
+	// // printf("%u - %u\n", pos, N_BUCKETS_DEFAULT);
 
-	assert(pos >= 0 && pos < hm->n_buckets);
+	// assert(pos >= 0 && pos < hm->n_buckets);
 
-	vector* target = (struct vector*) (hm->pairs + pos);
+	// vector* target = (struct vector*) (hm->pairs + pos);
 
-	pair* p = create_pair(hm->k_type, key, value);
+	// pair* p = create_pair(hm->k_type, key, value);
 
-	// Each branch for the case of collition, or not
-	if (target == 0) {
-		// We have a collition.
-		vector_append(target, p);
-		vector_append(hm->used_buckets, &pos);
-	} else
-		vector_append(target, p);
+	// // Each branch for the case of collition, or not
+	// if (target == 0) {
+	// 	// We have a collition.
+	// 	vector_append(target, p);
+	// } else
+	// 	vector_append(target, p);
 
-	if (hm->free_fun)
-		hm->free_fun(p->value);
+	// if (hm->free_fun)
+	// 	hm->free_fun(p->value);
 
-	free(p);
-	p = NULL;
+	// free(p);
+	// p = NULL;
 }
 
 static pair* create_pair(key_type t, void* k, void* v)
@@ -137,11 +126,8 @@ void hashmap_dispose(hashmap *hm)
 	for (int i = 0; i < hm->n_buckets; ++i)
 		vector_dispose(hm->pairs + i);
 
-	vector_dispose(hm->used_buckets);
 	free(hm->pairs);
-	free(hm->used_buckets);
 	hm->pairs = NULL;
-	hm->used_buckets = NULL;
 	free(hm);
 }
 
@@ -149,10 +135,6 @@ int hashmap_count(hashmap* hm)
 {
 	int len = 0;
 	int pos;
-	for (int i = 0; i < hm->used_buckets->len; ++i) {
-		vector_get(hm->used_buckets, i, &pos);
-		len += vector_len(hm->pairs + pos);
-	}
 
 	return len;
 }
