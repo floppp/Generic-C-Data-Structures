@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "list.h"
-#include "hashmap.h"
 
 typedef struct students_group {
 	char** names;

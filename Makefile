@@ -8,9 +8,10 @@ OBJDIR  = obj
 TESDIR  = tests
 LIBDIR  = lib
 DEPEND  = utils.c stack.c queue.c vector.c lookup3.c
-DEPEND += utils_map_functions.c linked_list.c hashmap.c
+DEPEND += utils_map_functions.c linked_list.c hash_map.c
+DEPEND += primes.c hash_utils.c
 DEPEND_TESTS  = test_stack.c test_queue.c test_vector.c
-DEPEND_TESTS += test_linked_list.c test_hashmap.c libaleatorios.c
+DEPEND_TESTS += test_linked_list.c libaleatorios.c
 DEPEND_TESTS += test_utils.c
 SOURCES = $(addprefix $(SRCDIR)/, $(DEPEND))
 OBJECTS = $(addprefix $(OBJDIR)/, $(DEPEND:.c=.o))

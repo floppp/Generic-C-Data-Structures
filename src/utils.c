@@ -29,25 +29,25 @@ int random_gen()
 	return rand();
 }
 
-void hm_int_print_pair(void* elem_addr, const void* aux_data)
-{
-	pair* p = (struct pair*) elem_addr;
-	printf("key: %d - value: %s\n", *(int*) p->key, (char*) p->value);
-}
+/* void hm_int_print_pair(void* elem_addr, const void* aux_data) */
+/* { */
+	/* pair* p = (struct pair*) elem_addr; */
+	/* printf("key: %d - value: %s\n", *(int*) p->key, (char*) p->value); */
+/* } */
 
-int hm_int_compare_fun(const void* elem_addr_1, const void* elem_addr_2)
-{
-	pair* p = (struct pair*) elem_addr_1;
+/* int hm_int_compare_fun(const void* elem_addr_1, const void* elem_addr_2) */
+/* { */
+	/* pair* p = (struct pair*) elem_addr_1; */
 
-	return int_comparator(p->key, elem_addr_2);
-}
+	/* return int_comparator(p->key, elem_addr_2); */
+/* } */
 
-int hm_stu_compare_fun(const void* elem_addr_1, const void* elem_addr_2)
-{
-	pair* p = (struct pair*) elem_addr_1;
+/* int hm_stu_compare_fun(const void* elem_addr_1, const void* elem_addr_2) */
+/* { */
+	/* pair* p = (struct pair*) elem_addr_1; */
 
-	return students_compare(p->key, elem_addr_2);
-}
+	/* return students_compare(p->key, elem_addr_2); */
+/* } */
 
 void print_array(void* base, int n, int elem_size)
 {

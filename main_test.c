@@ -1,17 +1,15 @@
-#include "src/tests/test_stack.h"
-#include "src/tests/test_queue.h"
-#include "src/tests/test_vector.h"
-#include "src/tests/test_linked_list.h"
-#include "src/tests/test_hashmap.h"
-#include "src/tests/test_utils.h"
+#include "tests/test_stack.h"
+#include "tests/test_queue.h"
+#include "tests/test_vector.h"
+#include "tests/test_linked_list.h"
+#include "tests/test_utils.h"
 
-int main(int argc, char **argv)
+int main()
 {
 	stack_test_suite();
 	queue_test_suite();
 	vector_test_suite();
 	linked_list_test_suite();
-	hashmap_test_suite();
 	// utils_test();
 
 	return 0;
