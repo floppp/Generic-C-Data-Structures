@@ -1,5 +1,5 @@
-#include "../headers/hashset.h"
 #include "../headers/utils.h"
+#include "../headers/hashset.h"
 
 static void* search_element(const vector* target, const void* elem_addr, hashset_compare_fun compare_fun);
 
@@ -93,5 +93,6 @@ void hashset_map(hashset* h, hashset_map_fun map_fun, const void* aux_data)
 static void* search_element(const vector* target, const void* elem_addr, hashset_compare_fun compare_fun)
 {
 	int exists = vector_search(target, elem_addr, compare_fun, 0, false);
+
 	return exists == -1 ? NULL : &exists;
 }

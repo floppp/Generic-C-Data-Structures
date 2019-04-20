@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "../../headers/utils.h"
-#include "../../headers/vector.h"
-#include "../../headers/utils_map_functions.h"
+#include "../headers/utils.h"
+#include "../headers/vector.h"
+#include "../headers/utils_map_functions.h"
 
 void vector_test_suite();
 
