@@ -2,23 +2,26 @@
 
 int tests_run = 0;
 
-static hm_item HT_DELETED_ITEM = {NULL, NULL};
+static hm_item HT_DELETED_ITEM = {NULL, NULL, -1};
 
-static hm_item* hm_new_item(const char* k, const char* v)
+static hm_item* hm_new_item(const char* k, const void* v, size_t value_size)
 {
   hm_item* it = malloc(sizeof(hm_item));
   it->key = strdup(k);
-  it->value = strdup(v);
+  it->value_size = value_size;
+  it->value = malloc(value_size);
+  memcpy(it->value, v, it->value_size);
+  /* it->value = strdup(v); */
 
   return it;
 }
 
-static void hm_del_item(hm_item* i)
-{
-  free(i->key);
-  free(i->value);
-  free(i);
-}
+/* static void hm_del_item(hm_item* i) */
+/* { */
+/*   free(i->key); */
+/*   free((char*) i->value); */
+/*   free(i); */
+/* } */
 
 static hash_map* hm_new_sized(const int size_index,
 							  free_item free_it_fn,
@@ -42,93 +45,94 @@ static hash_map* hm_new_sized(const int size_index,
 
 hash_map* hm_new(free_item free_it_fn, key_comparator comparator, hash_generator hash_fn)
 {
-  return hm_new_sized(0, free_it_fn, comparator, hash_fn);
+	return hm_new_sized(0, free_it_fn, comparator, hash_fn);
 }
 
 void hm_dispose(hash_map* hm)
 {
-  for (int i = 0; i < hm->size; i++) {
-    hm_item* item = hm->items[i];
-    if (item != NULL && item != &HT_DELETED_ITEM) {
-      hm->free_fun(item);
-    }
-  }
+	for (int i = 0; i < hm->size; i++) {
+		hm_item* item = hm->items[i];
+		if (item != NULL && item != &HT_DELETED_ITEM) {
+			hm->free_fun(item);
+		}
+	}
 
-  free(hm->items);
-  free(hm);
+	free(hm->items);
+	free(hm);
 }
 
 static void hm_resize(hash_map* hm, const int direction)
 {
-  const int new_size_index = hm->size_index + direction;
+	const int new_size_index = hm->size_index + direction;
 
-  if (new_size_index < 0) return;
+	if (new_size_index < 0) return;
 
-  hash_map* new_hm = hm_new_sized(new_size_index, NULL, NULL, NULL);
+	hash_map* new_hm = hm_new_sized(new_size_index, NULL, NULL, NULL);
 
-  for (int i = 0; i < hm->size; i++) {
-    hm_item* item = hm->items[i];
-    if (item != NULL && item != &HT_DELETED_ITEM) {
-      hm_insert(new_hm, item->key, item->value);
-    }
-  }
+	for (int i = 0; i < hm->size; i++) {
+		hm_item* item = hm->items[i];
+		if (item != NULL && item != &HT_DELETED_ITEM) {
+			hm_insert(new_hm, item->key, item->value, item->value_size);
+		}
+	}
 
-  hm->size_index = new_hm->size_index;
-  hm->count = new_hm->count;
+	hm->size_index = new_hm->size_index;
+	hm->count = new_hm->count;
 
-  const int tmp_size = hm->size;
-  hm->size = new_hm->size;
-  new_hm->size = tmp_size;
+	const int tmp_size = hm->size;
+	hm->size = new_hm->size;
+	new_hm->size = tmp_size;
 
-  hm_item** tmp_items = hm->items;
-  hm->items = new_hm->items;
-  new_hm->items = tmp_items;
+	hm_item** tmp_items = hm->items;
+	hm->items = new_hm->items;
+	new_hm->items = tmp_items;
 
-  hm_dispose(new_hm);
+	hm_dispose(new_hm);
 }
 
-void hm_insert(hash_map* hm, const char* key, const char* value)
+void hm_insert(hash_map* hm, const char* key, const void* value, size_t value_size)
 {
-  const int load = hm->count * 100 / hm->size;
-  if (load > 70) {
-	hm_resize(hm, 1);
-  }
-  hm_item* item = hm_new_item(key, value);
-
-  int index = hm->hash_fun(item->key, hm->size, 0);
-  hm_item* cur_item = hm->items[index];
-  int i = 1;
-  while (cur_item != NULL && cur_item != &HT_DELETED_ITEM) {
-	if (strcmp(cur_item->key, key) == 0) {
-	  hm_del_item(cur_item);
-	  hm->items[index] = item;
-
-	  return;
+	const int load = hm->count * 100 / hm->size;
+	if (load > 70) {
+		hm_resize(hm, 1);
 	}
-	index = hm->hash_fun(item->key, hm->size, i);
-	cur_item = hm->items[index];
-	i++;
-  }
 
-  hm->items[index] = item;
-  hm->count++;
+	hm_item* item = hm_new_item(key, value, value_size);
+
+	int index = hm->hash_fun(item->key, hm->size, 0);
+	hm_item* cur_item = hm->items[index];
+	int i = 1;
+	while (cur_item != NULL && cur_item != &HT_DELETED_ITEM) {
+		if (strcmp(cur_item->key, key) == 0) {
+			hm->free_fun(cur_item);
+			memcpy(hm->items[index], item, item->value_size);
+
+			return;
+		}
+		index = hm->hash_fun(item->key, hm->size, i);
+		cur_item = hm->items[index];
+		i++;
+	}
+
+	hm->items[index] = item;
+	hm->count++;
 }
 
-char* hm_search(hash_map* hm, const char* key)
+void* hm_search(hash_map* hm, const char* key)
 {
-  int index = hm->hash_fun(key, hm->size, 0);
-  hm_item* item = hm->items[index];
+	int index = hm->hash_fun(key, hm->size, 0);
+	hm_item* item = hm->items[index];
 
-  int i = 1;
-  while (item != NULL && item != &HT_DELETED_ITEM) {
-	if (strcmp(item->key, key) == 0) {
-	  return item->value;
+	int i = 1;
+	while (item != NULL && item != &HT_DELETED_ITEM) {
+		if (strcmp(item->key, key) == 0) {
+			return item->value;
+		}
+		index = hm->hash_fun(key, hm->size, i);
+		item = hm->items[index];
+		i++;
 	}
-	index = hm->hash_fun(key, hm->size, i);
-	item = hm->items[index];
-	i++;
-  }
-  return NULL;
+	return NULL;
 }
 
 void hm_delete(hash_map* hm, const char* key)
@@ -143,7 +147,7 @@ void hm_delete(hash_map* hm, const char* key)
   int i = 1;
   while (item != NULL && item != &HT_DELETED_ITEM) {
 	if (strcmp(item->key, key) == 0) {
-	  hm_del_item(item);
+	  hm->free_fun(item);
 	  hm->items[index] = &HT_DELETED_ITEM;
 	}
 	index = hm->hash_fun(key, hm->size, i);
