@@ -10,5 +10,5 @@ courses, books, etc.
 * Vector: like a java array list.
 * Linked List:  to store any kind of data or struct in the same list (like python lists).
 * HashSet: implemented using vector structure.
-* HashMap: idem.
+* HashMap: open addresing with double hash. Based on https://github.com/jamesroutley/write-a-hash-table and Introduction to Algorithms. Working nicely with char* -> char* and char* -> struct. It would be easy to use different types for keys using unions, but everything can be reduced to strings, so I decided not to give the possibility to use anything different.
 
