@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "list.h"
+#include "students_utils.h"
 
 int random_gen();
 void print_array(void* base, int n, int elem_size);
