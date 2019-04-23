@@ -26,9 +26,11 @@ typedef struct hm_item {
 	size_t value_size;
 } hm_item;
 
+
 typedef void (*free_item)(hm_item* item);
 typedef int (*hash_generator)(const char* s, const int a, const int m);
-typedef int (*key_comparator)(const char* key_1, const char* key_2);
+typedef int (*key_comparator)(const void* key_1, const void* key_2);
+/* typedef int (*key_comparator)(const char* key_1, const char* key_2); */
 
 typedef struct hash_map {
 	int size;

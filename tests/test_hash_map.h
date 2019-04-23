@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "../headers/hash_map.h"
 #include "../headers/utils.h"
+#include "../headers/students_utils.h"
 
 void hm_test_suite();
 

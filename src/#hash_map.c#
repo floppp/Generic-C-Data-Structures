@@ -11,17 +11,9 @@ static hm_item* hm_new_item(const char* k, const void* v, size_t value_size)
 	it->value_size = value_size;
 	it->value = malloc(value_size);
 	memcpy(it->value, v, it->value_size);
-	/* it->value = strdup(v); */
 
 	return it;
 }
-
-/* static void hm_del_item(hm_item* i) */
-/* { */
-/*   free(i->key); */
-/*   free((char*) i->value); */
-/*   free(i); */
-/* } */
 
 static hash_map* hm_new_sized(const int size_index,
 							  free_item free_it_fn,

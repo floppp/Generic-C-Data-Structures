@@ -3,7 +3,8 @@
 
 #include <stdlib.h>
 #include <string.h>
-#import "utils.h"
+#include "utils.h"
+#include "students_utils.h"
 
 void odd_numbers(void* e_addr, const void* aux_data);
 void capitalize_word(void* e_addr, const void* aux_data);

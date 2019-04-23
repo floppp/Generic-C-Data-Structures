@@ -6,6 +6,7 @@
 #include "../headers/utils.h"
 #include "../headers/vector.h"
 #include "../headers/utils_map_functions.h"
+#include "../headers/students_utils.h"
 
 void vector_test_suite();
 

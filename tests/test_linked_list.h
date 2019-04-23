@@ -4,6 +4,7 @@
 #include "../headers/linked_list.h"
 #include "../headers/utils_map_functions.h"
 #include "../headers/utils.h"
+#include "../headers/students_utils.h"
 
 void linked_list_test_suite();
 
