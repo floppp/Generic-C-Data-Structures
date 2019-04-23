@@ -44,22 +44,6 @@ int str_comparator(const void* left, const void* right)
 	return strcmp(str1, str2);
 }
 
-int students_compare(const void* elem_addr_1, const void* elem_addr_2)
-{
-	students_group* s1 = (struct students_group*) elem_addr_1;
-	students_group* s2 = (struct students_group*) elem_addr_2;
-
-	int len = s1->elem;
-	if (len != s2->elem)
-		return 0;
-
-	for (int i = 0; i < len; ++i)
-		if (strcmp(s1->names[i], s2->names[i]) || s1->cal[i] != s2->cal[i])
-			return 0;
-
-	return 1;
-}
-
 void list_print(list *l)
 {
 	for (int i = 0; i < l->logical_len; ++i) {
