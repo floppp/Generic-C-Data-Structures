@@ -4,6 +4,9 @@ int tests_run = 0;
 
 static hm_item HT_DELETED_ITEM = {NULL, NULL, -1};
 
+/**
+ * Method for creating a hash map item
+ */
 static hm_item* hm_new_item(const char* k, const void* v, size_t value_size)
 {
 	hm_item* it = malloc(sizeof(hm_item));
